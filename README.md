@@ -12,8 +12,9 @@ Methods:
 Menu:
 <br>
 User:
-- Teacher:
-- Student:
+extended by Teacher:
+extended by Student:
+<br>
 Question:
 <br>
 Quiz:
