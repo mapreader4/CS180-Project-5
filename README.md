@@ -12,9 +12,7 @@ Methods:
 Menu:
 <br>
 User:
-<br>
 - Teacher:
-<br>
 - Student:
 <br>
 Question:
