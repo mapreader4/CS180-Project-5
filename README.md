@@ -4,4 +4,4 @@ Group 087's Project 4 for CS18000
 Option chosen - Option 2: Quizzes
 <br>
 <br>
-Classes: Menu, User, Quiz, Teacher extends User, Student extends User
+Classes: Menu, User, Quiz, Teacher extends User, Student extends User, (maybe have Question class?)
