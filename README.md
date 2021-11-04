@@ -19,4 +19,4 @@ extended by Student: takeQuiz
 <br>
 Question: Question(String question, String[] answers), setQuestion, setAnswers for editing
 <br>
-Quiz: addQuestion(Question question)
+Quiz: Quiz(String title, Question[] questions), addQuestion(Question question)
