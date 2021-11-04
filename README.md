@@ -5,3 +5,18 @@ Option chosen - Option 2: Quizzes
 <br>
 <br>
 Classes: Menu, User, Quiz, Teacher extends User, Student extends User, Question
+<br>
+<br>
+Methods:
+<br>
+Menu:
+<br>
+User:
+<br>
+- Teacher:
+<br>
+- Student:
+<br>
+Question:
+<br>
+Quiz:
