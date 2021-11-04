@@ -20,3 +20,5 @@ extended by Student: takeQuiz
 Question: Question(String question, String[] answers), setQuestion, setAnswers for editing
 <br>
 Quiz: Quiz(String title, Question[] questions), addQuestion(Question question)
+<br>
+Courses: Fields: name, credit hours, editCourseFile()
