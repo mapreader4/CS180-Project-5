@@ -7,16 +7,16 @@ Option chosen - Option 2: Quizzes
 Classes: Menu, User, Quiz, Teacher extends User, Student extends User, Question
 <br>
 <br>
-Methods:
+Fields/Methods:
 <br>
-Menu:
+Menu: main() and any helper methods that would be useful
 <br>
-User:
+User: username, password, User(username, password) to create account, editAccount, deleteAccount
 <br>
-extended by Teacher:
+extended by Teacher: createQuiz, editQuiz, deleteQuiz, getSubmissions
 <br>
-extended by Student:
+extended by Student: takeQuiz
 <br>
-Question:
+Question: Question(String question, String[] answers), setQuestion, setAnswers for editing
 <br>
-Quiz:
+Quiz: addQuestion(Question question)
