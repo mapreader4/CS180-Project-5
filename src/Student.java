@@ -2,7 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.BitSet;
+
 
 public class Student extends User {
 
@@ -31,6 +31,8 @@ public class Student extends User {
                     exists = true;
                 }
             }
+
+            bfr.close();
 
             if (!exists && !alreadyThere) {
                 courses.add(course);
