@@ -66,6 +66,7 @@ public class Course implements Serializable{
         if(!temp){
             return false;
         }
+	quizzes.add(quiz);
         return true;
     }
     public ArrayList<Quiz> readingCourseFile(){
