@@ -10,7 +10,7 @@ public class Menu {
             "1. Teacher\n" +
             "2. Student";
     private static final String accountInvalidMessage = "The account with the given username and password" +
-            "could not be found."
+            "could not be found.";
     private static final String accountCreatedMessage = "Account created!";
     private static final String loggedInMessage = "Logged in!";
     private static final String exitMessage = "Thank you for using the Online Quiz Navigator!";
@@ -110,7 +110,7 @@ public class Menu {
 
                 try {
                     if (accountType == 1) {
-                        user = retriveUserFromFile(username, password, teacherAccountsFile);
+                        user = retrieveUserFromFile(username, password, teacherAccountsFile);
                     } else if (accountType == 2) {
                         user = retrieveUserFromFile(username, password, studentAccountsFile);
                     }
@@ -130,10 +130,21 @@ public class Menu {
         //This method is just here right now to make sure everything compiles
     }
 
-    public static User retrieveUserFromFile(String username, String password, String filename) {
+    public static User retrieveUserFromFile(String username, String password, String filename)
+            throws UserNotFoundException {
         //TODO: implement this!
         //This method is just here right now to make sure everything compiles
-        return new Student("", "");
+        return new User(username, password, false);
+    }
+
+    public static void teacherMenu(Scanner scanner, User user) {
+        //TODO: implement this!
+        //This method is just here right now to make sure everything compiles
+    }
+
+    public static void studentMenu(Scanner scanner, User user) {
+        //TODO: implement this!
+        //This method is just here right now to make sure everything compiles
     }
 
     /**
@@ -148,7 +159,7 @@ public class Menu {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println(welcomeMessage);
-        User user = login(scanner, fileManager);
+        User user = login(scanner);
         if (user == null) {
             //null user indicates user has quit on login menu
         } else if (user instanceof Teacher) {
