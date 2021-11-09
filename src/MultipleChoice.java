@@ -1,5 +1,4 @@
 import java.io.Serializable;
-import java.util.Scanner;
 
 public class MultipleChoice extends Question implements Serializable { ;
     int numChoices;
