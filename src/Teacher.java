@@ -1,41 +1,54 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.BitSet;
 
-public class Teacher extends User {
+public class Student extends User {
 
-    private ArrayList<Course> courses; //list of courses created by teacher
+    private ArrayList<String> courses;
+    private ArrayList<Double> grades;
+    private ArrayList<Quiz> quizzesTaken;
 
-    public Teacher (String username, String password) {
-
-        super(username, password, true);
+    public Student(String username, String password) {
+        super(username, password, false);
     }
 
-    public void addCourse(int courseNumber, ArrayList<Student> students, ArrayList<Quiz> quizzes) {
+    public void addToCourse(String course, String courseFilePath) {
+        boolean exists = false;
+        boolean alreadyThere = false;
 
-        boolean alreadyThere = false; //ensures no duplicate course is added
-        for (Course c : courses) {
-            if (c.getCourseNumber == courseNumber) {
+        for (String c : courses) {
+            if (c.equals(course)) {
                 alreadyThere = true;
             }
         }
-
-        if (!alreadyThere) {
-            courses.add(new Course(this, courseNumber, students, quizzes));
-        }
-    }
-
-    public void removeCourse(int courseNumber) {
-        for (Course c : courses) {
-            if (c.getCourseNumber() == courseNumber) {
-                courses.remove(c);
+        try {
+            BufferedReader bfr = new BufferedReader(new FileReader(courseFilePath));
+            String check = "";
+            while ((check = bfr.readLine()) != null) {
+                if (check.equals(course)) {
+                    exists = true;
+                }
             }
+            
+            bfr.close();
+
+            if (!exists && !alreadyThere) {
+                courses.add(course);
+                System.out.println("Course added!");
+            } else {
+                System.out.println("Course already being taken by student or does not exist!");
+            }
+        } catch (IOException io) {
+            System.out.println("Error reading file!");
         }
+
     }
 
-    public void editCourseName(String oldCourse, String newCourse) {
-        for (int i = 0; i < courses.size(); i++) {
-            if (courses.get(i).getName().equals(oldCourse)) { //ensures course exists before editing
-                courses.get(i).setName(newCourse);
-            }
-        }
+    public void addGradePlusQuiz(Quiz quiz, double grade) {
+        quizzesTaken.add(quiz);
+        grades.add(grade);
     }
+
 }
