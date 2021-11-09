@@ -23,6 +23,7 @@ public class Menu {
     /**
      * Prompts user to log in or create account, and retrieves and returns that account
      *
+     * @param scanner used for getting user input
      * @return a User object representing the user who just logged in or created an account, null if user quits
      */
     public static User login(Scanner scanner) {
@@ -58,7 +59,7 @@ public class Menu {
             }
         } while (accountType <= 0 || accountType >= 4);
 
-        User user;
+        User user = null;
         if (loginType == 2) {
             String username;
             do {
@@ -122,14 +123,31 @@ public class Menu {
 
             System.out.println(loggedInMessage);
             return user;
+        } else {
+            return null;
         }
     }
 
+    /**
+     * appends the new user to the end of the accounts file
+     *
+     * @param user the user object to be added
+     * @param filename the name of the file
+     */
     public static void addUserToFile(User user, String filename) {
         //TODO: implement this!
         //This method is just here right now to make sure everything compiles
     }
 
+    /**
+     * retrieves the user with the given information from the file
+     *
+     * @param username the user's username
+     * @param password the user's password
+     * @param filename the name of the file to retrieve from
+     * @return the user object
+     * @throws UserNotFoundException if no user with that information is found, this exception is thrown
+     */
     public static User retrieveUserFromFile(String username, String password, String filename)
             throws UserNotFoundException {
         //TODO: implement this!
@@ -137,11 +155,23 @@ public class Menu {
         return new User(username, password, false);
     }
 
+    /**
+     * the menu for the teacher
+     *
+     * @param scanner used for getting user input
+     * @param user the account using the program
+     */
     public static void teacherMenu(Scanner scanner, User user) {
         //TODO: implement this!
         //This method is just here right now to make sure everything compiles
     }
 
+    /**
+     * the menu for the student
+     *
+     * @param scanner used for getting user input
+     * @param user the account using the program
+     */
     public static void studentMenu(Scanner scanner, User user) {
         //TODO: implement this!
         //This method is just here right now to make sure everything compiles
