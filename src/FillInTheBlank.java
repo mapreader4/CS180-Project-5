@@ -1,6 +1,4 @@
 import java.io.Serializable;
-import java.util.Scanner;
-
 public class FillInTheBlank extends Question implements Serializable {
     String answer;
 
@@ -11,7 +9,7 @@ public class FillInTheBlank extends Question implements Serializable {
 
     @Override
     void displayQuestion() {
-
+        System.out.println(question);
     }
 
     public String saveString(){

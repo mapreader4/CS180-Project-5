@@ -1,5 +1,4 @@
 import java.io.Serializable;
-import java.util.Scanner;
 
 public class TrueFalse extends Question implements Serializable {
     String answer;

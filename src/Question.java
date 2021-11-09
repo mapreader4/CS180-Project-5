@@ -1,6 +1,6 @@
 import java.io.Serializable;
 
-public abstract class Question implements Serializable {
+public abstract class Question {
     abstract void displayQuestion();
     abstract String saveString();
     String question;
