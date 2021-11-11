@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.Scanner;
 
 public class Menu {
@@ -9,8 +10,10 @@ public class Menu {
     private static final String teacherOrStudent = "Are you a teacher or a student?\n" +
             "1. Teacher\n" +
             "2. Student";
+    private static final String accountAlreadyExistsMessage = "Another account with the given username already exists."
+            + " Please try again.";
     private static final String accountInvalidMessage = "The account with the given username and password" +
-            "could not be found.";
+            " could not be found. Please try again.";
     private static final String accountCreatedMessage = "Account created!";
     private static final String loggedInMessage = "Logged in!";
     private static final String exitMessage = "Thank you for using the Online Quiz Navigator!";
@@ -61,31 +64,40 @@ public class Menu {
 
         User user = null;
         if (loginType == 2) {
-            String username;
             do {
-                System.out.print("Username: ");
-                username = scanner.nextLine();
-                if (username == null || username.isBlank()) {
-                    System.out.println(cannotBeBlank);
-                }
-            } while (username == null || username.isBlank());
+                String username;
+                do {
+                    System.out.print("Username: ");
+                    username = scanner.nextLine();
+                    if (username == null || username.isBlank()) {
+                        System.out.println(cannotBeBlank);
+                    }
+                } while (username == null || username.isBlank());
 
-            String password;
-            do {
-                System.out.println("Password: ");
-                password = scanner.nextLine();
-                if (password == null || password.isBlank()) {
-                    System.out.println(cannotBeBlank);
-                }
-            } while (password == null || password.isBlank());
+                String password;
+                do {
+                    System.out.print("Password: ");
+                    password = scanner.nextLine();
+                    if (password == null || password.isBlank()) {
+                        System.out.println(cannotBeBlank);
+                    }
+                } while (password == null || password.isBlank());
 
-            if (accountType == 1) {
-                user = new Teacher(username, password);
-                addUserToFile(user, teacherAccountsFile);
-            } else if (accountType == 2) {
-                user = new Student(username, password);
-                addUserToFile(user, studentAccountsFile);
-            }
+                try {
+                    if (accountType == 1) {
+                        user = new Teacher(username, password);
+                        addUserToFile(user, teacherAccountsFile);
+                        break;
+                    } else if (accountType == 2) {
+                        user = new Student(username, password);
+                        addUserToFile(user, studentAccountsFile);
+                        break;
+                    }
+                } catch (UserAlreadyExistsException e) {
+                    user = null;
+                    System.out.println(accountAlreadyExistsMessage);
+                }
+            } while (user == null);
 
             System.out.println(accountCreatedMessage);
             return user;
@@ -102,7 +114,7 @@ public class Menu {
 
                 String password;
                 do {
-                    System.out.println("Password: ");
+                    System.out.print("Password: ");
                     password = scanner.nextLine();
                     if (password == null || password.isBlank()) {
                         System.out.println(cannotBeBlank);
@@ -129,14 +141,51 @@ public class Menu {
     }
 
     /**
+     * looks for the user with the given username
+     *
+     * @param username the user's username
+     * @param filename the name of the file to be searched
+     * @return the user found, if one was found; null if not found
+     */
+    public static User searchForUser(String username, String filename) {
+        File file = new File(filename);
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            Object currentObject;
+            while ((currentObject = ois.readObject()) != null) {
+                User currentUser = (User) currentObject;
+                if (currentUser.getUsername().equals(username)) {
+                    return currentUser;
+                }
+            }
+            return null;
+        } catch (FileNotFoundException e) {
+            return null;
+        } catch (IOException e) {
+            return null;
+        } catch (ClassNotFoundException e) {
+            return null;
+        }
+    }
+
+    /**
      * appends the new user to the end of the accounts file
      *
      * @param user the user object to be added
      * @param filename the name of the file
      */
-    public static void addUserToFile(User user, String filename) {
-        //TODO: implement this!
-        //This method is just here right now to make sure everything compiles
+    public static void addUserToFile(User user, String filename) throws UserAlreadyExistsException {
+        if (searchForUser(user.getUsername(), filename) != null) {
+            throw new UserAlreadyExistsException("an account with this username already exists");
+        }
+
+        File file = new File(filename);
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file, true))) {
+            oos.writeObject(user);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -150,9 +199,14 @@ public class Menu {
      */
     public static User retrieveUserFromFile(String username, String password, String filename)
             throws UserNotFoundException {
-        //TODO: implement this!
-        //This method is just here right now to make sure everything compiles
-        return new User(username, password, false);
+        User user = searchForUser(username, filename);
+        if (user == null) {
+            throw new UserNotFoundException("could not find this user");
+        } else if (!user.getPassword().equals(password)) {
+            throw new UserNotFoundException("password incorrect");
+        } else {
+            return user;
+        }
     }
 
     /**
