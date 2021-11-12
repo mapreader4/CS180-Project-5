@@ -11,19 +11,28 @@ public class Course implements Serializable{
     private ArrayList<Student> students;
     private ArrayList<Quiz> quizzes;
     public Course(String courseName,String filename,Teacher teacher, int courseNumber, ArrayList<Student> students, ArrayList<Quiz> quizzes){
-        this.courseName=courseName;
+        this(courseName,teacher,courseNumber);
         this.filename=filename;
-        this.teacher=teacher;
-        this.courseNumber=courseNumber;
         this.students=students;
         this.quizzes=quizzes;
+
     }
     public Course(String courseName, Teacher teacher, int courseNumber){
+        try (ObjectOutputStream pw=new ObjectOutputStream(new FileOutputStream("Courses"))){
+            pw.writeObject(this);
+        } catch(FileNotFoundException e){
+            System.out.println("No file found");
+            return;
+        } catch (IOException e){
+            e.printStackTrace();
+            return;
+        }
         this.courseName=courseName;
         this.teacher=teacher;
         this.courseNumber=courseNumber;
         this.students=new ArrayList<Student>();
         this.quizzes=new ArrayList<Quiz>();
+
     }
     public String getCourseName(){
         return this.courseName;
