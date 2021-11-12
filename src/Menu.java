@@ -39,6 +39,15 @@ public class Menu {
             "or enter it through the terminal?\n" +
             "1. Import as file\n" +
             "2. Enter through terminal";
+    private static final String addOrExistingCourseMessage = "Would you like to add a new course or use an existing " +
+            "course?\n" +
+            "1. Add a new course\n" +
+            "2. Use an existing course\n" +
+            "3. Quit";
+    private static final String studentCourseOptionsMessage = "Course Menu Options:\n" +
+            "1. Take quiz\n" +
+            "2. Remove course\n" +
+            "3. Return to main menu";
     private static final String exitMessage = "Thank you for using the Online Quiz Navigator!";
     private static final String notValidMessage = "That is not a valid option. Please try again.";
     private static final String cannotBeBlank = "This field cannot be blank. Please try again.";
@@ -249,7 +258,7 @@ public class Menu {
         int courseNumber = getIntegerFromScanner(scanner, "Course Number (between 0 and 999999): ",
                 0, 999999, false);
         //TODO: work out with other project members the details of course adding
-        return new Course(courseName,teacher, courseNumber);
+        return new Course(courseName, teacher, courseNumber);
     }
 
     /**
@@ -260,7 +269,7 @@ public class Menu {
      */
     private static void teacherMenu(Scanner scanner, Teacher teacher) {
         while (true) {
-            Course currentCourse;
+            Course currentCourse = null;
             int createOrEditCourseChoice = getIntegerFromScanner(scanner, createOrEditCourseMessage, 1, 3, true);
             if (createOrEditCourseChoice == 3) {
                 return;
@@ -268,20 +277,19 @@ public class Menu {
                 currentCourse = createCourseMenu(scanner, teacher);
             } else if (createOrEditCourseChoice == 2) {
                 do {
-                    ArrayList<Course> courses = teacher.getCourses(); //note: this method needs to be created
+                    ArrayList<Course> courses = teacher.getCourses();
                     System.out.println("Here is a list of your courses:");
                     for (int i = 0; i < courses.size(); i++) {
                         Course course = courses.get(i);
-                        System.out.println(course.getCourseNumber() + ": " + course.getName());
-                        //note: the getCourseName() method needs to be created
+                        System.out.println(course.getCourseNumber() + ": " + course.getCourseName());
                     }
                     System.out.println("Please enter the number of the course you want to access.");
                     int courseNumber = getIntegerFromScanner(scanner, "Course Number: ", 0, 999999, false);
-                    currentCourse = getCourse(courseNumber); //note: this method needs to be created
+                    currentCourse = teacher.getCourse(courseNumber);
                     if (currentCourse == null) {
                         System.out.println(notValidMessage);
                     }
-                } while (true);
+                } while (currentCourse == null);
             }
             teacherCourseMenu(scanner, teacher, currentCourse);
         }
@@ -312,7 +320,7 @@ public class Menu {
 
                 if (quizInputMethod == 1) {
                     //TODO: work out with other project members details of file imports
-                    quiz = null; //DO NOT LEAVE IN FINAL DRAFT
+                    quiz = null;
                 } else if (quizInputMethod == 2) {
                     quiz = new Quiz(scanner);
                 }
@@ -360,11 +368,57 @@ public class Menu {
      * the menu for the student
      *
      * @param scanner used for getting user input
-     * @param user the account using the program
+     * @param student the account using the program
      */
-    private static void studentMenu(Scanner scanner, User user) {
+    private static void studentMenu(Scanner scanner, Student student) {
+        while (true) {
+            Course currentCourse = null;
+            int addOrExistingCourseChoice = getIntegerFromScanner(scanner, addOrExistingCourseMessage, 1, 3, true);
+            if (addOrExistingCourseChoice == 3) {
+                return;
+            } else if (addOrExistingCourseChoice == 1) {
+                currentCourse = addCourseMenu(scanner, student);
+            } else if (addOrExistingCourseChoice == 2) {
+                do {
+                    ArrayList<Course> courses = student.getCourses();
+                    System.out.println("Here is a list of your courses:");
+                    for (int i = 0; i < courses.size(); i++) {
+                        Course course = courses.get(i);
+                        System.out.println(course.getCourseNumber() + ": " + course.getCourseName());
+                    }
+                    System.out.println("Please enter the number of the course you want to access.");
+                    int courseNumber = getIntegerFromScanner(scanner, "Course Number: ", 0, 999999, false);
+                    currentCourse = student.getCourse(courseNumber);
+                    if (currentCourse == null) {
+                        System.out.println(notValidMessage);
+                    }
+                } while (currentCourse == null);
+            }
+            studentCourseMenu(scanner, student, currentCourse);
+        }
+    }
+
+    /**
+     * Adds a new course to the student's portfolio and returns that course
+     *
+     * @param scanner used for input
+     * @param student the user adding the course
+     * @return the course to add, null the course selected does not exist
+     */
+    private static Course addCourseMenu(Scanner scanner, Student student) {
         //TODO: implement this!
-        //This method is just here right now to make sure everything compiles
+        return null;
+    }
+
+    /**
+     * handles menu once the student has selected a particular course
+     *
+     * @param scanner used for input
+     * @param student the account accessing the program
+     * @param course the course being viewed
+     */
+    private static void studentCourseMenu(Scanner scanner, Student student, Course course) {
+        //TODO: implement this!
     }
 
     /**
@@ -386,7 +440,8 @@ public class Menu {
             Teacher teacher = (Teacher) user;
             teacherMenu(scanner, teacher);
         } else if (user instanceof Student) {
-            studentMenu(scanner, user);
+            Student student = (Student) user;
+            studentMenu(scanner, student);
         }
         System.out.println(exitMessage);
     }
