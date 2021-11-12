@@ -60,6 +60,10 @@ public class Quiz implements Serializable {
         }
         System.out.println("Congrats, you created the quiz titled "+name+".");
     }
+    
+    public String getName() {
+        return name;
+    }    
 }
 
 
