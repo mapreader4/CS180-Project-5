@@ -63,7 +63,10 @@ public class Quiz implements Serializable {
     
     public String getName() {
         return name;
-    }    
+    }
+    public ArrayList<Question> getQuiz(){
+        return quiz;
+    }
 }
 
 

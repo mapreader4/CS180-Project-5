@@ -1,6 +1,9 @@
 import java.io.Serializable;
 public class FillInTheBlank extends Question implements Serializable {
     String answer;
+    public String getAnswer(){
+        return this.answer;
+    }
 
     public FillInTheBlank(String question, String answer, int pointValue){
         super(question,pointValue);
