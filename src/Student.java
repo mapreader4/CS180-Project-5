@@ -78,5 +78,22 @@ public class Student extends User {
     
     public void addQuizTaken(Quiz quiz) {
         quizzesTaken.add(quiz);
+    }
+    
+    public String showStringCourses() {
+        String s = "Courses: \n";
+        for (int i = 0; i < courses.size(); i++) {
+            s += courses.get(i).getName() + "\n";
+        }
+        
+        return s;
+    }
+    
+    public ArrayList<Course> getCourses() {
+        return courses;
+    }    
+    
+    public Course getCourse(int i) {
+        return courses.get(i);
     }    
 }
