@@ -247,7 +247,7 @@ public class Menu {
         int courseNumber = getIntegerFromScanner(scanner, "Course Number (between 0 and 999999): ",
                 0, 999999, false);
         //TODO: work out with other project members the details of course adding
-        return new Course(teacher, courseNumber);
+        return new Course(courseName,teacher, courseNumber);
     }
 
     /**
@@ -295,7 +295,7 @@ public class Menu {
      */
     private static void teacherCourseMenu(Scanner scanner, Teacher teacher, Course course) {
         while (true) {
-            System.out.println(course.getName());
+            System.out.println(course.getCourseName());
             int actionChoice = getIntegerFromScanner(scanner, teacherCourseOptionsMessage, 1, 5, true);
             if (actionChoice == 5) {
                 return;

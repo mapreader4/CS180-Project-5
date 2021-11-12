@@ -33,8 +33,8 @@ public class Teacher extends User {
 
     public void editCourseName(String oldCourse, String newCourse) {
         for (int i = 0; i < courses.size(); i++) {
-            if (courses.get(i).getName().equals(oldCourse)) { //ensures course exists before editing
-                courses.get(i).setName(newCourse);
+            if (courses.get(i).getCourseName().equals(oldCourse)) { //ensures course exists before editing
+                courses.get(i).setCourseName(newCourse);
             }
         }
     }
