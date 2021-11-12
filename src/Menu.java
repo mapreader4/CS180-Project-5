@@ -6,7 +6,7 @@ import java.util.Scanner;
  * The class containing the main menu and supporting methods.
  *
  * @author Nathan Reed (mostly, add your name if you edit this part of the project)
- * @version November 11, 2021
+ * @version November 12, 2021
  */
 public class Menu {
     private static final String welcomeMessage = "Welcome to the Online Quiz Navigator!";
@@ -43,8 +43,9 @@ public class Menu {
     private static final String notValidMessage = "That is not a valid option. Please try again.";
     private static final String cannotBeBlank = "This field cannot be blank. Please try again.";
 
-    private static final String studentAccountsFile = "studentAccounts.ser";
-    private static final String teacherAccountsFile = "teacherAccounts.ser";
+    public static final String studentAccountsFile = "studentAccounts.ser";
+    public static final String teacherAccountsFile = "teacherAccounts.ser";
+    public static final String coursesFile = "courses.ser";
 
     /**
      * Displays a message containing multiple choices to the user, then ensures the user chooses an integer between the
@@ -326,23 +327,23 @@ public class Menu {
                 System.out.println("Here is a list of your quizzes:");
                 for (int i = 0; i < quizzes.size(); i++) {
                     Quiz quiz = quizzes.get(i);
-                    System.out.println(quiz.getQuizNumber() + ": " + quiz.getName());
-                    //note: both getQuizNumber() and getName() need to be created
+                    System.out.println(i + ": " + quiz.getName());
                 }
                 System.out.println("Please enter of the quiz you want to delete.");
-                int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", 0, 99999999, false);
+                int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", 1, quizzes.size(), false);
+                Quiz quiz = quizzes.get(quizNumber);
                 //TODO: work out with other project members details of quiz editing
             } else if (actionChoice == 3) {
                 ArrayList<Quiz> quizzes = course.getQuizzes();
                 System.out.println("Here is a list of your quizzes:");
                 for (int i = 0; i < quizzes.size(); i++) {
                     Quiz quiz = quizzes.get(i);
-                    System.out.println(quiz.getQuizNumber() + ": " + quiz.getName());
-                    //note: both getQuizNumber() and getName() need to be created
+                    System.out.println(i + ": " + quiz.getName());
                 }
                 System.out.println("Please enter of the quiz you want to delete.");
-                int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", 0, 99999999, false);
-                if (course.removeQuiz(quizNumber)) {
+                int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", 1, quizzes.size(), false);
+                Quiz quiz = quizzes.get(quizNumber);
+                if (course.removeQuiz(quiz)) {
                     System.out.println("Quiz removed!");
                 } else {
                     System.out.println("Couldn't find quiz to remove.");
