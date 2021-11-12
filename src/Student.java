@@ -52,7 +52,7 @@ public class Student extends User {
         grades.add(grade);
     }
     
-    public String showScores() {
+    public String showTotalScores() {
         String s = "";
         if (quizzesTakenWithScores.size() > 0) {
             for (int i = 0; i < quizzesTakenWithScores.size(); i++) {
