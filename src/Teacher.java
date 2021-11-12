@@ -13,7 +13,7 @@ public class Teacher extends User {
 
         boolean alreadyThere = false; //ensures no duplicate course is added
         for (Course c : courses) {
-            if (c.getCourseNumber == courseNumber) {
+            if (c.getCourseNumber() == courseNumber) {
                 alreadyThere = true;
             }
         }
