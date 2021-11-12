@@ -9,6 +9,7 @@ public class Student extends User {
     private ArrayList<String> courses;
     private ArrayList<Double> grades;
     private ArrayList<Quiz> quizzesTaken;
+    private ArrayList<Quiz> quizzesTakenWithScores;
 
     public Student(String username, String password) {
         super(username, password, false);
@@ -47,19 +48,35 @@ public class Student extends User {
     }
 
     public void addGradePlusQuiz(Quiz quiz, double grade) {
-        quizzesTaken.add(quiz);
+        quizzesTakenWithScores.add(quiz);
         grades.add(grade);
     }
     
     public String showScores() {
         String s = "";
+        if (quizzesTakenWithScores.size() > 0) {
+            for (int i = 0; i < quizzesTakenWithScores.size(); i++) {
+                s += quizzes.get(i).getName + ": " + grades.get(i) + "\n";
+            }
+            return s;
+        } else {
+            return "No scores assigned!";
+        }
+    }
+    
+    public String showQuizzesTaken() {
+        String s = "";
         if (quizzesTaken.size() > 0) {
             for (int i = 0; i < quizzesTaken.size(); i++) {
-                s += quizzes.get(i).name + ": " + grades.get(i) + "%\n";
+                s += quizzesTaken.get(i).getName + "\n";
             }
             return s;
         } else {
             return "No quizzes taken!";
-        }
+        }    
     }
+    
+    public void addQuizTaken(Quiz quiz) {
+        quizzesTaken.add(quiz);
+    }    
 }
