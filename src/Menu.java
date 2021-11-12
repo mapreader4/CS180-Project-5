@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -254,7 +255,21 @@ public class Menu {
             } else if (createOrEditCourseChoice == 1) {
                 currentCourse = createCourseMenu(scanner, teacher);
             } else if (createOrEditCourseChoice == 2) {
-                //TODO: implement editing course (may want to create separate method)
+                do {
+                    ArrayList<Course> courses = teacher.getCourses(); //note: this method needs to be created
+                    System.out.println("Here is a list of your courses:");
+                    for (int i = 0; i < courses.size(); i++) {
+                        Course course = courses.get(i);
+                        System.out.println(course.getCourseNumber() + ": " + course.getCourseName());
+                        //note: the getCourseName() method needs to be created
+                    }
+                    System.out.println("Please enter the number of the course you want to access.");
+                    int courseNumber = getIntegerFromScanner(scanner, "Course Number: ", 0, 999999, false);
+                    currentCourse = getCourse(courseNumber); //note: this method needs to be created
+                    if (currentCourse == null) {
+                        System.out.println(notValidMessage);
+                    }
+                } while (true);
             }
             //TODO: handle course afterwards (may want to create separate method)
         }
