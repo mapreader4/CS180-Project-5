@@ -50,5 +50,16 @@ public class Student extends User {
         quizzesTaken.add(quiz);
         grades.add(grade);
     }
-
+    
+    public String showScores() {
+        String s = "";
+        if (quizzesTaken.size() > 0) {
+            for (int i = 0; i < quizzesTaken.size(); i++) {
+                s += quizzes.get(i).name + ": " + grades.get(i) + "%\n";
+            }
+            return s;
+        } else {
+            return "No quizzes taken!";
+        }
+    }
 }
