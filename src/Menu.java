@@ -61,6 +61,31 @@ public class Menu {
     }
 
     /**
+     * Displays a message prompting the user to enter a String, then ensures the user enters a non-blank String by
+     * looping the message until the user inputs such a String
+     *
+     * @param scanner scanner to get input
+     * @param message the message to display to the user as a prompt
+     * @param includeNewline true if new line should be included when displaying the message
+     * @return a non-blank String inputted by the user
+     */
+    private static String getStringFromScanner(Scanner scanner, String message, boolean includeNewline) {
+        String stringToGet;
+        do {
+            if (includeNewline) {
+                System.out.println(message);
+            } else {
+                System.out.print(message);
+            }
+            stringToGet = scanner.nextLine();
+            if (stringToGet == null || stringToGet.isBlank()) {
+                System.out.println(cannotBeBlank);
+            }
+        } while (stringToGet == null || stringToGet.isBlank());
+        return stringToGet;
+    }
+
+    /**
      * Prompts user to log in or create account, and retrieves and returns that account
      *
      * @param scanner used for getting user input
@@ -78,23 +103,8 @@ public class Menu {
 
         if (loginType == 2) {
             do {
-                String username;
-                do {
-                    System.out.print("Username: ");
-                    username = scanner.nextLine();
-                    if (username == null || username.isBlank()) {
-                        System.out.println(cannotBeBlank);
-                    }
-                } while (username == null || username.isBlank());
-
-                String password;
-                do {
-                    System.out.print("Password: ");
-                    password = scanner.nextLine();
-                    if (password == null || password.isBlank()) {
-                        System.out.println(cannotBeBlank);
-                    }
-                } while (password == null || password.isBlank());
+                String username = getStringFromScanner(scanner, "Username: ", false);
+                String password = getStringFromScanner(scanner, "Password: ", false);
 
                 try {
                     if (accountType == 1) {
@@ -116,23 +126,8 @@ public class Menu {
             return user;
         } else if (loginType == 1) {
             do {
-                String username;
-                do {
-                    System.out.print("Username: ");
-                    username = scanner.nextLine();
-                    if (username == null || username.isBlank()) {
-                        System.out.println(cannotBeBlank);
-                    }
-                } while (username == null || username.isBlank());
-
-                String password;
-                do {
-                    System.out.print("Password: ");
-                    password = scanner.nextLine();
-                    if (password == null || password.isBlank()) {
-                        System.out.println(cannotBeBlank);
-                    }
-                } while (password == null || password.isBlank());
+                String username = getStringFromScanner(scanner, "Username: ", false);
+                String password = getStringFromScanner(scanner, "Password: ", false);
 
                 try {
                     if (accountType == 1) {
@@ -222,6 +217,10 @@ public class Menu {
         }
     }
 
+    private static void createCourseMenu(Scanner scanner, User user) {
+
+    }
+
     /**
      * the menu for the teacher
      *
@@ -230,14 +229,16 @@ public class Menu {
      */
     private static void teacherMenu(Scanner scanner, User user) {
         while (true) {
+            Course currentCourse;
             int createOrEditCourseChoice = getIntegerFromScanner(scanner, createOrEditCourseMessage, 1, 3);
             if (createOrEditCourseChoice == 3) {
                 return;
             } else if (createOrEditCourseChoice == 1) {
-                //TODO: implement adding course
+                //TODO: implement creating course (may want to create separate method)
             } else if (createOrEditCourseChoice == 2) {
                 //TODO: implement editing course (may want to create separate method)
             }
+            //TODO: handle course afterwards (may want to create separate method)
         }
     }
 
