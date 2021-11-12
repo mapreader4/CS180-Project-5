@@ -38,4 +38,8 @@ public class Teacher extends User {
             }
         }
     }
+    
+    public ArrayList<Course> getCourses() {
+        return courses;
+    }    
 }
