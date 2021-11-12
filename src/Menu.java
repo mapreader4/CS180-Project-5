@@ -44,10 +44,15 @@ public class Menu {
      * @param maxValue the maximum value of the options presented (inclusive)
      * @return an integer between (inclusive) the minValue and the maxValue
      */
-    private static int getIntegerFromScanner(Scanner scanner, String message, int minValue, int maxValue) {
+    public static int getIntegerFromScanner(Scanner scanner, String message, int minValue, int maxValue,
+                                            boolean includeNewline) {
         int integerToGet;
         do {
-            System.out.println(message);
+            if (includeNewline) {
+                System.out.println(message);
+            } else {
+                System.out.print(message);
+            }
             try {
                 integerToGet = Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException e) {
@@ -69,7 +74,7 @@ public class Menu {
      * @param includeNewline true if new line should be included when displaying the message
      * @return a non-blank String inputted by the user
      */
-    private static String getStringFromScanner(Scanner scanner, String message, boolean includeNewline) {
+    public static String getStringFromScanner(Scanner scanner, String message, boolean includeNewline) {
         String stringToGet;
         do {
             if (includeNewline) {
@@ -92,14 +97,14 @@ public class Menu {
      * @return a User object representing the user who just logged in or created an account, null if user quits
      */
     private static User login(Scanner scanner) {
-        int loginType = getIntegerFromScanner(scanner, loginOrCreate, 1, 3)
+        int loginType = getIntegerFromScanner(scanner, loginOrCreate, 1, 3, true)
         if (loginType == 3) {
             return null;
         }
 
         User user = null;
 
-        int accountType = getIntegerFromScanner(scanner, teacherOrStudent, 1, 2);
+        int accountType = getIntegerFromScanner(scanner, teacherOrStudent, 1, 2, true);
 
         if (loginType == 2) {
             do {
@@ -217,8 +222,13 @@ public class Menu {
         }
     }
 
-    private static void createCourseMenu(Scanner scanner, User user) {
-
+    private static Course createCourseMenu(Scanner scanner, Teacher teacher) {
+        System.out.println("Please enter the information for the course you want to add.");
+        String courseName = getStringFromScanner(scanner, "Course Name: ", false);
+        int courseNumber = getIntegerFromScanner(scanner, "Course Number (between 0 and 999999): ",
+                0, 999999, false);
+        //TODO: work out with other project members the details of course adding
+        return new Course(teacher, courseNumber);
     }
 
     /**
@@ -227,14 +237,14 @@ public class Menu {
      * @param scanner used for getting user input
      * @param user the account using the program
      */
-    private static void teacherMenu(Scanner scanner, User user) {
+    private static void teacherMenu(Scanner scanner, Teacher teacher) {
         while (true) {
             Course currentCourse;
-            int createOrEditCourseChoice = getIntegerFromScanner(scanner, createOrEditCourseMessage, 1, 3);
+            int createOrEditCourseChoice = getIntegerFromScanner(scanner, createOrEditCourseMessage, 1, 3, true);
             if (createOrEditCourseChoice == 3) {
                 return;
             } else if (createOrEditCourseChoice == 1) {
-                //TODO: implement creating course (may want to create separate method)
+                currentCourse = createCourseMenu(scanner, teacher);
             } else if (createOrEditCourseChoice == 2) {
                 //TODO: implement editing course (may want to create separate method)
             }
@@ -272,7 +282,8 @@ public class Menu {
         if (user == null) {
             //null user indicates user has quit on login menu
         } else if (user instanceof Teacher) {
-            teacherMenu(scanner, user);
+            Teacher teacher = (Teacher) user;
+            teacherMenu(scanner, teacher);
         } else if (user instanceof Student) {
             studentMenu(scanner, user);
         }
