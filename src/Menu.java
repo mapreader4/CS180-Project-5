@@ -23,11 +23,21 @@ public class Menu {
             " could not be found. Please try again.";
     private static final String accountCreatedMessage = "Account created!";
     private static final String loggedInMessage = "Logged in!";
-    private static String createOrEditCourseMessage = "Would you like to create a new course or " +
+    private static final String createOrEditCourseMessage = "Would you like to create a new course or " +
             "edit an existing course?\n" +
             "1. Create course\n" +
             "2. Edit course\n" +
             "3. Quit";
+    private static final String teacherCourseOptionsMessage = "Course Menu Options:\n" +
+            "1. Add quiz\n" +
+            "2. Edit quiz\n" +
+            "3. Delete quiz\n" +
+            "4. Remove course\n" +
+            "5. Return to main menu";
+    private static final String quizInputMethodMessage = "Do you want to import the quiz as a file " +
+            "or enter it through the terminal?\n" +
+            "1. Import as file\n" +
+            "2. Enter through terminal";
     private static final String exitMessage = "Thank you for using the Online Quiz Navigator!";
     private static final String notValidMessage = "That is not a valid option. Please try again.";
     private static final String cannotBeBlank = "This field cannot be blank. Please try again.";
@@ -260,7 +270,7 @@ public class Menu {
                     System.out.println("Here is a list of your courses:");
                     for (int i = 0; i < courses.size(); i++) {
                         Course course = courses.get(i);
-                        System.out.println(course.getCourseNumber() + ": " + course.getCourseName());
+                        System.out.println(course.getCourseNumber() + ": " + course.getName());
                         //note: the getCourseName() method needs to be created
                     }
                     System.out.println("Please enter the number of the course you want to access.");
@@ -271,7 +281,72 @@ public class Menu {
                     }
                 } while (true);
             }
-            //TODO: handle course afterwards (may want to create separate method)
+            teacherCourseMenu(scanner, teacher, currentCourse);
+        }
+        //TODO: handle closing of Teacher account
+    }
+
+    /**
+     * handles menu once the user has selected a particular course
+     *
+     * @param scanner used for getting user input
+     * @param teacher the account using the program
+     * @param course the course being edited
+     */
+    private static void teacherCourseMenu(Scanner scanner, Teacher teacher, Course course) {
+        while (true) {
+            System.out.println(course.getName());
+            int actionChoice = getIntegerFromScanner(scanner, teacherCourseOptionsMessage, 1, 5, true);
+            if (actionChoice == 5) {
+                return;
+            } else if (actionChoice == 4) {
+                int courseNumber = course.getCourseNumber();
+                teacher.removeCourse(courseNumber);
+                System.out.println("Course removed!");
+                return;
+            } else if (actionChoice == 1) {
+                Quiz quiz = null;
+                int quizInputMethod = getIntegerFromScanner(scanner, quizInputMethodMessage, 1, 2, true);
+
+                if (quizInputMethod == 1) {
+                    //TODO: work out with other project members details of file imports
+                    quiz = null; //DO NOT LEAVE IN FINAL DRAFT
+                } else if (quizInputMethod == 2) {
+                    quiz = new Quiz(scanner);
+                }
+
+                if (course.addQuiz(quiz)) {
+                    System.out.println("Quiz created!");
+                } else {
+                    System.out.println("That quiz already exists.");
+                }
+            } else if (actionChoice == 2) {
+                ArrayList<Quiz> quizzes = course.getQuizzes();
+                System.out.println("Here is a list of your quizzes:");
+                for (int i = 0; i < quizzes.size(); i++) {
+                    Quiz quiz = quizzes.get(i);
+                    System.out.println(quiz.getQuizNumber() + ": " + quiz.getName());
+                    //note: both getQuizNumber() and getName() need to be created
+                }
+                System.out.println("Please enter of the quiz you want to delete.");
+                int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", 0, 99999999, false);
+                //TODO: work out with other project members details of quiz editing
+            } else if (actionChoice == 3) {
+                ArrayList<Quiz> quizzes = course.getQuizzes();
+                System.out.println("Here is a list of your quizzes:");
+                for (int i = 0; i < quizzes.size(); i++) {
+                    Quiz quiz = quizzes.get(i);
+                    System.out.println(quiz.getQuizNumber() + ": " + quiz.getName());
+                    //note: both getQuizNumber() and getName() need to be created
+                }
+                System.out.println("Please enter of the quiz you want to delete.");
+                int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", 0, 99999999, false);
+                if (course.removeQuiz(quizNumber)) {
+                    System.out.println("Quiz removed!");
+                } else {
+                    System.out.println("Couldn't find quiz to remove.");
+                }
+            }
         }
     }
 
@@ -284,9 +359,6 @@ public class Menu {
     private static void studentMenu(Scanner scanner, User user) {
         //TODO: implement this!
         //This method is just here right now to make sure everything compiles
-
-        //all of this should be in a loop, with a quit option to break the loop in every menu
-        //first ask whether a course should be added(?) or to ask to add an existing course
     }
 
     /**
