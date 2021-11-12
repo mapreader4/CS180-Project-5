@@ -396,6 +396,7 @@ public class Menu {
             }
             studentCourseMenu(scanner, student, currentCourse);
         }
+        //TODO: add way to close student file
     }
 
     /**
@@ -406,7 +407,35 @@ public class Menu {
      * @return the course to add, null the course selected does not exist
      */
     private static Course addCourseMenu(Scanner scanner, Student student) {
-        //TODO: implement this!
+        System.out.println("Here is a list of courses you could add:");
+        ArrayList<Course> courses = new ArrayList<Course>();
+
+        File file = new File(coursesFile);
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            Object currentObject;
+            int i = 0;
+            while ((currentObject = ois.readObject()) != null) {
+                Course currentCourse = (Course) currentObject;
+                courses.add(currentCourse);
+                System.out.println(currentCourse.getCourseNumber() + ": " + currentCourse.getCourseName());
+            }
+        } catch (FileNotFoundException e) {
+            return null;
+        } catch (IOException e) {
+            return null;
+        } catch (ClassNotFoundException e) {
+            return null;
+        }
+
+        System.out.println("Please enter the course number of the course you want to add.");
+        int courseNumber = getIntegerFromScanner(scanner, "Course Number: ", 0, 999999, false);
+        for (int i = 0; i < courses.size(); i++) {
+            if (courses.get(i).getCourseNumber() == courseNumber) {
+                Course currentCourse = courses.get(i);
+                student.addToCourse(currentCourse, currentCourse.getFilename());
+                return currentCourse;
+            }
+        }
         return null;
     }
 
