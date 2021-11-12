@@ -1,6 +1,12 @@
 import java.io.*;
 import java.util.Scanner;
 
+/**
+ * The class containing the main menu and supporting methods.
+ *
+ * @author Nathan Reed (mostly, add your name if you edit this part of the project)
+ * @version November 11, 2021
+ */
 public class Menu {
     private static final String welcomeMessage = "Welcome to the Online Quiz Navigator!";
     private static final String loginOrCreate = "Would you like to log in or create an account?\n" +
@@ -16,6 +22,11 @@ public class Menu {
             " could not be found. Please try again.";
     private static final String accountCreatedMessage = "Account created!";
     private static final String loggedInMessage = "Logged in!";
+    private static String createOrEditCourseMessage = "Would you like to create a new course or " +
+            "edit an existing course?\n" +
+            "1. Create course\n" +
+            "2. Edit course\n" +
+            "3. Quit";
     private static final String exitMessage = "Thank you for using the Online Quiz Navigator!";
     private static final String notValidMessage = "That is not a valid option. Please try again.";
     private static final String cannotBeBlank = "This field cannot be blank. Please try again.";
@@ -24,45 +35,47 @@ public class Menu {
     private static final String teacherAccountsFile = "teacherAccounts.ser";
 
     /**
+     * Displays a message containing multiple choices to the user, then ensures the user chooses an integer between the
+     * minimum value and the maximum value by looping the message until the user inputs such a value
+     *
+     * @param scanner scanner to get input
+     * @param message the message to display to the user as a prompt
+     * @param minValue the minimum value of the options presented (inclusive)
+     * @param maxValue the maximum value of the options presented (inclusive)
+     * @return an integer between (inclusive) the minValue and the maxValue
+     */
+    private static int getIntegerFromScanner(Scanner scanner, String message, int minValue, int maxValue) {
+        int integerToGet;
+        do {
+            System.out.println(message);
+            try {
+                integerToGet = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                integerToGet = minValue - 1;
+            }
+            if (integerToGet < minValue || integerToGet > maxValue) {
+                System.out.println(notValidMessage);
+            }
+        } while (integerToGet < minValue || integerToGet >= maxValue);
+        return integerToGet;
+    }
+
+    /**
      * Prompts user to log in or create account, and retrieves and returns that account
      *
      * @param scanner used for getting user input
      * @return a User object representing the user who just logged in or created an account, null if user quits
      */
-    public static User login(Scanner scanner) {
-        int loginType;
-        do {
-            System.out.println(loginOrCreate);
-            try {
-                loginType = Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException e) {
-                loginType = -1;
-                System.out.println(notValidMessage);
-            }
-            if (loginType <= 0 || loginType >= 4) {
-                System.out.println(notValidMessage);
-            }
-        } while (loginType <= 0 || loginType >= 4);
-
+    private static User login(Scanner scanner) {
+        int loginType = getIntegerFromScanner(scanner, loginOrCreate, 1, 3)
         if (loginType == 3) {
             return null;
         }
 
-        int accountType;
-        do {
-            System.out.println(teacherOrStudent);
-            try {
-                accountType = Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException e) {
-                accountType = -1;
-                System.out.println(notValidMessage);
-            }
-            if (accountType <= 0 || accountType >= 4) {
-                System.out.println(notValidMessage);
-            }
-        } while (accountType <= 0 || accountType >= 4);
-
         User user = null;
+
+        int accountType = getIntegerFromScanner(scanner, teacherOrStudent, 1, 2);
+
         if (loginType == 2) {
             do {
                 String username;
@@ -147,7 +160,7 @@ public class Menu {
      * @param filename the name of the file to be searched
      * @return the user found, if one was found; null if not found
      */
-    public static User searchForUser(String username, String filename) {
+    private static User searchForUser(String username, String filename) {
         File file = new File(filename);
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             Object currentObject;
@@ -215,9 +228,17 @@ public class Menu {
      * @param scanner used for getting user input
      * @param user the account using the program
      */
-    public static void teacherMenu(Scanner scanner, User user) {
-        //TODO: implement this!
-        //This method is just here right now to make sure everything compiles
+    private static void teacherMenu(Scanner scanner, User user) {
+        while (true) {
+            int createOrEditCourseChoice = getIntegerFromScanner(scanner, createOrEditCourseMessage, 1, 3);
+            if (createOrEditCourseChoice == 3) {
+                return;
+            } else if (createOrEditCourseChoice == 1) {
+                //TODO: implement adding course
+            } else if (createOrEditCourseChoice == 2) {
+                //TODO: implement editing course (may want to create separate method)
+            }
+        }
     }
 
     /**
@@ -226,9 +247,12 @@ public class Menu {
      * @param scanner used for getting user input
      * @param user the account using the program
      */
-    public static void studentMenu(Scanner scanner, User user) {
+    private static void studentMenu(Scanner scanner, User user) {
         //TODO: implement this!
         //This method is just here right now to make sure everything compiles
+
+        //all of this should be in a loop, with a quit option to break the loop in every menu
+        //first ask whether a course should be added(?) or to ask to add an existing course
     }
 
     /**
