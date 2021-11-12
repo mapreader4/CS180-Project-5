@@ -42,6 +42,7 @@ public class Menu {
      * @param message the message to display to the user as a prompt
      * @param minValue the minimum value of the options presented (inclusive)
      * @param maxValue the maximum value of the options presented (inclusive)
+     * @param includeNewline true if new line should be included when displaying the message
      * @return an integer between (inclusive) the minValue and the maxValue
      */
     public static int getIntegerFromScanner(Scanner scanner, String message, int minValue, int maxValue,
@@ -97,7 +98,7 @@ public class Menu {
      * @return a User object representing the user who just logged in or created an account, null if user quits
      */
     private static User login(Scanner scanner) {
-        int loginType = getIntegerFromScanner(scanner, loginOrCreate, 1, 3, true)
+        int loginType = getIntegerFromScanner(scanner, loginOrCreate, 1, 3, true);
         if (loginType == 3) {
             return null;
         }
@@ -222,6 +223,13 @@ public class Menu {
         }
     }
 
+    /**
+     * a menu for creating a course
+     *
+     * @param scanner used for getting user input
+     * @param teacher the account using the program
+     * @return the course that was generated
+     */
     private static Course createCourseMenu(Scanner scanner, Teacher teacher) {
         System.out.println("Please enter the information for the course you want to add.");
         String courseName = getStringFromScanner(scanner, "Course Name: ", false);
@@ -235,7 +243,7 @@ public class Menu {
      * the menu for the teacher
      *
      * @param scanner used for getting user input
-     * @param user the account using the program
+     * @param teacher the account using the program
      */
     private static void teacherMenu(Scanner scanner, Teacher teacher) {
         while (true) {
