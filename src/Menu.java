@@ -32,8 +32,9 @@ public class Menu {
             "1. Add quiz\n" +
             "2. Edit quiz\n" +
             "3. Delete quiz\n" +
-            "4. Remove course\n" +
-            "5. Return to main menu";
+            "4. Change course name\n" +
+            "5. Remove course\n" +
+            "6. Return to main menu";
     private static final String quizInputMethodMessage = "Do you want to import the quiz as a file " +
             "or enter it through the terminal?\n" +
             "1. Import as file\n" +
@@ -297,9 +298,9 @@ public class Menu {
         while (true) {
             System.out.println(course.getCourseName());
             int actionChoice = getIntegerFromScanner(scanner, teacherCourseOptionsMessage, 1, 5, true);
-            if (actionChoice == 5) {
+            if (actionChoice == 6) {
                 return;
-            } else if (actionChoice == 4) {
+            } else if (actionChoice == 5) {
                 int courseNumber = course.getCourseNumber();
                 teacher.removeCourse(courseNumber);
                 System.out.println("Course removed!");
@@ -346,6 +347,10 @@ public class Menu {
                 } else {
                     System.out.println("Couldn't find quiz to remove.");
                 }
+            } else if (actionChoice == 4) {
+                System.out.println("Please enter the new course name.");
+                String courseName = getStringFromScanner(scanner, "Course Name: ", false);
+                course.setCourseName(courseName);
             }
         }
     }
