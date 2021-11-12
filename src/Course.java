@@ -18,7 +18,7 @@ public class Course implements Serializable{
 
     }
     public Course(String courseName, Teacher teacher, int courseNumber){
-        try (ObjectOutputStream pw=new ObjectOutputStream(new FileOutputStream("Courses"))){
+        try (ObjectOutputStream pw=new ObjectOutputStream(new FileOutputStream(new File(Menu.coursesFile),true))){
             pw.writeObject(this);
         } catch(FileNotFoundException e){
             System.out.println("No file found");
@@ -33,6 +33,9 @@ public class Course implements Serializable{
         this.students=new ArrayList<Student>();
         this.quizzes=new ArrayList<Quiz>();
 
+    }
+    public String getFilename(){
+        return this.filename;
     }
     public String getCourseName(){
         return this.courseName;
