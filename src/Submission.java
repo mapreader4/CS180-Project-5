@@ -11,15 +11,14 @@ public class Submission {
         this.quizz=quizz;
         this.uniqueId=uniqueId;
     }
-    public Object[][] takingTheQuiz(Scanner scanner){
-        Object[][] needToBeGraded=new Object[quizz.getQuiz().size()][2];
+    public Object[][] takingTheQuiz(Scanner scanner) {
+        Object[][] needToBeSubmitted = new Object[quizz.getQuiz().size()][2];
         String studentAnswer;
-        for(int i=0;i<quizz.getQuiz().size();i++){
-            Question temp=quizz.getQuiz().get(i);
-            if (quizz.getQuiz().get(i).getClass()==FillInTheBlank.class){
-                FillInTheBlank temp2=(FillInTheBlank) temp;
+        for (int i = 0; i < quizz.getQuiz().size(); i++) {
+            Question temp = quizz.getQuiz().get(i);
+            if (quizz.getQuiz().get(i).getClass() == FillInTheBlank.class) {
+                FillInTheBlank temp2 = (FillInTheBlank) temp;
                 temp2.displayQuestion();
-                temp2.displayOptions(); //Need a randomized display of options for Fill in the blanks question
                 System.out.println("1. Do you want to attach a file for the answer?\n2. Do you want to type the answer?");
                 int option;
                 do {
@@ -30,29 +29,90 @@ public class Submission {
                     }
                     break;
                 } while (true);
-                if (option==1){
-                    studentAnswer=readingTheAnswerFromFile(scanner);
-                    if (studentAnswer==null){
+                if (option == 1) {
+                    studentAnswer = readingTheAnswerFromFile(scanner);
+                    if (studentAnswer == null) {
                         return null;
                     }
                 } else {
                     System.out.println("Your answer:");
-                    studentAnswer=scanner.nextLine();
+                    studentAnswer = scanner.nextLine();
                 }
-                Object[] relevantInfo={temp2,studentAnswer};
-                needToBeGraded[i]=relevantInfo;
-            } else if(quizz.getQuiz().get(i).getClass()==TrueFalse.class){
-                TrueFalse temp2=(TrueFalse) temp;
+                Object[] relevantInfo = {temp2, studentAnswer};
+                needToBeSubmitted[i] = relevantInfo;
+            } else if (quizz.getQuiz().get(i).getClass() == TrueFalse.class) {
+                TrueFalse temp2 = (TrueFalse) temp;
                 temp2.displayQuestion();
                 System.out.println("1. Do you want to attach a file for the answer?\n2. Do you want to type the answer?");
-
+                int option;
+                do {
+                    option = scanner.nextInt();
+                    if (option > 1 || option < 0) {
+                        System.out.println("Invalid input, try again");
+                        continue;
+                    }
+                    break;
+                } while (true);
+                if (option == 1) {
+                    studentAnswer = readingTheAnswerFromFile(scanner);
+                    if (studentAnswer == null) {
+                        return null;
+                    }
+                } else {
+                    System.out.println("Your answer:");
+                    studentAnswer = scanner.nextLine();
+                }
+                Object[] relevantInfo = {temp2, studentAnswer};
+                needToBeSubmitted[i] = relevantInfo;
+            } else if (quizz.getQuiz().get(i).getClass() == MultipleChoice.class) {
+                MultipleChoice temp2=(MultipleChoice) temp;
+                temp2.displayQuestion();
+                System.out.println("1. Do you want to attach a file for the answer?\n2. Do you want to type the answer?");
+                int option;
+                do {
+                    option = scanner.nextInt();
+                    if (option > 1 || option < 0) {
+                        System.out.println("Invalid input, try again");
+                        continue;
+                    }
+                    break;
+                } while (true);
+                if (option == 1) {
+                    studentAnswer = readingTheAnswerFromFile(scanner);
+                    if (studentAnswer == null) {
+                        return null;
+                    }
+                } else {
+                    System.out.println("Your answer:");
+                    studentAnswer = scanner.nextLine();
+                }
+                Object[] relevantInfo = {temp2, studentAnswer};
+                needToBeSubmitted[i] = relevantInfo;
             }
         }
-        return needToBeGraded;
+        return needToBeSubmitted;
     }
 
-    public void StudentViewingSubmissionGrades(){
+    public void SubmissionReport(Object[][] needToBeSubmitted,Scanner scanner){
+        System.out.println("Enter the file path:");
+        String filepath = scanner.nextLine();
+        try(PrintWriter pw =new PrintWriter(new FileWriter(filepath))){
+            pw.println(student.getUsername()+": "+ quizz.getName());
+            for(int i=0;i<needToBeSubmitted.length;i++){
+                if(needToBeSubmitted[i][0].getClass()==FillInTheBlank.class){
+                    FillInTheBlank temp = (FillInTheBlank) needToBeSubmitted[i][0];
+                    pw.print("Question: "+i+". ");
+                    pw.println(temp.getQuestion());
+                    pw.print("Answer: "+i+". ");
+                    pw.println(temp.getAnswer());
+                    pw.println("Your answer: "+ ((String)needToBeSubmitted[i][1]));
 
+                }
+            }
+        } catch(IOException e){
+            e.printStackTrace();
+            return;
+        }
     }
     public void TeacherGradingSubmission(String relevantInfo){
         // can quiz have a course instance field so that the quiz can be traced back to the teacher through the course

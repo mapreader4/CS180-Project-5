@@ -1,5 +1,12 @@
 import java.io.Serializable;
 
+/**
+ * User Class
+ *
+ *@author Aditya Menon (add your name if you implemented any functionality)
+ *@version Nov 13, 2021
+ */
+
 public class User implements Serializable {
     String username;
     String password;
