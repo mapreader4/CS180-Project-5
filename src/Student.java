@@ -3,6 +3,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Student Class
+ *
+ *@author Aditya Menon (add your name if you implemented any functionality)
+ *@version Nov 13, 2021
+ */
 
 public class Student extends User {
 
