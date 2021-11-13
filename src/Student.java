@@ -16,6 +16,7 @@ public class Student extends User {
     private ArrayList<Double> grades;
     private ArrayList<Quiz> quizzesTaken;
     private ArrayList<Quiz> quizzesTakenWithScores;
+    private ArrayList<Submission> submissions;
 
     public Student(String username, String password) {
         super(username, password, false);
@@ -101,5 +102,9 @@ public class Student extends User {
     
     public Course getCourse(int i) {
         return courses.get(i);
+    }
+    
+    public void addSubmission(Submssion s) {
+        submissions.add(s);
     }    
 }

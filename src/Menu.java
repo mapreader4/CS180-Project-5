@@ -320,10 +320,12 @@ public class Menu {
                 int quizInputMethod = getIntegerFromScanner(scanner, quizInputMethodMessage, 1, 2, true);
 
                 if (quizInputMethod == 1) {
-                    //TODO: work out with other project members details of file imports
-                    quiz = null;
+                    do {
+                        String filename = FileImports.prompt();
+                        quiz = new Quiz(filename);
+                    } while (quiz == null);
                 } else if (quizInputMethod == 2) {
-                    quiz = new Quiz(scanner);
+                    quiz = new Quiz(scanner, course);
                 }
 
                 if (course.addQuiz(quiz)) {
@@ -338,7 +340,7 @@ public class Menu {
                     Quiz quiz = quizzes.get(i);
                     System.out.println(i + ": " + quiz.getName());
                 }
-                System.out.println("Please enter of the quiz you want to delete.");
+                System.out.println("Please enter of the quiz you want to edit.");
                 int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", 1, quizzes.size(), false);
                 Quiz quiz = quizzes.get(quizNumber);
                 //TODO: work out with other project members details of quiz editing
@@ -468,6 +470,22 @@ public class Menu {
                 System.out.println("Please enter of the quiz you want to take.");
                 int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", 1, quizzes.size(), false);
                 Quiz quiz = quizzes.get(quizNumber);
+                Submission submission = new Submission(student, quiz);
+                submission.takeQuiz();
+            } else if (actionChoice == 2) {
+                ArrayList<Submission> submissions = student.getSubmissions();
+                System.out.println("Here is a list of your quizzes:");
+                for (int i = 0; i < submissions.size(); i++) {
+                    Submission submission = submissions.get(i);
+                    if (submission.getCourse().equals(course)) {
+                        System.out.println(i + ": " + submission.getQuiz().getName() +
+                                " - " + submission.getTimestamp());
+                    }
+                }
+                System.out.println("Please enter the number of the submission you want to view.");
+                int submissionNumber = getIntegerFromScanner(scanner, "Submission Number: ", 1, submissions.size(), false);
+                Submission submission = submissions.get(submissionNumber);
+                submission.view();
             }
         }
     }
