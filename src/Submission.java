@@ -149,7 +149,7 @@ public class Submission {
     public String createsNewFile(){
         Random a=new Random();
         String filepath="Submission"+a.nextInt(10000);
-        this.name=name;
+        this.name=filepath;
         return filepath;
     }
     public String readingTheAnswerFromFile(Scanner scanner) {
