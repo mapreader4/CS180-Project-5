@@ -11,7 +11,7 @@ public class Submission {
         this.student=student;
         this.quizz=quizz;
     }
-    public Object[][] takeQuiz(Scanner scanner) {
+    public boolean takeQuiz(Scanner scanner) {
         Object[][] needToBeSubmitted = new Object[quizz.getQuiz().size()][2];
         String studentAnswer;
         for (int i = 0; i < quizz.getQuiz().size(); i++) {
@@ -32,7 +32,7 @@ public class Submission {
                 if (option == 1) {
                     studentAnswer = readingTheAnswerFromFile(scanner);
                     if (studentAnswer == null) {
-                        return null;
+                        return false;
                     }
                 } else {
                     System.out.println("Your answer:");
@@ -56,7 +56,7 @@ public class Submission {
                 if (option == 1) {
                     studentAnswer = readingTheAnswerFromFile(scanner);
                     if (studentAnswer == null) {
-                        return null;
+                        return false;
                     }
                 } else {
                     System.out.println("Your answer:");
@@ -80,7 +80,7 @@ public class Submission {
                 if (option == 1) {
                     studentAnswer = readingTheAnswerFromFile(scanner);
                     if (studentAnswer == null) {
-                        return null;
+                        return false;
                     }
                 } else {
                     System.out.println("Your answer:");
@@ -90,10 +90,11 @@ public class Submission {
                 needToBeSubmitted[i] = relevantInfo;
             }
         }
-        return needToBeSubmitted;
+        submissionReport(needToBeSubmitted,scanner);
+        return true;
     }
 
-    public void SubmissionReport(Object[][] needToBeSubmitted,Scanner scanner){
+    public void submissionReport(Object[][] needToBeSubmitted,Scanner scanner){
 
         String filepath = createsNewFile();
         try(PrintWriter pw =new PrintWriter(new FileWriter(filepath))){
@@ -106,6 +107,37 @@ public class Submission {
                     pw.print("Answer: "+i+". ");
                     pw.println(temp.getAnswer());
                     pw.println("Your answer: "+ ((String)needToBeSubmitted[i][1]));
+                    if(temp.getAnswer().equals(needToBeSubmitted[i][1])) {
+                    pw.println("Points got: " + temp.getPointValue());
+                    } else {
+                        pw.println("Points got: "+0);
+                    }
+                }
+                else if(needToBeSubmitted[i][0].getClass()==TrueFalse.class){
+                    TrueFalse temp=(TrueFalse) needToBeSubmitted[i][0];
+                    pw.print("Question: "+i+". ");
+                    pw.println(temp.getQuestion());
+                    pw.print("Answer: "+i+". ");
+                    pw.println(temp.getAnswer());
+                    pw.println("Your answer: "+ ((String)needToBeSubmitted[i][1]));
+                    if(temp.getAnswer().equals(needToBeSubmitted[i][1])) {
+                        pw.println("Points got: " + temp.getPointValue());
+                    } else {
+                        pw.println("Points got: "+0);
+                    }
+                }
+                else if(needToBeSubmitted[i][0].getClass()==MultipleChoice.class){
+                    MultipleChoice temp=(MultipleChoice) needToBeSubmitted[i][0];
+                    pw.print("Question: "+i+". ");
+                    pw.println(temp.getQuestion());
+                    pw.print("Answer: "+i+". ");
+                    pw.println(temp.correctAnswerIndex);
+                    pw.println("Your answer: "+ ((String)needToBeSubmitted[i][1]));
+                    if(temp.correctAnswerIndex==Integer.parseInt((String)needToBeSubmitted[i][1])){
+                        pw.println("Points got: " + temp.getPointValue());
+                    } else {
+                        pw.println("Points got: "+0);
+                    }
                 }
             }
         } catch(IOException e){
@@ -138,4 +170,5 @@ public class Submission {
         }
         return studentAnswer;
     }
+
 }
