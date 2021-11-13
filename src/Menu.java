@@ -246,6 +246,36 @@ public class Menu {
         }
     }
 
+    private static boolean addCourseToFile(Course course, File filename) {
+        File file = new File(filename);
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            Object currentObject;
+            while ((currentObject = ois.readObject()) != null) {
+                Course currentCourse = (Course) currentObject;
+                if (currentCourse.getCourseNumber() == course.getCourseNumber()) {
+                    return true;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            return true;
+        } catch (IOException e) {
+            return true;
+        } catch (ClassNotFoundException e) {
+            return true;
+        }
+
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file, true))) {
+            oos.writeObject(course);
+            return false;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return true;
+        }
+    }
+
     /**
      * a menu for creating a course
      *
@@ -254,12 +284,18 @@ public class Menu {
      * @return the course that was generated
      */
     private static Course createCourseMenu(Scanner scanner, Teacher teacher) {
-        System.out.println("Please enter the information for the course you want to add.");
-        String courseName = getStringFromScanner(scanner, "Course Name: ", false);
-        int courseNumber = getIntegerFromScanner(scanner, "Course Number (between 0 and 999999): ",
-                0, 999999, false);
-        //TODO: work out with other project members the details of course adding
-        return new Course(courseName, teacher, courseNumber);
+        Course course = null;
+        boolean courseAlreadyExists = false;
+        do {
+            System.out.println("Please enter the information for the course you want to add.");
+            String courseName = getStringFromScanner(scanner, "Course Name: ", false);
+            int courseNumber = getIntegerFromScanner(scanner, "Course Number (between 0 and 999999): ",
+                    0, 999999, false);
+            course = new Course(courseName, teacher, courseNumber);
+            courseAlreadyExists = addCourseToFile(course, coursesFile);
+        } while (courseAlreadyExists);
+        teacher.addCourse(course);
+        return course;
     }
 
     /**
@@ -343,7 +379,7 @@ public class Menu {
                 System.out.println("Please enter of the quiz you want to edit.");
                 int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", 1, quizzes.size(), false);
                 Quiz quiz = quizzes.get(quizNumber);
-                //TODO: work out with other project members details of quiz editing
+                quiz.editQuiz(scanner);
             } else if (actionChoice == 3) {
                 ArrayList<Quiz> quizzes = course.getQuizzes();
                 System.out.println("Here is a list of your quizzes:");
@@ -471,7 +507,7 @@ public class Menu {
                 int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", 1, quizzes.size(), false);
                 Quiz quiz = quizzes.get(quizNumber);
                 Submission submission = new Submission(student, quiz);
-                submission.takeQuiz();
+                submission.takeQuiz(scanner);
             } else if (actionChoice == 2) {
                 ArrayList<Submission> submissions = student.getSubmissions();
                 System.out.println("Here is a list of your quizzes:");
@@ -485,7 +521,7 @@ public class Menu {
                 System.out.println("Please enter the number of the submission you want to view.");
                 int submissionNumber = getIntegerFromScanner(scanner, "Submission Number: ", 1, submissions.size(), false);
                 Submission submission = submissions.get(submissionNumber);
-                submission.view();
+                submission.view(scanner);
             }
         }
     }
