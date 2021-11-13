@@ -51,6 +51,11 @@ public class Teacher extends User {
     }
     
     public Course getCourse(int i) {
-        return courses.get(i);
+        for (Cource c : courses) {
+            if (c.getCourseNumber() == i) {
+                return c;
+            }
+        }    
+        return null;     
     }    
 }
