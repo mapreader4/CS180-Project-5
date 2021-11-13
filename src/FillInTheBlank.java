@@ -10,7 +10,6 @@ public class FillInTheBlank extends Question implements Serializable {
         this.answer = answer;
     }
 
-    @Override
     void displayQuestion() {
         System.out.println(question);
     }
