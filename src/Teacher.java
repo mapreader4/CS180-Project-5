@@ -52,7 +52,7 @@ public class Teacher extends User {
     
     public Course getCourse(int i) {
         for (Cource c : courses) {
-            if (c.getNumber() == i) {
+            if (c.getCourseNumber() == i) {
                 return c;
             }
         }    
