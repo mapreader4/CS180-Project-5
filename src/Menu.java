@@ -246,7 +246,7 @@ public class Menu {
         }
     }
 
-    private static boolean addCourseToFile(Course course, File filename) {
+    private static boolean addCourseToFile(Course course, String filename) {
         File file = new File(filename);
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             Object currentObject;
@@ -273,6 +273,44 @@ public class Menu {
         } catch (IOException e) {
             e.printStackTrace();
             return true;
+        }
+    }
+
+    /**
+     * when a user is finished using the program, this method rewrites the file with their updated details
+     *
+     * @param user the user to update
+     * @param filename the name of the file that the update is performed in
+     */
+    private static void closeUser(User user, String filename) {
+        File file = new File(filename);
+        ArrayList<User> users = new ArrayList<User>();
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            Object currentObject;
+            while ((currentObject = ois.readObject()) != null) {
+                User currentUser = (User) currentObject;
+                if (currentUser.getUsername().equals(user.getUsername())) {
+                    users.add(user);
+                } else {
+                    users.add(currentUser);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            return;
+        } catch (IOException e) {
+            return;
+        } catch (ClassNotFoundException e) {
+            return;
+        }
+
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
+            for (int i = 0; i < users.size(); i++) {
+                oos.writeObject(users.get(i));
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -309,7 +347,7 @@ public class Menu {
             Course currentCourse = null;
             int createOrEditCourseChoice = getIntegerFromScanner(scanner, createOrEditCourseMessage, 1, 3, true);
             if (createOrEditCourseChoice == 3) {
-                return;
+                break;
             } else if (createOrEditCourseChoice == 1) {
                 currentCourse = createCourseMenu(scanner, teacher);
             } else if (createOrEditCourseChoice == 2) {
@@ -330,7 +368,8 @@ public class Menu {
             }
             teacherCourseMenu(scanner, teacher, currentCourse);
         }
-        //TODO: handle closing of Teacher account
+        User user = (User) teacher;
+        closeUser(teacher, teacherAccountsFile);
     }
 
     /**
@@ -414,7 +453,7 @@ public class Menu {
             Course currentCourse = null;
             int addOrExistingCourseChoice = getIntegerFromScanner(scanner, addOrExistingCourseMessage, 1, 3, true);
             if (addOrExistingCourseChoice == 3) {
-                return;
+                break;
             } else if (addOrExistingCourseChoice == 1) {
                 currentCourse = addCourseMenu(scanner, student);
             } else if (addOrExistingCourseChoice == 2) {
@@ -435,7 +474,8 @@ public class Menu {
             }
             studentCourseMenu(scanner, student, currentCourse);
         }
-        //TODO: add way to close student file
+        User user = (User) student;
+        closeUser(user, studentAccountsFile);
     }
 
     /**
