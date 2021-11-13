@@ -1,6 +1,6 @@
 import java.io.Serializable;
 
-public class MultipleChoice extends Question implements Serializable { ;
+public class MultipleChoice extends Question implements Serializable {
     int numChoices;
     String[]answerChoices;
     int correctAnswerIndex;
@@ -10,13 +10,7 @@ public class MultipleChoice extends Question implements Serializable { ;
         super(question, pointValue);
         this.numChoices = numChoices;
         this.answerChoices = answerChoices;
-        if(answerIndex== -1){
-            System.out.println("There was an error finding the correct answer in the array!");
-        }else{
-            this.correctAnswerIndex = answerIndex;
-        }
-
-
+        this.correctAnswerIndex=answerIndex;
     }
     public int findCorrectAnswer(String answer){
         for(int i = 0 ; i < numChoices ; i++){
@@ -27,7 +21,7 @@ public class MultipleChoice extends Question implements Serializable { ;
         return -1;
     }
     public void displayQuestion(){
-        System.out.println(this.question);
+        System.out.println(getQuestion());
         for(int i = 0 ; i <numChoices;i++){
             System.out.println("["+(i+1)+"] "+answerChoices[i]);
         }
@@ -36,14 +30,16 @@ public class MultipleChoice extends Question implements Serializable { ;
 
     public String saveString(){ //saves the question to a file
         String s;
-        s = "multipleChoice|"+question+"|"+numChoices+"|";
+        s = "multipleChoice|"+getQuestion()+"|"+numChoices+"|";
         for(int i = 0 ; i < answerChoices.length;i++){
             if(i == answerChoices.length-1){
-                s = answerChoices[i];
+                s+= answerChoices[i];
+                break;
             }
             s+=answerChoices[i]+",";
         }
-        s+="|"+correctAnswerIndex+"|"+pointValue;
+        s+="|"+correctAnswerIndex+"|"+getPointValue();
         return s;
     }
 }
+
