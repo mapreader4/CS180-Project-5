@@ -93,8 +93,26 @@ public class Submission {
         return needToBeSubmitted;
     }
 
-    public void SubmissionReport(){
+    public void SubmissionReport(Object[][] needToBeSubmitted,Scanner scanner){
+        System.out.println("Enter the file path:");
+        String filepath = scanner.nextLine();
+        try(PrintWriter pw =new PrintWriter(new FileWriter(filepath))){
+            pw.println(student.getUsername()+": "+ quizz.getName());
+            for(int i=0;i<needToBeSubmitted.length;i++){
+                if(needToBeSubmitted[i][0].getClass()==FillInTheBlank.class){
+                    FillInTheBlank temp = (FillInTheBlank) needToBeSubmitted[i][0];
+                    pw.print("Question: "+i+". ");
+                    pw.println(temp.getQuestion());
+                    pw.print("Answer: "+i+". ");
+                    pw.println(temp.getAnswer());
+                    pw.println("Your answer: "+ ((String)needToBeSubmitted[i][1]));
 
+                }
+            }
+        } catch(IOException e){
+            e.printStackTrace();
+            return;
+        }
     }
     public void TeacherGradingSubmission(String relevantInfo){
         // can quiz have a course instance field so that the quiz can be traced back to the teacher through the course
