@@ -29,6 +29,20 @@ public class Teacher extends User {
             courses.add(new Course(this, courseNumber, students, quizzes));
         }
     }
+    
+    public void addCourse(Course c) {
+        boolean alreadyThere = false;
+        for (Course cs : courses) {
+            if (c.equals(cs)) {
+                alreadyThere = true;
+            }
+        }
+        
+        if (!alreadyThere) {
+            courses.add(c);
+        }
+    }   
+                
 
     public void removeCourse(int courseNumber) {
         for (Course c : courses) {
