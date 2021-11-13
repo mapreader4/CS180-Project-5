@@ -102,5 +102,9 @@ public class Student extends User {
     
     public Course getCourse(int i) {
         return courses.get(i);
+    }
+    
+    public void addSubmission(Submssion s) {
+        submissions.add(s);
     }    
 }
