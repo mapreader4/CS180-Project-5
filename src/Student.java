@@ -16,6 +16,7 @@ public class Student extends User {
     private ArrayList<Double> grades;
     private ArrayList<Quiz> quizzesTaken;
     private ArrayList<Quiz> quizzesTakenWithScores;
+    private ArrayList<Submission> submissions;
 
     public Student(String username, String password) {
         super(username, password, false);
