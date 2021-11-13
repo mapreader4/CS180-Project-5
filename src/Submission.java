@@ -1,17 +1,17 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Random;
 
 public class Submission {
     Student student;
     Quiz quizz;
-    int uniqueId;
-    public Submission(Student student, Quiz quizz, int uniqueId){
+    String name;
+    public Submission(Student student, Quiz quizz){
         this.student=student;
         this.quizz=quizz;
-        this.uniqueId=uniqueId;
     }
-    public Object[][] takingTheQuiz(Scanner scanner) {
+    public Object[][] takeQuiz(Scanner scanner) {
         Object[][] needToBeSubmitted = new Object[quizz.getQuiz().size()][2];
         String studentAnswer;
         for (int i = 0; i < quizz.getQuiz().size(); i++) {
@@ -94,8 +94,8 @@ public class Submission {
     }
 
     public void SubmissionReport(Object[][] needToBeSubmitted,Scanner scanner){
-        System.out.println("Enter the file path:");
-        String filepath = scanner.nextLine();
+
+        String filepath = createsNewFile();
         try(PrintWriter pw =new PrintWriter(new FileWriter(filepath))){
             pw.println(student.getUsername()+": "+ quizz.getName());
             for(int i=0;i<needToBeSubmitted.length;i++){
@@ -106,19 +106,20 @@ public class Submission {
                     pw.print("Answer: "+i+". ");
                     pw.println(temp.getAnswer());
                     pw.println("Your answer: "+ ((String)needToBeSubmitted[i][1]));
-
                 }
             }
         } catch(IOException e){
             e.printStackTrace();
             return;
         }
+        student.addSubmission(this);
     }
-    public void TeacherGradingSubmission(String relevantInfo){
-        // can quiz have a course instance field so that the quiz can be traced back to the teacher through the course
-        // can teacher have a method that grades questions when the question Object and actual answer are in an arraylist.
+    public String createsNewFile(){
+        Random a=new Random();
+        String filepath="Submission"+a.nextInt(10000);
+        this.name=name;
+        return filepath;
     }
-
     public String readingTheAnswerFromFile(Scanner scanner) {
         String studentAnswer = "";
         try {
