@@ -22,11 +22,11 @@ public class Student extends User {
         super(username, password, false);
     }
 
-    public void addToCourse(String course, String courseFilePath) {
+    public void addToCourse(Course course, String courseFilePath) {
         boolean exists = false;
         boolean alreadyThere = false;
 
-        for (String c : courses) {
+        for (Course c : courses) {
             if (c.equals(course)) {
                 alreadyThere = true;
             }
@@ -53,6 +53,10 @@ public class Student extends User {
         }
 
     }
+    
+    public void addToCourse(Course c) {
+        courses.add(course);
+    }    
 
     public void addGradePlusQuiz(Quiz quiz, double grade) {
         quizzesTakenWithScores.add(quiz);
