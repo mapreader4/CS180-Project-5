@@ -2,6 +2,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+//TODO: perform final review on Menu.java to ensure all functionalities are present
+
 /**
  * The class containing the main menu and supporting methods.
  *
@@ -313,6 +315,8 @@ public class Menu {
             e.printStackTrace();
         }
     }
+
+    //TODO: add closeCourse() method
 
     /**
      * a menu for creating a course
