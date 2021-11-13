@@ -1,5 +1,12 @@
 import java.util.ArrayList;
 
+/**
+ * Teacher Class
+ *
+ *@author Aditya Menon (add your name if you implemented any functionality)
+ *@version Nov 13, 2021
+ */
+
 public class Teacher extends User {
 
     private ArrayList<Course> courses; //list of courses created by teacher
