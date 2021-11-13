@@ -46,8 +46,9 @@ public class Menu {
             "3. Quit";
     private static final String studentCourseOptionsMessage = "Course Menu Options:\n" +
             "1. Take quiz\n" +
-            "2. Remove course\n" +
-            "3. Return to main menu";
+            "2. View previously taken quizzes\n" +
+            "3. Remove course\n" +
+            "4. Return to main menu";
     private static final String exitMessage = "Thank you for using the Online Quiz Navigator!";
     private static final String notValidMessage = "That is not a valid option. Please try again.";
     private static final String cannotBeBlank = "This field cannot be blank. Please try again.";
@@ -306,7 +307,7 @@ public class Menu {
     private static void teacherCourseMenu(Scanner scanner, Teacher teacher, Course course) {
         while (true) {
             System.out.println(course.getCourseName());
-            int actionChoice = getIntegerFromScanner(scanner, teacherCourseOptionsMessage, 1, 5, true);
+            int actionChoice = getIntegerFromScanner(scanner, teacherCourseOptionsMessage, 1, 6, true);
             if (actionChoice == 6) {
                 return;
             } else if (actionChoice == 5) {
@@ -447,7 +448,28 @@ public class Menu {
      * @param course the course being viewed
      */
     private static void studentCourseMenu(Scanner scanner, Student student, Course course) {
-        //TODO: implement this!
+        while (true) {
+            System.out.println(course.getCourseName());
+            int actionChoice = getIntegerFromScanner(scanner, studentCourseOptionsMessage, 1, 4, true);
+            if (actionChoice == 4) {
+                return;
+            } else if (actionChoice == 3) {
+                int courseNumber = course.getCourseNumber();
+                student.removeCourse(courseNumber);
+                System.out.println("Course removed!");
+                return;
+            } else if (actionChoice == 1) {
+                ArrayList<Quiz> quizzes = course.getQuizzes();
+                System.out.println("Here is a list of your quizzes:");
+                for (int i = 0; i < quizzes.size(); i++) {
+                    Quiz quiz = quizzes.get(i);
+                    System.out.println(i + ": " + quiz.getName());
+                }
+                System.out.println("Please enter of the quiz you want to take.");
+                int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", 1, quizzes.size(), false);
+                Quiz quiz = quizzes.get(quizNumber);
+            }
+        }
     }
 
     /**
