@@ -36,8 +36,7 @@ public class Menu {
             "3. Delete quiz\n" +
             "4. View quiz submissions\n" +
             "5. Change course name\n" +
-            "6. Remove course\n" +
-            "7. Return to main menu";
+            "6. Return to main menu";
     private static final String quizInputMethodMessage = "Do you want to import the quiz as a file " +
             "or enter it through the terminal?\n" +
             "1. Import as file\n" +
@@ -50,8 +49,7 @@ public class Menu {
     private static final String studentCourseOptionsMessage = "Course Menu Options:\n" +
             "1. Take quiz\n" +
             "2. View previously taken quizzes\n" +
-            "3. Remove course\n" +
-            "4. Return to main menu";
+            "3. Return to main menu";
     private static final String exitMessage = "Thank you for using the Online Quiz Navigator!";
     private static final String notValidMessage = "That is not a valid option. Please try again.";
     private static final String cannotBeBlank = "This field cannot be blank. Please try again.";
@@ -280,13 +278,8 @@ public class Menu {
     private static void teacherCourseMenu(Scanner scanner, Teacher teacher, Course course, CourseList courseList) {
         while (true) {
             System.out.println(course.getCourseName());
-            int actionChoice = getIntegerFromScanner(scanner, teacherCourseOptionsMessage, 1, 7, true);
-            if (actionChoice == 7) {
-                break;
-            } else if (actionChoice == 6) {
-                int courseNumber = course.getCourseNumber();
-                teacher.removeCourse(courseNumber);
-                System.out.println("Course removed!");
+            int actionChoice = getIntegerFromScanner(scanner, teacherCourseOptionsMessage, 1, 6, true);
+            if (actionChoice == 6) {
                 break;
             } else if (actionChoice == 1) {
                 Quiz quiz = null;
@@ -483,13 +476,8 @@ public class Menu {
     private static void studentCourseMenu(Scanner scanner, Student student, Course course, CourseList courseList) {
         while (true) {
             System.out.println(course.getCourseName());
-            int actionChoice = getIntegerFromScanner(scanner, studentCourseOptionsMessage, 1, 4, true);
-            if (actionChoice == 4) {
-                break;
-            } else if (actionChoice == 3) {
-                int courseNumber = course.getCourseNumber();
-                student.removeCourse(course);
-                System.out.println("Course removed!");
+            int actionChoice = getIntegerFromScanner(scanner, studentCourseOptionsMessage, 1, 3, true);
+            if (actionChoice == 3) {
                 break;
             } else if (actionChoice == 1) {
                 ArrayList<Quiz> quizzes = course.getQuizzes();
