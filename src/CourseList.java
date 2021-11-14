@@ -18,6 +18,18 @@ public class CourseList implements Serializable{
         courses.add(course);
         return true;
     }
+    public boolean updateCourses(Course course){
+        if(!exists(course)){
+            return false;
+        }
+        for(int i=0;i<courses.size();i++) {
+            if(course.getCourseNumber()==courses.get(i).getCourseNumber()){
+                courses.set(i,course);
+                return true;
+            }
+        }
+        return false;
+    }
 
     public void saveToFile(){
         if(courses==null || courses.size()==0){
