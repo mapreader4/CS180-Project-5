@@ -117,5 +117,19 @@ public class Student extends User {
     
     public void addSubmission(Submission s) {
         submissions.add(s);
-    }    
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "courses=" + courses +
+                ", grades=" + grades +
+                ", quizzesTaken=" + quizzesTaken +
+                ", quizzesTakenWithScores=" + quizzesTakenWithScores +
+                ", submissions=" + submissions +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", isTeacher=" + isTeacher +
+                '}';
+    }
 }
