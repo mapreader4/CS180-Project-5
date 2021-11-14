@@ -341,8 +341,8 @@ public class Menu {
                     ArrayList<Course> courses = student.getCourses();
                     System.out.println("Here is a list of your courses:");
                     for (int i = 0; i < courses.size(); i++) {
-                        Course course = courses.get(i);
-                        System.out.println(course.getCourseNumber() + ": " + course.getCourseName());
+                        Course currentCourse = courses.get(i);
+                        System.out.println(currentCourse.getCourseNumber() + ": " + currentCourse.getCourseName());
                     }
                     System.out.println("Please enter the number of the course you want to access.");
                     int courseNumber = getIntegerFromScanner(scanner, "Course Number: ", 0, 999999, false);
