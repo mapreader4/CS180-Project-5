@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * User Class
@@ -33,6 +34,28 @@ public class User implements Serializable {
 
     public boolean isTeacher() {
         return isTeacher;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return (user.getUsername().equals(username) && user.isTeacher()==isTeacher);
+    }
+    public static void testEquals(){
+        User a=new User("jay","mehta",true);
+        User b=new User("j","m",true);
+        User c=new User("jay","mehta",true);
+        User d=new User("jay","mehta",false);
+
+        System.out.println(a.equals(b) + " jay and j both teacher");
+        System.out.println(a.equals(c) + "jay and jay both teacher");
+        System.out.println(a.equals(d) + " jay and jay one student and one teacher");
+    }
+
+    public static void main(String[] args) {
+        testEquals();
     }
 
 }

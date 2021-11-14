@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Teacher Class
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  *@version Nov 13, 2021
  */
 
-public class Teacher extends User {
+public class Teacher extends User{
 
     private ArrayList<Course> courses=new ArrayList<>(); //list of courses created by teacher
 
@@ -71,5 +72,15 @@ public class Teacher extends User {
             }
         }    
         return null;     
-    }    
+    }
+
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "courses=" + courses +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", isTeacher=" + isTeacher +
+                '}';
+    }
 }
