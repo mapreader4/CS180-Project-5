@@ -121,7 +121,7 @@ public class Course implements Serializable{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Course course = (Course) o;
-        return getCourseNumber() == course.getCourseNumber() && Objects.equals(getTeacher(), course.getTeacher()) && Objects.equals(getStudents(), course.getStudents()) && Objects.equals(getQuizzes(), course.getQuizzes()) && Objects.equals(getCourseName(),course.getCourseName());
+        return (getCourseNumber() == course.getCourseNumber());
     }
 
 }
