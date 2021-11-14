@@ -45,7 +45,7 @@ public class TeacherList implements Serializable{
 
     public Teacher findTeacher(String username, String password){
         for(int i=0;i<teachers.size();i++){
-            if(teachers.get(i).getUsername().equals(username)){
+            if(teachers.get(i).getUsername().equals(username) && teachers.get(i).getPassword().equals(password)){
                 return teachers.get(i);
             }
         }

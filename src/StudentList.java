@@ -8,6 +8,7 @@ public class StudentList implements Serializable{
     public boolean exists(Student student){
         return students.contains(student);
     }
+
     public boolean add(Student student){
         if(students.contains(student)) {
             return false; //already contains this
@@ -49,6 +50,15 @@ public class StudentList implements Serializable{
         }
         throw new RuntimeException();
     }
+
+    public Student findStudent(String username, String password){
+        for(int i=0;i<students.size();i++){
+            if(students.get(i).getUsername().equals(username) && students.get(i).getPassword().equals(password)){
+                return students.get(i);
+            }
+        }
+        return null;
+    }
 //    public static void main(String[] args) {
 //        StudentList t=readFromFile();
 //        System.out.println(t.students + " does it read from file");
@@ -57,8 +67,8 @@ public class StudentList implements Serializable{
 //        Student student2=new Student("jay","mehta");
 //        System.out.println(t.add(student2)+"should return true");
 //        Teacher Student2=new Teacher("jay", "mehta");
-//        System.out.println(t.add(teacher2) +"should return true");
-//        System.out.println(t.teachers);
+//        System.out.println(t.add(student2) +"should return true");
+//        System.out.println(t.students);
 //        System.out.println(t.exists(student2) + "should return true");
 //        t.saveToFile();
 //
