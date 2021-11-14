@@ -10,7 +10,7 @@ import java.util.Objects;
 
 public class Teacher extends User{
 
-    private ArrayList<Course> courses=new ArrayList<>(); //list of courses created by teacher
+    private ArrayList<Course> courses = new ArrayList<Course>(); //list of courses created by teacher
 
     public Teacher (String username, String password) {
 
