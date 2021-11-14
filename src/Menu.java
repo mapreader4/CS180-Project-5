@@ -318,7 +318,7 @@ public class Menu {
                 course.setCourseName(courseName);
             }
         }
-        courseList.updateCourses(course);
+        courseList.update(course);
     }
 
     /**
@@ -426,10 +426,10 @@ public class Menu {
                 System.out.println("Please enter the number of the submission you want to view.");
                 int submissionNumber = getIntegerFromScanner(scanner, "Submission Number: ", 1, submissions.size(), false);
                 Submission submission = submissions.get(submissionNumber);
-                submission.view(scanner);
+                submission.view(scanner, submissionNumber);
             }
         }
-        courseList.updateCourses(course);
+        courseList.update(course);
     }
 
     /**
