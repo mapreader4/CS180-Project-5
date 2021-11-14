@@ -8,7 +8,6 @@ public class CourseList {
     public ArrayList<Course> getCourses() {
         return courses;
     }
-
     public boolean exists(Course course){
         return courses.contains(courses);
     }
