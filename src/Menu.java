@@ -401,6 +401,9 @@ public class Menu {
                 break;
             } else if (addOrExistingCourseChoice == 1) {
                 course = addCourseMenu(scanner, student, courseList);
+                if (course == null) {
+                    System.out.println(notValidMessage);
+                }
             } else if (addOrExistingCourseChoice == 2) {
                 do {
                     ArrayList<Course> courses = student.getCourses();
@@ -453,7 +456,7 @@ public class Menu {
             System.out.println(currentCourse.getCourseNumber() + ": " + currentCourse.getCourseName());
         }
 
-        System.out.println("Please enter the course number of the course you want to add.");
+        System.out.println("Please enter the number of the course you want to add.");
         int courseNumber = getIntegerFromScanner(scanner, "Course Number: ", 0, 999999, false);
         for (int i = 0; i < courses.size(); i++) {
             if (courses.get(i).getCourseNumber() == courseNumber) {
