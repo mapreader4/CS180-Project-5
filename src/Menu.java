@@ -305,7 +305,7 @@ public class Menu {
                     Quiz quiz = quizzes.get(i);
                     System.out.println(i + ": " + quiz.getName());
                 }
-                System.out.println("Please enter of the quiz you want to edit.");
+                System.out.println("Please enter the number of the quiz you want to edit.");
                 int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", 0, quizzes.size(), false);
                 Quiz quiz = quizzes.get(quizNumber);
                 quiz.editQuiz(scanner);
@@ -316,7 +316,7 @@ public class Menu {
                     Quiz quiz = quizzes.get(i);
                     System.out.println(i + ": " + quiz.getName());
                 }
-                System.out.println("Please enter of the quiz you want to delete.");
+                System.out.println("Please enter the number of the quiz you want to delete.");
                 int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", 0, quizzes.size(), false);
                 Quiz quiz = quizzes.get(quizNumber);
                 if (course.removeQuiz(quiz)) {
@@ -331,7 +331,7 @@ public class Menu {
                     Quiz quiz = quizzes.get(i);
                     System.out.println(i + ": " + quiz.getName());
                 }
-                System.out.println("Please enter of the quiz you want to delete.");
+                System.out.println("Please enter of the quiz you want to view submissions for.");
                 int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", 0, quizzes.size(), false);
                 Quiz quiz = quizzes.get(quizNumber);
 
@@ -454,7 +454,7 @@ public class Menu {
                     Quiz quiz = quizzes.get(i);
                     System.out.println(i + ": " + quiz.getName());
                 }
-                System.out.println("Please enter of the quiz you want to take.");
+                System.out.println("Please enter the number of the quiz you want to take.");
                 int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", 0, quizzes.size(), false);
                 Quiz quiz = quizzes.get(quizNumber);
                 Submission submission = new Submission(student, quiz);
