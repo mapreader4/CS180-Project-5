@@ -200,18 +200,34 @@ public class Submission {
         return studentAnswer;
     }
 
-    public void view(Scanner scanner){
+    public void view(Scanner scanner, int submissionNumber){
         ArrayList<Submission> allThePreviousSubmissions= student.getSubmissions();
-        ArrayList<String> namesOfTheSubmissions=new ArrayList<String>();
-        for(int j=0;j< allThePreviousSubmissions.size();j++){
-            namesOfTheSubmissions.add(allThePreviousSubmissions.get(j).getFilename());
-        }
-        do {
-            System.out.println("Which submission do you want to see");
-            String submission=scanner.nextLine();
-            for(int j=0;j< namesOfTheSubmissions.size();j++){
-                if(namesOfTheSubmissions.get(j).equals(submission)){
-                    try(BufferedReader bfr=new BufferedReader(new FileReader(allThePreviousSubmissions.get(j).getFilename()))){
+//        ArrayList<String> namesOfTheSubmissions=new ArrayList<String>();
+//        for(int j=0;j< allThePreviousSubmissions.size();j++){
+//            namesOfTheSubmissions.add(allThePreviousSubmissions.get(j).getFilename());
+//        }
+//        do {
+//            System.out.println("Which submission do you want to see");
+//            String submission=scanner.nextLine();
+//            for(int j=0;j< namesOfTheSubmissions.size();j++){
+//                if(namesOfTheSubmissions.get(j).equals(submission)){
+//                    try(BufferedReader bfr=new BufferedReader(new FileReader(allThePreviousSubmissions.get(j).getFilename()))){
+//                        String line=bfr.readLine();
+//                        while(line!=null){
+//                            System.out.println(line);
+//                            line=bfr.readLine();
+//                        }
+//                        break;
+//                    } catch(IOException e){
+//                        System.out.println("There was an error reading from the file.");
+//                    }
+//                }
+//                System.out.println("The name you entered for the submission was wrong. Enter again");
+//            }
+//        } while(true);
+        for(int i=0;i< allThePreviousSubmissions.size();i++){
+            if(i==submissionNumber){
+                try(BufferedReader bfr=new BufferedReader(new FileReader(allThePreviousSubmissions.get(i).getFilename()))){
                         String line=bfr.readLine();
                         while(line!=null){
                             System.out.println(line);
@@ -220,11 +236,10 @@ public class Submission {
                         break;
                     } catch(IOException e){
                         System.out.println("There was an error reading from the file.");
+                        throw new RuntimeException();
                     }
-                }
-                System.out.println("The name you entered for the submission was wrong. Enter again");
             }
-        } while(true);
+        }
     }
 
 }

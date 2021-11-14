@@ -9,7 +9,7 @@ public class CourseList implements Serializable{
         return courses;
     }
     public boolean exists(Course course){
-        return courses.contains(courses);
+        return courses.contains(course);
     }
     public boolean add(Course course){
         if(courses.contains(course)) {
@@ -18,7 +18,7 @@ public class CourseList implements Serializable{
         courses.add(course);
         return true;
     }
-    public boolean updateCourses(Course course){
+    public boolean update(Course course){
         if(!exists(course)){
             return false;
         }
