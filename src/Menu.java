@@ -273,7 +273,7 @@ public class Menu {
      * @param teacher the account using the program
      * @return the course that was generated
      */
-    private static Course createCourseMenu(Scanner scanner, Teacher teacher) throws IOException{
+    private static Course createCourseMenu(Scanner scanner, Teacher teacher, CourseList courseList) throws IOException{
         Course course = null;
         boolean courseAlreadyExists = false;
         do {
@@ -285,6 +285,7 @@ public class Menu {
             courseAlreadyExists = addCourseToFile(course, coursesFile);
         } while (courseAlreadyExists);
         teacher.addCourse(course);
+        courseList.add(course);
         return course;
     }
 
@@ -294,14 +295,14 @@ public class Menu {
      * @param scanner used for getting user input
      * @param teacher the account using the program
      */
-    private static void teacherMenu(Scanner scanner, Teacher teacher) throws IOException{
+    private static void teacherMenu(Scanner scanner, Teacher teacher, CourseList courseList) throws IOException{
         while (true) {
-            Course currentCourse = null;
+            Course course = null;
             int createOrEditCourseChoice = getIntegerFromScanner(scanner, createOrEditCourseMessage, 1, 3, true);
             if (createOrEditCourseChoice == 3) {
                 break;
             } else if (createOrEditCourseChoice == 1) {
-                currentCourse = createCourseMenu(scanner, teacher);
+                course = createCourseMenu(scanner, teacher, courseList);
             } else if (createOrEditCourseChoice == 2) {
                 do {
                     ArrayList<Course> courses = teacher.getCourses();
@@ -316,13 +317,13 @@ public class Menu {
                     }
                     System.out.println("Please enter the number of the course you want to access.");
                     int courseNumber = getIntegerFromScanner(scanner, "Course Number: ", 0, 999999, false);
-                    currentCourse = teacher.getCourse(courseNumber);
-                    if (currentCourse == null) {
+                    course = teacher.getCourse(courseNumber);
+                    if (course == null) {
                         System.out.println(notValidMessage);
                     }
-                } while (currentCourse == null);
+                } while (course == null);
             }
-            teacherCourseMenu(scanner, teacher, currentCourse);
+            teacherCourseMenu(scanner, teacher, course);
         }
     }
 
@@ -403,14 +404,14 @@ public class Menu {
      * @param scanner used for getting user input
      * @param student the account using the program
      */
-    private static void studentMenu(Scanner scanner, Student student) {
+    private static void studentMenu(Scanner scanner, Student student, CourseList courseList) {
         while (true) {
-            Course currentCourse = null;
+            Course course = null;
             int addOrExistingCourseChoice = getIntegerFromScanner(scanner, addOrExistingCourseMessage, 1, 3, true);
             if (addOrExistingCourseChoice == 3) {
                 break;
             } else if (addOrExistingCourseChoice == 1) {
-                currentCourse = addCourseMenu(scanner, student);
+                course = addCourseMenu(scanner, student, courseList);
             } else if (addOrExistingCourseChoice == 2) {
                 do {
                     ArrayList<Course> courses = student.getCourses();
@@ -421,13 +422,13 @@ public class Menu {
                     }
                     System.out.println("Please enter the number of the course you want to access.");
                     int courseNumber = getIntegerFromScanner(scanner, "Course Number: ", 0, 999999, false);
-                    currentCourse = student.getCourse(courseNumber);
-                    if (currentCourse == null) {
+                    course = student.getCourse(courseNumber);
+                    if (course == null) {
                         System.out.println(notValidMessage);
                     }
-                } while (currentCourse == null);
+                } while (course == null);
             }
-            studentCourseMenu(scanner, student, currentCourse);
+            studentCourseMenu(scanner, student, course);
         }
     }
 
@@ -438,25 +439,12 @@ public class Menu {
      * @param student the user adding the course
      * @return the course to add, null the course selected does not exist
      */
-    private static Course addCourseMenu(Scanner scanner, Student student) {
+    private static Course addCourseMenu(Scanner scanner, Student student, CourseList courseList) {
         System.out.println("Here is a list of courses you could add:");
-        ArrayList<Course> courses = new ArrayList<Course>();
-
-        File file = new File(coursesFile);
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-            Object currentObject;
-            int i = 0;
-            while ((currentObject = ois.readObject()) != null) {
-                Course currentCourse = (Course) currentObject;
-                courses.add(currentCourse);
-                System.out.println(currentCourse.getCourseNumber() + ": " + currentCourse.getCourseName());
-            }
-        } catch (FileNotFoundException e) {
-            return null;
-        } catch (IOException e) {
-            return null;
-        } catch (ClassNotFoundException e) {
-            return null;
+        ArrayList<Course> courses = courseList.getCourses();
+        for (int i = 0; i < courses.size(); i++) {
+            Course currentCourse = courses.get(i);
+            System.out.println(currentCourse.getCourseNumber() + ": " + currentCourse.getCourseName());
         }
 
         System.out.println("Please enter the course number of the course you want to add.");
@@ -533,6 +521,7 @@ public class Menu {
         Scanner scanner = new Scanner(System.in);
         TeacherList teacherList = TeacherList.readFromFile();
         StudentList studentList = StudentList.readFromFile();
+        CourseList courseList = CourseList.readFromFile();
 
         try {
             System.out.println(welcomeMessage);
@@ -541,20 +530,18 @@ public class Menu {
                 //null user indicates user has quit on login menu
             } else if (user instanceof Teacher) {
                 Teacher teacher = (Teacher) user;
-                teacherMenu(scanner, teacher);
+                teacherMenu(scanner, teacher, courseList);
             } else if (user instanceof Student) {
                 Student student = (Student) user;
-                studentMenu(scanner, student);
+                studentMenu(scanner, student, courseList);
             }
             System.out.println(exitMessage);
-
-            teacherList.saveToFile();
-            studentList.saveToFile();
         } catch (Exception e) {
-            throw new Exception();
+            throw e;
         } finally {
             teacherList.saveToFile();
             studentList.saveToFile();
+            courseList.saveToFile();
         }
     }
 }
