@@ -47,7 +47,7 @@ public class Submission {
                 int option;
                 do {
                     option = scanner.nextInt();
-                    if (option > 1 || option < 0) {
+                    if (option > 2 || option < 1) {
                         System.out.println("Invalid input, try again");
                         continue;
                     }
@@ -56,6 +56,7 @@ public class Submission {
                 if (option == 1) {
                     studentAnswer = readingTheAnswerFromFile(scanner);
                     if (studentAnswer == null) {
+                        System.out.println("You submitted an invalid file for the answer");
                         return false;
                     }
                 } else {
@@ -80,6 +81,7 @@ public class Submission {
                 if (option == 1) {
                     studentAnswer = readingTheAnswerFromFile(scanner);
                     if (studentAnswer == null) {
+                        System.out.println("You submitted an invalid file for the answer");
                         return false;
                     }
                 } else {
@@ -104,7 +106,7 @@ public class Submission {
                 if (option == 1) {
                     studentAnswer = readingTheAnswerFromFile(scanner);
                     if (studentAnswer == null) {
-                        return false;
+                        System.out.println("You submitted an invalid file for the answer");
                     }
                 } else {
                     System.out.println("Your answer:");
@@ -240,6 +242,17 @@ public class Submission {
                     }
             }
         }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner=new Scanner(System.in);
+        Teacher teacher =new Teacher("j","m");
+        Student student=new Student("jay","mehta");
+        Course a=new Course("cs",teacher,3);
+        Quiz q=new Quiz(scanner,a);
+        Submission s=new Submission(student, q);
+        s.takeQuiz(scanner);
+
     }
 
 }
