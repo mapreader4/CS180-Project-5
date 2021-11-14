@@ -272,7 +272,7 @@ public class Menu {
     private static void teacherCourseMenu(Scanner scanner, Teacher teacher, Course course, CourseList courseList) {
         while (true) {
             System.out.println(course.getCourseName());
-            int actionChoice = getIntegerFromScanner(scanner, teacherCourseOptionsMessage, 1, 6, true);
+            int actionChoice = getIntegerFromScanner(scanner, teacherCourseOptionsMessage, 1, 7, true);
             if (actionChoice == 7) {
                 break;
             } else if (actionChoice == 6) {
