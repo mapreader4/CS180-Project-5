@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
+ * Online Quiz Navigator - Menu
+ *
  * The class containing the main menu and supporting methods.
  *
  * @author Nathan Reed (mostly, add your name if you edit this part of the project)
