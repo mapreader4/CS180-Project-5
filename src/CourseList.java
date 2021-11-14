@@ -5,6 +5,10 @@ public class CourseList {
     public static final String FILENAME="courseList.ser";
     private ArrayList<Course> courses=new ArrayList<>();
 
+    public ArrayList<Course> getCourses() {
+        return courses;
+    }
+
     public boolean exists(Course course){
         return courses.contains(courses);
     }
@@ -15,6 +19,7 @@ public class CourseList {
         courses.add(course);
         return true;
     }
+
     public void saveToFile(){
         if(courses==null || courses.size()==0){
             return; // nothing to save
