@@ -401,10 +401,10 @@ public class Menu {
                 if (quizInputMethod == 1) {
                     do {
                         String filename = FileImports.prompt();
-                        quiz = new Quiz(filename);
+                        quiz = new Quiz(filename, scanner, course);
                     } while (quiz == null);
                 } else if (quizInputMethod == 2) {
-                    quiz = new Quiz(scanner, course);
+                    quiz = new Quiz(scanner,course);
                 }
 
                 if (course.addQuiz(quiz)) {

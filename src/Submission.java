@@ -1,5 +1,7 @@
 import java.io.*;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 import java.util.Random;
 
@@ -7,9 +9,25 @@ public class Submission {
     Student student;
     Quiz quizz;
     String name;
+    Timestamp timestamp;
+
     public Submission(Student student, Quiz quizz){
         this.student=student;
         this.quizz=quizz;
+        Date date =new Date();
+        Timestamp ts = new Timestamp(date.getTime());
+        this.timestamp=ts;
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
+    public Course getCourse(){
+        return this.quizz.getCourse();
+    }
+    public Quiz getQuiz(){
+        return quizz;
     }
     public boolean takeQuiz(Scanner scanner) {
         Object[][] needToBeSubmitted = new Object[quizz.getQuiz().size()][2];
@@ -169,6 +187,9 @@ public class Submission {
             return null;
         }
         return studentAnswer;
+    }
+    public void view(){
+
     }
 
 }

@@ -10,14 +10,21 @@ public class Quiz implements Serializable {
     private ArrayList<Question> quiz = new ArrayList<Question>();
     private String pathway;
     private String name;
+    private Course course;
 
-    public Quiz(Scanner scanner){ //create Quiz within the Quiz Class
+
+
+    public Quiz(Scanner scanner, Course course){ //create Quiz within the Quiz Class
         creatQuizByInputIndividually(scanner);
+        this.course=course;
     }
-    public Quiz(Scanner scanner,boolean temp){
-        String filePath=FileImports.prompt();
-        ArrayList<String> questionList=FileImports.readFile(filePath);
+    public Quiz(String fileName,Scanner scanner, Course course){
+        ArrayList<String> questionList=FileImports.readFile(fileName);
         createQuizFromFile(questionList, scanner);
+        this.course=course;
+    }
+    public Course getCourse(){
+        return course;
     }
     public void createQuizFromFile(ArrayList<String> questionList, Scanner scanner){
         for(int i=1; i<questionList.size();i++){
