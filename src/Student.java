@@ -12,12 +12,15 @@ import java.util.ArrayList;
 
 public class Student extends User {
 
-    private ArrayList<String> courses;
+    private ArrayList<Course> courses;
     private ArrayList<Double> grades;
     private ArrayList<Quiz> quizzesTaken;
     private ArrayList<Quiz> quizzesTakenWithScores;
     private ArrayList<Submission> submissions;
 
+    public ArrayList<Submission> getSubmissions(){
+        return submissions;
+    }
     public Student(String username, String password) {
         super(username, password, false);
     }
@@ -55,8 +58,12 @@ public class Student extends User {
     }
     
     public void addToCourse(Course c) {
-        courses.add(course);
-    }    
+        courses.add(c);
+    }
+
+    public void removeCourse(Course course){
+        courses.remove(course);
+    }
 
     public void addGradePlusQuiz(Quiz quiz, double grade) {
         quizzesTakenWithScores.add(quiz);
@@ -67,7 +74,7 @@ public class Student extends User {
         String s = "";
         if (quizzesTakenWithScores.size() > 0) {
             for (int i = 0; i < quizzesTakenWithScores.size(); i++) {
-                s += quizzes.get(i).getName + ": " + grades.get(i) + "\n";
+                s += quizzesTakenWithScores.get(i).getName() + ": " + grades.get(i) + "\n";
             }
             return s;
         } else {
@@ -79,7 +86,7 @@ public class Student extends User {
         String s = "";
         if (quizzesTaken.size() > 0) {
             for (int i = 0; i < quizzesTaken.size(); i++) {
-                s += quizzesTaken.get(i).getName + "\n";
+                s += quizzesTaken.get(i).getName() + "\n";
             }
             return s;
         } else {
@@ -94,7 +101,7 @@ public class Student extends User {
     public String showStringCourses() {
         String s = "Courses: \n";
         for (int i = 0; i < courses.size(); i++) {
-            s += courses.get(i).getName() + "\n";
+            s += courses.get(i).getCourseName() + "\n";
         }
         
         return s;
@@ -108,7 +115,7 @@ public class Student extends User {
         return courses.get(i);
     }
     
-    public void addSubmission(Submssion s) {
+    public void addSubmission(Submission s) {
         submissions.add(s);
     }    
 }

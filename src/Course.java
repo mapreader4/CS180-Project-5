@@ -4,29 +4,31 @@ import java.util.Objects;
 
 
 public class Course implements Serializable{
+
     private String courseName;
-    private String filename;
     private Teacher teacher;
     private int courseNumber;
     private ArrayList<Student> students;
     private ArrayList<Quiz> quizzes;
-    public Course(String courseName,String filename,Teacher teacher, int courseNumber, ArrayList<Student> students, ArrayList<Quiz> quizzes){
-        this(courseName,teacher,courseNumber);
-        this.filename=filename;
-        this.students=students;
-        this.quizzes=quizzes;
 
-    }
+//    public Course(String courseName,String filename,Teacher teacher, int courseNumber, ArrayList<Student> students, ArrayList<Quiz> quizzes){
+//        this(courseName,teacher,courseNumber);
+//        this.filename=filename;
+//        this.students=students;
+//        this.quizzes=quizzes;
+//
+//    }
+
     public Course(String courseName, Teacher teacher, int courseNumber){
-        try (ObjectOutputStream pw=new ObjectOutputStream(new FileOutputStream(new File(Menu.coursesFile),true))){
-            pw.writeObject(this);
-        } catch(FileNotFoundException e){
-            System.out.println("No file found");
-            return;
-        } catch (IOException e){
-            e.printStackTrace();
-            return;
-        }
+//        try (ObjectOutputStream pw=new ObjectOutputStream(new FileOutputStream(new File(Menu.coursesFile),true))){
+//            pw.writeObject(this);
+//        } catch(FileNotFoundException e){
+//            System.out.println("No file found");
+//            return;
+//        } catch (IOException e){
+//            e.printStackTrace();
+//            return;
+//        }
         this.courseName=courseName;
         this.teacher=teacher;
         this.courseNumber=courseNumber;
@@ -34,9 +36,7 @@ public class Course implements Serializable{
         this.quizzes=new ArrayList<Quiz>();
 
     }
-    public String getFilename(){
-        return this.filename;
-    }
+
     public String getCourseName(){
         return this.courseName;
     }
@@ -86,6 +86,7 @@ public class Course implements Serializable{
         quizzes.add(quiz);
         return true;
     }
+
      public boolean removeQuiz(Quiz quiz){
         for(int i=0;i<quizzes.size();i++){
             if(quiz.equals(quizzes.get(i))){
@@ -106,13 +107,21 @@ public class Course implements Serializable{
         return true;
     }
 
+    public boolean removeStudent(Student student){
+        if (students.contains(student)) {
+            students.remove(student);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Course course = (Course) o;
-        return getCourseNumber() == course.getCourseNumber() && Objects.equals(filename, course.filename) && Objects.equals(getTeacher(), course.getTeacher()) && Objects.equals(getStudents(), course.getStudents()) && Objects.equals(getQuizzes(), course.getQuizzes()) && Objects.equals(getCourseName(),course.getCourseName());
+        return getCourseNumber() == course.getCourseNumber() && Objects.equals(getTeacher(), course.getTeacher()) && Objects.equals(getStudents(), course.getStudents()) && Objects.equals(getQuizzes(), course.getQuizzes()) && Objects.equals(getCourseName(),course.getCourseName());
     }
-
 
 }

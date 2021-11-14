@@ -23,6 +23,7 @@ public class Submission {
     public String getFilename(){
         return this.filename;
     }
+
     public Timestamp getTimestamp() {
         return timestamp;
     }
@@ -30,6 +31,7 @@ public class Submission {
     public Course getCourse(){
         return this.quizz.getCourse();
     }
+
     public Quiz getQuiz(){
         return quizz;
     }
@@ -171,12 +173,14 @@ public class Submission {
         }
         student.addSubmission(this);
     }
+
     public String createsNewFile(){
         Random a=new Random();
         String filepath="Submission"+student.getUsername()+a.nextInt(10000);
         this.filename=filepath;
         return filepath;
     }
+
     public String readingTheAnswerFromFile(Scanner scanner) {
         String studentAnswer = "";
         try {
@@ -195,6 +199,7 @@ public class Submission {
         }
         return studentAnswer;
     }
+
     public void view(Scanner scanner){
         ArrayList<Submission> allThePreviousSubmissions= student.getSubmissions();
         ArrayList<String> namesOfTheSubmissions=new ArrayList<String>();

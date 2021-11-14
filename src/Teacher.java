@@ -16,19 +16,19 @@ public class Teacher extends User {
         super(username, password, true);
     }
 
-    public void addCourse(int courseNumber, ArrayList<Student> students, ArrayList<Quiz> quizzes) {
-
-        boolean alreadyThere = false; //ensures no duplicate course is added
-        for (Course c : courses) {
-            if (c.getCourseNumber() == courseNumber) {
-                alreadyThere = true;
-            }
-        }
-
-        if (!alreadyThere) {
-            courses.add(new Course(this, courseNumber, students, quizzes));
-        }
-    }
+//    public void addCourse(int courseNumber, ArrayList<Student> students, ArrayList<Quiz> quizzes) {
+//
+//        boolean alreadyThere = false; //ensures no duplicate course is added
+//        for (Course c : courses) {
+//            if (c.getCourseNumber() == courseNumber) {
+//                alreadyThere = true;
+//            }
+//        }
+//
+//        if (!alreadyThere) {
+//            courses.add(new Course(this, courseNumber));
+//        }
+//    }
     
     public void addCourse(Course c) {
         boolean alreadyThere = false;
@@ -65,7 +65,7 @@ public class Teacher extends User {
     }
     
     public Course getCourse(int i) {
-        for (Cource c : courses) {
+        for (Course c : courses) {
             if (c.getCourseNumber() == i) {
                 return c;
             }

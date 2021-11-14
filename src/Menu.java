@@ -87,7 +87,7 @@ public class Menu {
             if (integerToGet < minValue || integerToGet > maxValue) {
                 System.out.println(notValidMessage);
             }
-        } while (integerToGet < minValue || integerToGet >= maxValue);
+        } while (integerToGet < minValue || integerToGet > maxValue);
         return integerToGet;
     }
 
@@ -394,6 +394,10 @@ public class Menu {
             } else if (createOrEditCourseChoice == 2) {
                 do {
                     ArrayList<Course> courses = teacher.getCourses();
+                    if(courses==null){
+                        System.out.println("There are no courses");
+                        return;
+                    }
                     System.out.println("Here is a list of your courses:");
                     for (int i = 0; i < courses.size(); i++) {
                         Course course = courses.get(i);
@@ -553,7 +557,8 @@ public class Menu {
         for (int i = 0; i < courses.size(); i++) {
             if (courses.get(i).getCourseNumber() == courseNumber) {
                 Course currentCourse = courses.get(i);
-                student.addToCourse(currentCourse, currentCourse.getFilename());
+                student.addToCourse(currentCourse);
+
                 return currentCourse;
             }
         }
@@ -575,7 +580,7 @@ public class Menu {
                 break;
             } else if (actionChoice == 3) {
                 int courseNumber = course.getCourseNumber();
-                student.removeCourse(courseNumber);
+                student.removeCourse(course);
                 System.out.println("Course removed!");
                 break;
             } else if (actionChoice == 1) {
