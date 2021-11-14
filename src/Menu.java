@@ -246,7 +246,7 @@ public class Menu {
                     }
                 } while (course == null);
             }
-            teacherCourseMenu(scanner, teacher, course);
+            teacherCourseMenu(scanner, teacher, course, courseList);
         }
     }
 
@@ -257,7 +257,7 @@ public class Menu {
      * @param teacher the account using the program
      * @param course the course being edited
      */
-    private static void teacherCourseMenu(Scanner scanner, Teacher teacher, Course course) {
+    private static void teacherCourseMenu(Scanner scanner, Teacher teacher, Course course, CourseList courseList) {
         while (true) {
             System.out.println(course.getCourseName());
             int actionChoice = getIntegerFromScanner(scanner, teacherCourseOptionsMessage, 1, 6, true);
@@ -278,7 +278,7 @@ public class Menu {
                         quiz = new Quiz(filename, scanner, course);
                     } while (quiz == null);
                 } else if (quizInputMethod == 2) {
-                    quiz = new Quiz(scanner,course);
+                    quiz = new Quiz(scanner, course);
                 }
 
                 if (course.addQuiz(quiz)) {
@@ -318,6 +318,7 @@ public class Menu {
                 course.setCourseName(courseName);
             }
         }
+        courseList.update(course);
     }
 
     /**
@@ -350,7 +351,7 @@ public class Menu {
                     }
                 } while (course == null);
             }
-            studentCourseMenu(scanner, student, course);
+            studentCourseMenu(scanner, student, course, courseList);
         }
     }
 
@@ -389,7 +390,7 @@ public class Menu {
      * @param student the account accessing the program
      * @param course the course being viewed
      */
-    private static void studentCourseMenu(Scanner scanner, Student student, Course course) {
+    private static void studentCourseMenu(Scanner scanner, Student student, Course course, CourseList courseList) {
         while (true) {
             System.out.println(course.getCourseName());
             int actionChoice = getIntegerFromScanner(scanner, studentCourseOptionsMessage, 1, 4, true);
@@ -428,6 +429,7 @@ public class Menu {
                 submission.view(scanner);
             }
         }
+        courseList.update(course);
     }
 
     /**
