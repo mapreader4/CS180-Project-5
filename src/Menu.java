@@ -8,7 +8,7 @@ import java.util.Scanner;
  * The class containing the main menu and supporting methods.
  *
  * @author Nathan Reed (mostly, add your name if you edit this part of the project)
- * @version November 12, 2021
+ * @version November 14, 2021
  */
 public class Menu {
     private static final String welcomeMessage = "Welcome to the Online Quiz Navigator!";
@@ -128,52 +128,70 @@ public class Menu {
             return null;
         }
 
-        User user = null;
-
         int accountType = getIntegerFromScanner(scanner, teacherOrStudent, 1, 2, true);
 
-        if (loginType == 2) {
-            do {
-                String username = getStringFromScanner(scanner, "Username: ", false);
-                String password = getStringFromScanner(scanner, "Password: ", false);
+        if (accountType == 1) {
+            TeacherList teacherList = TeacherList.readFromFile();
+            Teacher teacher = null;
 
-                try {
-                    if (accountType == 1) {
-                        user = new Teacher(username, password);
-                        addUserToFile(user, teacherAccountsFile);
-                        break;
-                    } else if (accountType == 2) {
-                        user = new Student(username, password);
-                        addUserToFile(user, studentAccountsFile);
-                        break;
+            if (loginType == 2) {
+                do {
+                    String username = getStringFromScanner(scanner, "Username: ", false);
+                    String password = getStringFromScanner(scanner, "Password: ", false);
+                    teacher = new Teacher(username, password);
+                    if (teacherList.add(teacher)) {
+                        System.out.println(accountCreatedMessage);
+                    } else {
+                        teacher = null;
+                        System.out.println(accountAlreadyExistsMessage);
                     }
-                } catch (UserAlreadyExistsException e) {
-                    user = null;
-                    System.out.println(accountAlreadyExistsMessage);
-                }
-            } while (user == null);
-
-            System.out.println(accountCreatedMessage);
-            return user;
-        } else if (loginType == 1) {
-            do {
-                String username = getStringFromScanner(scanner, "Username: ", false);
-                String password = getStringFromScanner(scanner, "Password: ", false);
-
-                try {
-                    if (accountType == 1) {
-                        user = retrieveUserFromFile(username, password, teacherAccountsFile);
-                    } else if (accountType == 2) {
-                        user = retrieveUserFromFile(username, password, studentAccountsFile);
+                } while (teacher == null);
+            } else if (loginType == 1) {
+                do {
+                    String username = getStringFromScanner(scanner, "Username: ", false);
+                    String password = getStringFromScanner(scanner, "Password: ", false);
+                    teacher = teacherList.findTeacher(username, password);
+                    if (teacher == null) {
+                        System.out.println(accountInvalidMessage);
+                    } else {
+                        System.out.println(loggedInMessage);
                     }
-                } catch (UserNotFoundException e) {
-                    user = null;
-                    System.out.println(accountInvalidMessage);
-                }
-            } while (user == null);
+                } while (teacher == null);
+            }
 
-            System.out.println(loggedInMessage);
-            return user;
+            teacherList.saveToFile();
+            return teacher;
+        } else if (accountType == 2) {
+            StudentList studentList = StudentList.readFromFile();
+            Student student = null;
+
+            if (loginType == 2) {
+                do {
+                    String username = getStringFromScanner(scanner, "Username: ", false);
+                    String password = getStringFromScanner(scanner, "Password: ", false);
+                    student = new Teacher(username, password);
+                    if (studentList.add(student)) {
+                        System.out.println(accountCreatedMessage);
+                    } else {
+                        student = null;
+                        System.out.println(accountAlreadyExistsMessage);
+                    }
+                } while (student == null);
+            } else if (loginType == 1) {
+                do {
+                    String username = getStringFromScanner(scanner, "Username: ", false);
+                    String password = getStringFromScanner(scanner, "Password: ", false);
+                    student = studentList.findStudent(username, password);
+                    if (student == null) {
+                        System.out.println(accountInvalidMessage);
+                    } else {
+                        System.out.println(loggedInMessage);
+                    }
+                } while (student == null);
+            }
+
+            studentList.saveToFile();
+            return student;
         } else {
             return null;
         }
