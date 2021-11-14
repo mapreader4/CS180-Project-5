@@ -43,13 +43,30 @@ public class TeacherList implements Serializable{
         throw new RuntimeException();
     }
 
+    public Teacher findTeacher(String username, String password){
+        for(int i=0;i<teachers.size();i++){
+            if(teachers.get(i).getUsername().equals(username)){
+                return teachers.get(i);
+            }
+        }
+        return null;
+    }
+
+//    public static void main(String[] args) {
+//        TeacherList t=readFromFile();
+//        System.out.println(t.teachers);
+//        Teacher teacher=new Teacher("abc","me");
+//        t.add(teacher);
+//        System.out.println(t.findTeacher("abc","me"));
+//        t.saveToFile();
+//    }
 //    public static void main(String[] args) {
 //        TeacherList t=readFromFile();
 //        System.out.println(t.teachers + " does it read from file");
-//        Teacher teacher=new Teacher("j","m");
-//        System.out.println(t.add(teacher) + "should return false");
-//        Teacher teacher2=new Teacher("jay", "mehta");
-//        System.out.println(t.add(teacher2) +"should return true");
+//        Teacher teacher=new Teacher("ja","me");
+//        System.out.println(t.add(teacher) + "should return true");
+//        Teacher teacher2=new Teacher("ja", "mehta");
+//        System.out.println(t.add(teacher2) +"should return false");
 //        System.out.println(t.teachers);
 //        System.out.println(t.exists(teacher) + "should return true");
 //        t.saveToFile();
