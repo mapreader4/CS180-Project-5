@@ -12,11 +12,11 @@ import java.util.ArrayList;
 
 public class Student extends User {
 
-    private ArrayList<Course> courses = new ArrayList<Course>;
-    private ArrayList<Double> grades = new ArrayList<Double>;
-    private ArrayList<Quiz> quizzesTaken = new ArrayList<Quiz>;
-    private ArrayList<Quiz> quizzesTakenWithScores = new ArrayList<Quiz>;
-    private ArrayList<Submission> submissions = new ArrayList<Submission>;
+    private ArrayList<Course> courses = new ArrayList<>();
+    private ArrayList<Double> grades = new ArrayList<>();
+    private ArrayList<Quiz> quizzesTaken = new ArrayList<>();
+    private ArrayList<Quiz> quizzesTakenWithScores = new ArrayList<>();
+    private ArrayList<Submission> submissions = new ArrayList<>();
 
     public ArrayList<Submission> getSubmissions(){
         return submissions;
