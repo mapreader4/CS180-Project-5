@@ -335,7 +335,7 @@ public class Menu {
                 int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", 0, quizzes.size(), false);
                 Quiz quiz = quizzes.get(quizNumber);
 
-                ArrayList<Submission> submissions = quiz.getSubmissions();
+                ArrayList<Submission> submissions = quiz.getSubmission();
                 System.out.println("Here is a list of submissions to this quiz:");
                 for (int i = 0; i < submissions.size(); i++) {
                     Submission submission = submissions.get(i);
