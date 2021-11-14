@@ -305,7 +305,7 @@ public class Menu {
                     System.out.println(i + ": " + quiz.getName());
                 }
                 System.out.println("Please enter of the quiz you want to edit.");
-                int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", 1, quizzes.size(), false);
+                int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", 0, quizzes.size(), false);
                 Quiz quiz = quizzes.get(quizNumber);
                 quiz.editQuiz(scanner);
             } else if (actionChoice == 3) {
@@ -316,7 +316,7 @@ public class Menu {
                     System.out.println(i + ": " + quiz.getName());
                 }
                 System.out.println("Please enter of the quiz you want to delete.");
-                int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", 1, quizzes.size(), false);
+                int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", 0, quizzes.size(), false);
                 Quiz quiz = quizzes.get(quizNumber);
                 if (course.removeQuiz(quiz)) {
                     System.out.println("Quiz removed!");
@@ -429,7 +429,7 @@ public class Menu {
                     System.out.println(i + ": " + quiz.getName());
                 }
                 System.out.println("Please enter of the quiz you want to take.");
-                int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", 1, quizzes.size(), false);
+                int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", 0, quizzes.size(), false);
                 Quiz quiz = quizzes.get(quizNumber);
                 Submission submission = new Submission(student, quiz);
                 submission.takeQuiz(scanner);
@@ -444,7 +444,7 @@ public class Menu {
                     }
                 }
                 System.out.println("Please enter the number of the submission you want to view.");
-                int submissionNumber = getIntegerFromScanner(scanner, "Submission Number: ", 1, submissions.size(), false);
+                int submissionNumber = getIntegerFromScanner(scanner, "Submission Number: ", 0, submissions.size(), false);
                 Submission submission = submissions.get(submissionNumber);
                 submission.view(scanner, submissionNumber);
             }
