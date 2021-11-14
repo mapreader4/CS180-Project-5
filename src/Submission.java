@@ -8,8 +8,9 @@ import java.util.Random;
 public class Submission {
     Student student;
     Quiz quizz;
-    String name;
     Timestamp timestamp;
+    int totalScore;
+    String filename;
 
     public Submission(Student student, Quiz quizz){
         this.student=student;
@@ -19,6 +20,9 @@ public class Submission {
         this.timestamp=ts;
     }
 
+    public String getFilename(){
+        return this.filename;
+    }
     public Timestamp getTimestamp() {
         return timestamp;
     }
@@ -108,11 +112,11 @@ public class Submission {
                 needToBeSubmitted[i] = relevantInfo;
             }
         }
-        submissionReport(needToBeSubmitted,scanner);
+        submissionReport(needToBeSubmitted);
         return true;
     }
 
-    public void submissionReport(Object[][] needToBeSubmitted,Scanner scanner){
+    public void submissionReport(Object[][] needToBeSubmitted){
 
         String filepath = createsNewFile();
         try(PrintWriter pw =new PrintWriter(new FileWriter(filepath))){
@@ -126,7 +130,8 @@ public class Submission {
                     pw.println(temp.getAnswer());
                     pw.println("Your answer: "+ ((String)needToBeSubmitted[i][1]));
                     if(temp.getAnswer().equals(needToBeSubmitted[i][1])) {
-                    pw.println("Points got: " + temp.getPointValue());
+                        pw.println("Points got: " + temp.getPointValue());
+                        totalScore+=temp.getPointValue();
                     } else {
                         pw.println("Points got: "+0);
                     }
@@ -140,6 +145,7 @@ public class Submission {
                     pw.println("Your answer: "+ ((String)needToBeSubmitted[i][1]));
                     if(temp.getAnswer().equals(needToBeSubmitted[i][1])) {
                         pw.println("Points got: " + temp.getPointValue());
+                        totalScore+=temp.getPointValue();
                     } else {
                         pw.println("Points got: "+0);
                     }
@@ -153,6 +159,7 @@ public class Submission {
                     pw.println("Your answer: "+ ((String)needToBeSubmitted[i][1]));
                     if(temp.correctAnswerIndex==Integer.parseInt((String)needToBeSubmitted[i][1])){
                         pw.println("Points got: " + temp.getPointValue());
+                        totalScore+=temp.getPointValue();
                     } else {
                         pw.println("Points got: "+0);
                     }
@@ -166,8 +173,8 @@ public class Submission {
     }
     public String createsNewFile(){
         Random a=new Random();
-        String filepath="Submission"+a.nextInt(10000);
-        this.name=filepath;
+        String filepath="Submission"+student.getUsername()+a.nextInt(10000);
+        this.filename=filepath;
         return filepath;
     }
     public String readingTheAnswerFromFile(Scanner scanner) {
@@ -179,7 +186,7 @@ public class Submission {
             BufferedReader bfr = new BufferedReader(new FileReader(f));
             String line = bfr.readLine();
             while (line != null) {
-                studentAnswer += line;
+                studentAnswer = studentAnswer+line;
                 line = bfr.readLine();
             }
         } catch (IOException e) {
@@ -188,8 +195,31 @@ public class Submission {
         }
         return studentAnswer;
     }
-    public void view(){
-
+    public void view(Scanner scanner){
+        ArrayList<Submission> allThePreviousSubmissions= student.getSubmissions();
+        ArrayList<String> namesOfTheSubmissions=new ArrayList<String>();
+        for(int j=0;j< allThePreviousSubmissions.size();j++){
+            namesOfTheSubmissions.add(allThePreviousSubmissions.get(j).getFilename());
+        }
+        do {
+            System.out.println("Which submission do you want to see");
+            String submission=scanner.nextLine();
+            for(int j=0;j< namesOfTheSubmissions.size();j++){
+                if(namesOfTheSubmissions.get(j).equals(submission)){
+                    try(BufferedReader bfr=new BufferedReader(new FileReader(allThePreviousSubmissions.get(j).getFilename()))){
+                        String line=bfr.readLine();
+                        while(line!=null){
+                            System.out.println(line);
+                            line=bfr.readLine();
+                        }
+                        break;
+                    } catch(IOException e){
+                        System.out.println("There was an error reading from the file.");
+                    }
+                }
+                System.out.println("The name you entered for the submission was wrong. Enter again");
+            }
+        } while(true);
     }
 
 }
