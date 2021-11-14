@@ -244,15 +244,15 @@ public class Submission {
         }
     }
 
-    public static void main(String[] args) {
-        Scanner scanner=new Scanner(System.in);
-        Teacher teacher =new Teacher("j","m");
-        Student student=new Student("jay","mehta");
-        Course a=new Course("cs",teacher,3);
-        Quiz q=new Quiz(scanner,a);
-        Submission s=new Submission(student, q);
-        s.takeQuiz(scanner);
-
-    }
+//    public static void main(String[] args) {
+//        Scanner scanner=new Scanner(System.in);
+//        Teacher teacher =new Teacher("j","m");
+//        Student student=new Student("jay","mehta");
+//        Course a=new Course("cs",teacher,3);
+//        Quiz q=new Quiz(scanner,a);
+//        Submission s=new Submission(student, q);
+//        s.takeQuiz(scanner);
+//
+//    }
 
 }
