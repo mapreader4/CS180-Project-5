@@ -318,7 +318,7 @@ public class Menu {
                 course.setCourseName(courseName);
             }
         }
-        courseList.update(course);
+        courseList.updateCourses(course);
     }
 
     /**
@@ -429,7 +429,7 @@ public class Menu {
                 submission.view(scanner);
             }
         }
-        courseList.update(course);
+        courseList.updateCourses(course);
     }
 
     /**
