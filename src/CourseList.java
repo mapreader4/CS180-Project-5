@@ -8,6 +8,16 @@ public class CourseList implements Serializable{
     public ArrayList<Course> getCourses() {
         return courses;
     }
+
+    public Course getCourse(int i) {
+        for (Course c : courses) {
+            if (c.getCourseNumber() == i) {
+                return c;
+            }
+        }
+        return null;
+    }
+
     public boolean exists(Course course){
         return courses.contains(course);
     }

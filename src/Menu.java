@@ -245,6 +245,8 @@ public class Menu {
                     course = teacher.getCourse(courseNumber);
                     if (course == null) {
                         System.out.println(notValidMessage);
+                    } else {
+
                     }
                 } while (course == null);
             }
