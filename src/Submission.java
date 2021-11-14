@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.Scanner;
 import java.util.Random;
 
-public class Submission {
+public class Submission implements Serializable{
     Student student;
     Quiz quizz;
     Timestamp timestamp;
@@ -51,6 +51,7 @@ public class Submission {
                 int option;
                 do {
                     option = scanner.nextInt();
+                    scanner.nextLine();
                     if (option > 2 || option < 1) {
                         System.out.println("Invalid input, try again");
                         continue;
@@ -76,6 +77,7 @@ public class Submission {
                 int option;
                 do {
                     option = scanner.nextInt();
+                    scanner.nextLine();
                     if (option > 2 || option < 1) {
                         System.out.println("Invalid input, try again");
                         continue;
@@ -101,6 +103,7 @@ public class Submission {
                 int option;
                 do {
                     option = scanner.nextInt();
+                    scanner.nextLine();
                     if (option > 2 || option < 1) {
                         System.out.println("Invalid input, try again");
                         continue;
