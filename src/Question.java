@@ -5,6 +5,7 @@ public class Question {
         this.question = question;
         this.pointValue = pointValue;
     }
+    public Question(){ }
     public String getQuestion() {
         return question;
     }
