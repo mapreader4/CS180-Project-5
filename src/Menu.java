@@ -55,8 +55,6 @@ public class Menu {
     private static final String notValidMessage = "That is not a valid option. Please try again.";
     private static final String cannotBeBlank = "This field cannot be blank. Please try again.";
 
-    public static final String studentAccountsFile = "studentAccounts.ser";
-    public static final String teacherAccountsFile = "teacherAccounts.ser";
     public static final String coursesFile = "courses.ser";
 
     /**
@@ -193,75 +191,6 @@ public class Menu {
         }
     }
 
-    /**
-     * looks for the user with the given username
-     *
-     * @param username the user's username
-     * @param filename the name of the file to be searched
-     * @return the user found, if one was found; null if not found
-     */
-    private static User searchForUser(String username, String filename) {
-        File file = new File(filename);
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-            Object currentObject;
-            while ((currentObject = ois.readObject()) != null) {
-                User currentUser = (User) currentObject;
-                if (currentUser.getUsername().equals(username)) {
-                    return currentUser;
-                }
-            }
-            return null;
-        } catch (FileNotFoundException e) {
-            return null;
-        } catch (IOException e) {
-            return null;
-        } catch (ClassNotFoundException e) {
-            return null;
-        }
-    }
-
-    /**
-     * appends the new user to the end of the accounts file
-     *
-     * @param user the user object to be added
-     * @param filename the name of the file
-     */
-    public static void addUserToFile(User user, String filename) throws UserAlreadyExistsException {
-        if (searchForUser(user.getUsername(), filename) != null) {
-            throw new UserAlreadyExistsException("an account with this username already exists");
-        }
-
-        File file = new File(filename);
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file, true))) {
-            oos.writeObject(user);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * retrieves the user with the given information from the file
-     *
-     * @param username the user's username
-     * @param password the user's password
-     * @param filename the name of the file to retrieve from
-     * @return the user object
-     * @throws UserNotFoundException if no user with that information is found, this exception is thrown
-     */
-    public static User retrieveUserFromFile(String username, String password, String filename)
-            throws UserNotFoundException {
-        User user = searchForUser(username, filename);
-        if (user == null) {
-            throw new UserNotFoundException("could not find this user");
-        } else if (!user.getPassword().equals(password)) {
-            throw new UserNotFoundException("password incorrect");
-        } else {
-            return user;
-        }
-    }
-
     private static boolean addCourseToFile(Course course, String filename) throws IOException{
         File file = new File(filename);
         if(!file.exists()){
@@ -295,44 +224,6 @@ public class Menu {
         } catch (IOException e) {
             e.printStackTrace();
             return true;
-        }
-    }
-
-    /**
-     * when a user is finished using the program, this method rewrites the file with their updated details
-     *
-     * @param user the user to update
-     * @param filename the name of the file that the update is performed in
-     */
-    private static void closeUser(User user, String filename) {
-        File file = new File(filename);
-        ArrayList<User> users = new ArrayList<User>();
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-            Object currentObject;
-            while ((currentObject = ois.readObject()) != null) {
-                User currentUser = (User) currentObject;
-                if (currentUser.getUsername().equals(user.getUsername())) {
-                    users.add(user);
-                } else {
-                    users.add(currentUser);
-                }
-            }
-        } catch (FileNotFoundException e) {
-            return;
-        } catch (IOException e) {
-            return;
-        } catch (ClassNotFoundException e) {
-            return;
-        }
-
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
-            for (int i = 0; i < users.size(); i++) {
-                oos.writeObject(users.get(i));
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -433,8 +324,6 @@ public class Menu {
             }
             teacherCourseMenu(scanner, teacher, currentCourse);
         }
-        User user = (User) teacher;
-        closeUser(teacher, teacherAccountsFile);
     }
 
     /**
@@ -540,8 +429,6 @@ public class Menu {
             }
             studentCourseMenu(scanner, student, currentCourse);
         }
-        User user = (User) student;
-        closeUser(user, studentAccountsFile);
     }
 
     /**
