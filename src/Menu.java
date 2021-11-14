@@ -122,7 +122,7 @@ public class Menu {
      * @param scanner used for getting user input
      * @return a User object representing the user who just logged in or created an account, null if user quits
      */
-    private static User login(Scanner scanner) {
+    private static User login(Scanner scanner, TeacherList teacherList, StudentList studentList) {
         int loginType = getIntegerFromScanner(scanner, loginOrCreate, 1, 3, true);
         if (loginType == 3) {
             return null;
@@ -131,7 +131,6 @@ public class Menu {
         int accountType = getIntegerFromScanner(scanner, teacherOrStudent, 1, 2, true);
 
         if (accountType == 1) {
-            TeacherList teacherList = TeacherList.readFromFile();
             Teacher teacher = null;
 
             if (loginType == 2) {
@@ -159,17 +158,15 @@ public class Menu {
                 } while (teacher == null);
             }
 
-            teacherList.saveToFile();
             return teacher;
         } else if (accountType == 2) {
-            StudentList studentList = StudentList.readFromFile();
             Student student = null;
 
             if (loginType == 2) {
                 do {
                     String username = getStringFromScanner(scanner, "Username: ", false);
                     String password = getStringFromScanner(scanner, "Password: ", false);
-                    student = new Teacher(username, password);
+                    student = new Student(username, password);
                     if (studentList.add(student)) {
                         System.out.println(accountCreatedMessage);
                     } else {
@@ -190,7 +187,6 @@ public class Menu {
                 } while (student == null);
             }
 
-            studentList.saveToFile();
             return student;
         } else {
             return null;
@@ -648,18 +644,30 @@ public class Menu {
      */
     public static void main(String[] args) throws Exception{
         Scanner scanner = new Scanner(System.in);
+        TeacherList teacherList = TeacherList.readFromFile();
+        StudentList studentList = StudentList.readFromFile();
 
-        System.out.println(welcomeMessage);
-        User user = login(scanner);
-        if (user == null) {
-            //null user indicates user has quit on login menu
-        } else if (user instanceof Teacher) {
-            Teacher teacher = (Teacher) user;
-            teacherMenu(scanner, teacher);
-        } else if (user instanceof Student) {
-            Student student = (Student) user;
-            studentMenu(scanner, student);
+        try {
+            System.out.println(welcomeMessage);
+            User user = login(scanner, teacherList, studentList);
+            if (user == null) {
+                //null user indicates user has quit on login menu
+            } else if (user instanceof Teacher) {
+                Teacher teacher = (Teacher) user;
+                teacherMenu(scanner, teacher);
+            } else if (user instanceof Student) {
+                Student student = (Student) user;
+                studentMenu(scanner, student);
+            }
+            System.out.println(exitMessage);
+
+            teacherList.saveToFile();
+            studentList.saveToFile();
+        } catch (Exception e) {
+            throw new Exception();
+        } finally {
+            teacherList.saveToFile();
+            studentList.saveToFile();
         }
-        System.out.println(exitMessage);
     }
 }
