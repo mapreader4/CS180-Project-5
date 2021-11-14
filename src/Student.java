@@ -109,10 +109,15 @@ public class Student extends User {
     
     public ArrayList<Course> getCourses() {
         return courses;
-    }    
-    
+    }
+
     public Course getCourse(int i) {
-        return courses.get(i);
+        for (Course c : courses) {
+            if (c.getCourseNumber() == i) {
+                return c;
+            }
+        }
+        return null;
     }
     
     public void addSubmission(Submission s) {
