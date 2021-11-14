@@ -97,7 +97,7 @@ public class Submission {
                 int option;
                 do {
                     option = scanner.nextInt();
-                    if (option > 1 || option < 0) {
+                    if (option > 2 || option < 1) {
                         System.out.println("Invalid input, try again");
                         continue;
                     }
@@ -174,6 +174,7 @@ public class Submission {
             return;
         }
         student.addSubmission(this);
+        quizz.addSubmission(this);
     }
 
     public String createsNewFile(){

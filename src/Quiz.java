@@ -11,6 +11,7 @@ public class Quiz implements Serializable {
     private String pathway;
     private String name;
     private Course course;
+    private ArrayList<Submission> submissions=new ArrayList<>();
 
 
 
@@ -22,6 +23,12 @@ public class Quiz implements Serializable {
         ArrayList<String> questionList=FileImports.readFile(fileName);
         createQuizFromFile(questionList, scanner);
         this.course=course;
+    }
+    public ArrayList<Submission> getSubmission(){
+        return submissions;
+    }
+    public void addSubmission(Submission s) {
+        submissions.add(s);
     }
     public Course getCourse(){
         return course;
@@ -180,6 +187,7 @@ public class Quiz implements Serializable {
     public void editQuiz(Scanner scanner){
         //stub TODO
     }
+
 }
 
 
