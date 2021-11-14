@@ -176,6 +176,10 @@ public class Quiz implements Serializable {
     public ArrayList<Question> getQuiz(){
         return quiz;
     }
+
+    public void editQuiz(Scanner scanner){
+        //stub TODO
+    }
 }
 
 
