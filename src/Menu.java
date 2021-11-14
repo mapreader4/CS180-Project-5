@@ -34,9 +34,10 @@ public class Menu {
             "1. Add quiz\n" +
             "2. Edit quiz\n" +
             "3. Delete quiz\n" +
-            "4. Change course name\n" +
-            "5. Remove course\n" +
-            "6. Return to main menu";
+            "4. View quiz submissions\n" +
+            "5. Change course name\n" +
+            "6. Remove course\n" +
+            "7. Return to main menu";
     private static final String quizInputMethodMessage = "Do you want to import the quiz as a file " +
             "or enter it through the terminal?\n" +
             "1. Import as file\n" +
@@ -272,9 +273,9 @@ public class Menu {
         while (true) {
             System.out.println(course.getCourseName());
             int actionChoice = getIntegerFromScanner(scanner, teacherCourseOptionsMessage, 1, 6, true);
-            if (actionChoice == 6) {
+            if (actionChoice == 7) {
                 break;
-            } else if (actionChoice == 5) {
+            } else if (actionChoice == 6) {
                 int courseNumber = course.getCourseNumber();
                 teacher.removeCourse(courseNumber);
                 System.out.println("Course removed!");
@@ -324,10 +325,35 @@ public class Menu {
                     System.out.println("Couldn't find quiz to remove.");
                 }
             } else if (actionChoice == 4) {
+                ArrayList<Quiz> quizzes = course.getQuizzes();
+                System.out.println("Here is a list of your quizzes:");
+                for (int i = 0; i < quizzes.size(); i++) {
+                    Quiz quiz = quizzes.get(i);
+                    System.out.println(i + ": " + quiz.getName());
+                }
+                System.out.println("Please enter of the quiz you want to delete.");
+                int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", 0, quizzes.size(), false);
+                Quiz quiz = quizzes.get(quizNumber);
+
+                ArrayList<Submission> submissions = quiz.getSubmissions();
+                System.out.println("Here is a list of submissions to this quiz:");
+                for (int i = 0; i < submissions.size(); i++) {
+                    Submission submission = submissions.get(i);
+                    if (submission.getCourse().equals(course)) {
+                        System.out.println(i + ": " + submission.getStudent().getUsername() +
+                                " - " + submission.getTimestamp());
+                    }
+                }
+                System.out.println("Please enter the number of the submission you want to view.");
+                int submissionNumber = getIntegerFromScanner(scanner, "Submission Number: ", 0, submissions.size(), false);
+                Submission submission = submissions.get(submissionNumber);
+                submission.view(scanner, submissionNumber);
+            } else if (actionChoice == 5) {
                 System.out.println("Please enter the new course name.");
                 String courseName = getStringFromScanner(scanner, "Course Name: ", false);
                 course.setCourseName(courseName);
             }
+
         }
         courseList.update(course);
     }
