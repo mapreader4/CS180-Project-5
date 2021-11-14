@@ -20,6 +20,10 @@ public class Submission {
         this.timestamp=ts;
     }
 
+    public Student getStudent(){
+        return student;
+    }
+
     public String getFilename(){
         return this.filename;
     }
