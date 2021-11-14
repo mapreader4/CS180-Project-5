@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
 
-public class CourseList {
+public class CourseList implements Serializable{
     public static final String FILENAME="courseList.ser";
     private ArrayList<Course> courses=new ArrayList<>();
 
