@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class Teacher extends User {
 
-    private ArrayList<Course> courses; //list of courses created by teacher
+    private ArrayList<Course> courses=new ArrayList<>(); //list of courses created by teacher
 
     public Teacher (String username, String password) {
 

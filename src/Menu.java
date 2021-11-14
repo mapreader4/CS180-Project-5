@@ -248,8 +248,11 @@ public class Menu {
         }
     }
 
-    private static boolean addCourseToFile(Course course, String filename) {
+    private static boolean addCourseToFile(Course course, String filename) throws IOException{
         File file = new File(filename);
+        if(!file.exists()){
+            file.createNewFile();
+        }
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             Object currentObject;
             while ((currentObject = ois.readObject()) != null) {
@@ -259,11 +262,14 @@ public class Menu {
                 }
             }
         } catch (FileNotFoundException e) {
-            return true;
+            e.printStackTrace();
+            return false;
         } catch (IOException e) {
-            return true;
+            //e.printStackTrace();
+            return false;
         } catch (ClassNotFoundException e) {
-            return true;
+            e.printStackTrace();
+            return false;
         }
 
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file, true))) {
@@ -362,7 +368,7 @@ public class Menu {
      * @param teacher the account using the program
      * @return the course that was generated
      */
-    private static Course createCourseMenu(Scanner scanner, Teacher teacher) {
+    private static Course createCourseMenu(Scanner scanner, Teacher teacher) throws IOException{
         Course course = null;
         boolean courseAlreadyExists = false;
         do {
@@ -383,7 +389,7 @@ public class Menu {
      * @param scanner used for getting user input
      * @param teacher the account using the program
      */
-    private static void teacherMenu(Scanner scanner, Teacher teacher) {
+    private static void teacherMenu(Scanner scanner, Teacher teacher) throws IOException{
         while (true) {
             Course currentCourse = null;
             int createOrEditCourseChoice = getIntegerFromScanner(scanner, createOrEditCourseMessage, 1, 3, true);
@@ -622,7 +628,7 @@ public class Menu {
      *
      * @param args
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         Scanner scanner = new Scanner(System.in);
 
         System.out.println(welcomeMessage);
