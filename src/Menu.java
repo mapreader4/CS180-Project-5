@@ -316,7 +316,44 @@ public class Menu {
         }
     }
 
-    //TODO: add closeCourse() method
+    /**
+     * when the user is finished accessing a particular course, this method rewrites the file with that course's
+     * updated details
+     *
+     * @param course the course to update
+     * @param filename the name of the file that the update is performed in
+     */
+    private static void closeCourse(Course course, String filename) {
+        File file = new File(filename);
+        ArrayList<Course> courses = new ArrayList<Course>();
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            Object currentObject;
+            while ((currentObject = ois.readObject()) != null) {
+                Course currentCourse = (Course) currentObject;
+                if (currentCourse.getCourseNumber() == course.getCourseNumber()) {
+                    courses.add(course);
+                } else {
+                    courses.add(currentCourse);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            return;
+        } catch (IOException e) {
+            return;
+        } catch (ClassNotFoundException e) {
+            return;
+        }
+
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
+            for (int i = 0; i < courses.size(); i++) {
+                oos.writeObject(courses.get(i));
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * a menu for creating a course
@@ -388,12 +425,12 @@ public class Menu {
             System.out.println(course.getCourseName());
             int actionChoice = getIntegerFromScanner(scanner, teacherCourseOptionsMessage, 1, 6, true);
             if (actionChoice == 6) {
-                return;
+                break;
             } else if (actionChoice == 5) {
                 int courseNumber = course.getCourseNumber();
                 teacher.removeCourse(courseNumber);
                 System.out.println("Course removed!");
-                return;
+                break;
             } else if (actionChoice == 1) {
                 Quiz quiz = null;
                 int quizInputMethod = getIntegerFromScanner(scanner, quizInputMethodMessage, 1, 2, true);
@@ -444,6 +481,7 @@ public class Menu {
                 course.setCourseName(courseName);
             }
         }
+        closeCourse(course, coursesFile);
     }
 
     /**
@@ -534,12 +572,12 @@ public class Menu {
             System.out.println(course.getCourseName());
             int actionChoice = getIntegerFromScanner(scanner, studentCourseOptionsMessage, 1, 4, true);
             if (actionChoice == 4) {
-                return;
+                break;
             } else if (actionChoice == 3) {
                 int courseNumber = course.getCourseNumber();
                 student.removeCourse(courseNumber);
                 System.out.println("Course removed!");
-                return;
+                break;
             } else if (actionChoice == 1) {
                 ArrayList<Quiz> quizzes = course.getQuizzes();
                 System.out.println("Here is a list of your quizzes:");
@@ -568,6 +606,7 @@ public class Menu {
                 submission.view(scanner);
             }
         }
+        closeCourse(course, coursesFile);
     }
 
     /**
