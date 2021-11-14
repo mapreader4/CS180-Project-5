@@ -246,7 +246,14 @@ public class Menu {
                     if (course == null) {
                         System.out.println(notValidMessage);
                     } else {
-
+                        Course updatedCourse = courseList.getCourse(courseNumber);
+                        ArrayList<Course> teacherCourses = teacher.getCourses();
+                        for (int i = 0; i < teacherCourses.size(); i++) {
+                            if (updatedCourse.getCourseNumber() == teacherCourses.get(i).getCourseNumber()) {
+                                teacherCourses.set(i, updatedCourse);
+                                course = teacher.getCourse(courseNumber);
+                            }
+                        }
                     }
                 } while (course == null);
             }
@@ -352,6 +359,15 @@ public class Menu {
                     course = student.getCourse(courseNumber);
                     if (course == null) {
                         System.out.println(notValidMessage);
+                    } else {
+                        Course updatedCourse = courseList.getCourse(courseNumber);
+                        ArrayList<Course> studentCourses = student.getCourses();
+                        for (int i = 0; i < studentCourses.size(); i++) {
+                            if (updatedCourse.getCourseNumber() == studentCourses.get(i).getCourseNumber()) {
+                                studentCourses.set(i, updatedCourse);
+                                course = student.getCourse(courseNumber);
+                            }
+                        }
                     }
                 } while (course == null);
             }
