@@ -135,9 +135,9 @@ public class Submission implements Serializable{
             for(int i=0;i<needToBeSubmitted.length;i++){
                 if(needToBeSubmitted[i][0].getClass()==FillInTheBlank.class){
                     FillInTheBlank temp = (FillInTheBlank) needToBeSubmitted[i][0];
-                    pw.print("Question: "+i+". ");
+                    pw.print("Question: "+i+1+". ");
                     pw.println(temp.getQuestion());
-                    pw.print("Answer: "+i+". ");
+                    pw.print("Answer: "+i+1+". ");
                     pw.println(temp.getAnswer());
                     pw.println("Your answer: "+ ((String)needToBeSubmitted[i][1]));
                     if(temp.getAnswer().equals(needToBeSubmitted[i][1])) {
@@ -149,9 +149,9 @@ public class Submission implements Serializable{
                 }
                 else if(needToBeSubmitted[i][0].getClass()==TrueFalse.class){
                     TrueFalse temp=(TrueFalse) needToBeSubmitted[i][0];
-                    pw.print("Question: "+i+". ");
+                    pw.print("Question: "+i+1+". ");
                     pw.println(temp.getQuestion());
-                    pw.print("Answer: "+i+". ");
+                    pw.print("Answer: "+i+1+". ");
                     pw.println(temp.getAnswer());
                     pw.println("Your answer: "+ ((String)needToBeSubmitted[i][1]));
                     if(temp.getAnswer().equals(needToBeSubmitted[i][1])) {
@@ -163,9 +163,9 @@ public class Submission implements Serializable{
                 }
                 else if(needToBeSubmitted[i][0].getClass()==MultipleChoice.class){
                     MultipleChoice temp=(MultipleChoice) needToBeSubmitted[i][0];
-                    pw.print("Question: "+i+". ");
+                    pw.print("Question: "+i+1+". ");
                     pw.println(temp.getQuestion());
-                    pw.print("Answer: "+i+". ");
+                    pw.print("Answer: "+i+1+". ");
                     pw.println(temp.correctAnswerIndex);
                     pw.println("Your answer: "+ ((String)needToBeSubmitted[i][1]));
                     if(temp.correctAnswerIndex==Integer.parseInt((String)needToBeSubmitted[i][1])){
@@ -252,15 +252,15 @@ public class Submission implements Serializable{
         }
     }
 
-//    public static void main(String[] args) {
-//        Scanner scanner=new Scanner(System.in);
-//        Teacher teacher =new Teacher("j","m");
-//        Student student=new Student("jay","mehta");
-//        Course a=new Course("cs",teacher,3);
-//        Quiz q=new Quiz(scanner,a);
-//        Submission s=new Submission(student, q);
-//        s.takeQuiz(scanner);
-//
-//    }
+    public static void main(String[] args) {
+        Scanner scanner=new Scanner(System.in);
+        Teacher teacher =new Teacher("j","m");
+        Student student=new Student("jay","mehta");
+        Course a=new Course("cs",teacher,3);
+        Quiz q=new Quiz(scanner,a);
+        Submission s=new Submission(student, q);
+        s.takeQuiz(scanner);
+
+    }
 
 }
