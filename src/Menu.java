@@ -55,8 +55,6 @@ public class Menu {
     private static final String notValidMessage = "That is not a valid option. Please try again.";
     private static final String cannotBeBlank = "This field cannot be blank. Please try again.";
 
-    public static final String coursesFile = "courses.ser";
-
     /**
      * Displays a message containing multiple choices to the user, then ensures the user chooses an integer between the
      * minimum value and the maximum value by looping the message until the user inputs such a value
@@ -191,81 +189,6 @@ public class Menu {
         }
     }
 
-    private static boolean addCourseToFile(Course course, String filename) throws IOException{
-        File file = new File(filename);
-        if(!file.exists()){
-            file.createNewFile();
-        }
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-            Object currentObject;
-            while ((currentObject = ois.readObject()) != null) {
-                Course currentCourse = (Course) currentObject;
-                if (currentCourse.getCourseNumber() == course.getCourseNumber()) {
-                    return true;
-                }
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return false;
-        } catch (IOException e) {
-            //e.printStackTrace();
-            return false;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return false;
-        }
-
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file, true))) {
-            oos.writeObject(course);
-            return false;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return true;
-        }
-    }
-
-    /**
-     * when the user is finished accessing a particular course, this method rewrites the file with that course's
-     * updated details
-     *
-     * @param course the course to update
-     * @param filename the name of the file that the update is performed in
-     */
-    private static void closeCourse(Course course, String filename) {
-        File file = new File(filename);
-        ArrayList<Course> courses = new ArrayList<Course>();
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-            Object currentObject;
-            while ((currentObject = ois.readObject()) != null) {
-                Course currentCourse = (Course) currentObject;
-                if (currentCourse.getCourseNumber() == course.getCourseNumber()) {
-                    courses.add(course);
-                } else {
-                    courses.add(currentCourse);
-                }
-            }
-        } catch (FileNotFoundException e) {
-            return;
-        } catch (IOException e) {
-            return;
-        } catch (ClassNotFoundException e) {
-            return;
-        }
-
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
-            for (int i = 0; i < courses.size(); i++) {
-                oos.writeObject(courses.get(i));
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * a menu for creating a course
      *
@@ -275,17 +198,19 @@ public class Menu {
      */
     private static Course createCourseMenu(Scanner scanner, Teacher teacher, CourseList courseList) throws IOException{
         Course course = null;
-        boolean courseAlreadyExists = false;
+        boolean courseAdded = false;
         do {
             System.out.println("Please enter the information for the course you want to add.");
             String courseName = getStringFromScanner(scanner, "Course Name: ", false);
             int courseNumber = getIntegerFromScanner(scanner, "Course Number (between 0 and 999999): ",
                     0, 999999, false);
             course = new Course(courseName, teacher, courseNumber);
-            courseAlreadyExists = addCourseToFile(course, coursesFile);
-        } while (courseAlreadyExists);
+            courseAdded = courseList.add(course);
+            if (!courseAdded) {
+                System.out.println("Another course with that number already exists. Please try again.");
+            }
+        } while (!courseAdded);
         teacher.addCourse(course);
-        courseList.add(course);
         return course;
     }
 
@@ -312,8 +237,8 @@ public class Menu {
                     }
                     System.out.println("Here is a list of your courses:");
                     for (int i = 0; i < courses.size(); i++) {
-                        Course course = courses.get(i);
-                        System.out.println(course.getCourseNumber() + ": " + course.getCourseName());
+                        Course currentCourse = courses.get(i);
+                        System.out.println(currentCourse.getCourseNumber() + ": " + currentCourse.getCourseName());
                     }
                     System.out.println("Please enter the number of the course you want to access.");
                     int courseNumber = getIntegerFromScanner(scanner, "Course Number: ", 0, 999999, false);
@@ -395,7 +320,6 @@ public class Menu {
                 course.setCourseName(courseName);
             }
         }
-        closeCourse(course, coursesFile);
     }
 
     /**
@@ -506,7 +430,6 @@ public class Menu {
                 submission.view(scanner);
             }
         }
-        closeCourse(course, coursesFile);
     }
 
     /**
