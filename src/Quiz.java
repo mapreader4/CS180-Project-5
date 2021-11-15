@@ -185,7 +185,39 @@ public class Quiz implements Serializable {
     }
 
     public void editQuiz(Scanner scanner){
-        //stub TODO
+        boolean done =false;
+        int selection = 0 ;
+        System.out.println("What would you like to change in this quiz");
+        do{
+            do{
+                System.out.println("1: Edit Quiz Name");
+                System.out.println("2: Edit Quiz Question");
+                System.out.println("3. Exit");
+                selection = scanner.nextInt();
+                scanner.nextLine();
+                System.out.println("Please enter a valid number");
+            }while(selection!=1||selection!=2||selection!=3);
+            if(selection == 1){
+                String name;
+                System.out.println("Please insert the updated name for the quiz.");
+                name = scanner.nextLine();
+                this.name = name;
+                System.out.println("Quiz name updated!");
+            }
+            if(selection == 2){
+                System.out.println("Select the Question: ");
+                for(int i = 0 ; i<quiz.size();i++){
+                    System.out.println(i+": "+quiz.get(i).getQuestion());
+                    int questionNumber = scanner.nextInt();
+                    scanner.nextLine();
+                    getQuiz().get(i).editQuestion(scanner);
+                }
+            }
+            if(selection ==3){
+                done = true;
+            }
+
+        }while(done);
     }
 
 }
