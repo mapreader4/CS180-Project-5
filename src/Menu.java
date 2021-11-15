@@ -384,7 +384,7 @@ public class Menu {
                 } else {
                     submission = submissions.get(submissionNumber);
                 }
-                submission.view(scanner, submissionNumber);
+                submission.view(submissionNumber);
             } else if (actionChoice == 5) {
                 System.out.println("Please enter the new course name.");
                 String courseName = getStringFromScanner(scanner, "Course Name: ", false);
@@ -535,7 +535,7 @@ public class Menu {
                 } else {
                     submission = submissions.get(submissionNumber);
                 }
-                submission.view(scanner, submissionNumber);
+                submission.view(submissionNumber);
             }
         }
         courseList.update(course);
