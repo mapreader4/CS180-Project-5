@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Question {
     String question;
     int pointValue;
@@ -23,4 +25,6 @@ public class Question {
         this.pointValue = pointValue;
     }
 
+    public void editQuestion(Scanner scanner){
+    }
 }
