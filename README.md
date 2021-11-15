@@ -14,3 +14,13 @@ Jay and Nathan S: Quizzes
 <br>
 <br>
 information on the structure of the program and division of roles found in image file which Nathan R will upload
+<br>
+<br>
+Classes:
+<br>
+********
+<br>
+User:
+<br>
+-----
+<br>
