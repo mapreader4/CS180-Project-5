@@ -22,7 +22,7 @@ public class Submission implements Serializable{
     public Submission(Student student, Quiz quizz){
         this.student=student;
         this.quizz=quizz;
-        if (quizz.isRandomized) {
+        if (quizz.isRandomized()) {
             quizz.randomizeQuestions();
         }
         Date date =new Date();
