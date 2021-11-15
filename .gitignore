@@ -2,3 +2,4 @@
 out/
 *.ser
 .idea
+.DS_Store
