@@ -10,7 +10,7 @@ Aditya: Accounts
 <br>
 Nathan R: Menu
 <br>
-Nathan S: Quizzes
+Nathan S: Quizzes and Question types
 <br>
 Jay: Submission, File handling (CourseList, StudentList, TeacherList), Course, Quiz (just the reading from file)
 <br>
