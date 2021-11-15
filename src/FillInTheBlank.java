@@ -42,6 +42,7 @@ public class FillInTheBlank extends Question {
                     }
                     System.out.println("Please enter a valid input!");
                 } catch (NumberFormatException e) {
+                    continue;
                 }
             } while (true);
             if (selection == 1) {

@@ -57,11 +57,11 @@ public class MultipleChoice extends Question {
                 this.numChoices = 0;
                 System.out.println("Current answer choices have been erased!");
                 System.out.println("How many answer choices do you want for this question?");
-                int numChoices = scanner.nextInt();
-                this.numChoices = numChoices;
+                int nextInt = scanner.nextInt();
+                this.numChoices = nextInt;
                 scanner.nextLine();
-                this.answerChoices = new String[numChoices];
-                for (int i = 0; i < numChoices; i++) {
+                this.answerChoices = new String[nextInt];
+                for (int i = 0; i < nextInt; i++) {
                     System.out.println("Enter you answer choice number #" + (i + 1));
                     this.answerChoices[i] = scanner.nextLine();
                 }

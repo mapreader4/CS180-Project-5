@@ -5,14 +5,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Quiz Class : Handles the making of the quiz by file input/ terminal and also handles editing of the quiz
+ *
+ * @author Nathan Schultz, Jay Mehta
+ * @version Nov 13, 2021
+ */
 public class Quiz implements Serializable {
 
-    /**
-     * Quiz Class : Handles the making of the quiz by file input/ terminal and also handles editing of the quiz
-     *
-     * @author Nathan Schultz, Jay Mehta
-     * @version Nov 13, 2021
-     */
 
     private int numQuestions;
     private ArrayList<Question> quiz = new ArrayList<Question>();
