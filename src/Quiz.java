@@ -30,8 +30,8 @@ public class Quiz implements Serializable {
 
     public Quiz(String fileName, Scanner scanner, Course course) {
         System.out.println("What do you want to name this quiz?");
-        String name = scanner.nextLine();
-        this.name = name;
+        String line = scanner.nextLine();
+        this.name = line;
         ArrayList<String> questionList = FileImports.readFile(fileName);
         createQuizFromFile(questionList, scanner);
         this.course = course;
