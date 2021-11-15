@@ -226,7 +226,7 @@ public class Submission implements Serializable{
                     pw.print("Answer "+i+1+". ");
                     pw.println(temp.getAnswer());
                     pw.println("Your answer: "+ (answers.get(i)));
-                    if(temp.getAnswer().equals(answers.get(i))) {
+                    if(temp.getAnswer().equalsIgnoreCase(answers.get(i))) {
                         pw.println("Points got: " + temp.getPointValue());
                         totalScore+=temp.getPointValue();
                     } else {
