@@ -18,6 +18,9 @@ Jay: Submission, File handling (CourseList, StudentList, TeacherList), Course, Q
 information on the structure of the program and division of roles found in image file which Nathan R will upload
 <br>
 <br>
+Both Project and Project Report will be submitted by Nathan Reed
+<br>
+<br>
 Classes
 <br>
 ********
