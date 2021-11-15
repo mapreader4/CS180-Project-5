@@ -1,7 +1,7 @@
 import java.io.Serializable;
 import java.util.Scanner;
 
-public class TrueFalse extends Question implements Serializable {
+public class TrueFalse extends Question{
     String answer;
     public String getAnswer(){
         return this.answer;
@@ -13,8 +13,8 @@ public class TrueFalse extends Question implements Serializable {
 
     public void displayQuestion() {
         System.out.println(this.getQuestion());
-        System.out.println("[T] True");
-        System.out.println("[F] False");
+        System.out.println("True");
+        System.out.println("False");
     }
 
     public String saveString(){

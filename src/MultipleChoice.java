@@ -2,7 +2,7 @@ import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Scanner;
 
-public class MultipleChoice extends Question implements Serializable {
+public class MultipleChoice extends Question {
     int numChoices;
     String[] answerChoices;
     int correctAnswerIndex;

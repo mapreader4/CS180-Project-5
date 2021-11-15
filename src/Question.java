@@ -1,13 +1,17 @@
+import java.io.Serializable;
 import java.util.Scanner;
-
-public class Question {
+public class Question implements Serializable {
     String question;
     int pointValue;
-    public Question(String question, int pointValue){
+
+    public Question(String question, int pointValue) {
         this.question = question;
         this.pointValue = pointValue;
     }
-    public Question(){ }
+
+    public Question() {
+    }
+
     public String getQuestion() {
         return question;
     }
@@ -25,6 +29,7 @@ public class Question {
         this.pointValue = pointValue;
     }
 
-    public void editQuestion(Scanner scanner){
+    public void editQuestion(Scanner scanner) {
     }
+
 }
