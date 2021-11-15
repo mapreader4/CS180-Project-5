@@ -215,7 +215,7 @@ private ArrayList<Student> students - stores the list of students that have crea
 <br>
 public static StudentList readFromFile() - reads from the binary file to return the StudentList object
 <br>
-public boolean exists(Course course) - checks whether the specific student passed is contained in the student list
+public boolean exists(Student student) - checks whether the specific student passed is contained in the student list
 <br>
 public boolean add(Student student) - adds a student to the student list, checks whether student has been added or already existed
 <br>
@@ -226,4 +226,22 @@ public void saveToFile() - saves the StudentList object to the file
 public Student findStudent(String username, String password) - returns a student from the student list whose username and password is given
 <br>
 <br>
-
+TeacherList implements Serializable
+<br>
+-----------------------
+<br>
+public static final String FILENAME - stores the binary file that has the TeacherList object
+<br>
+private ArrayList<Teacher> teachers - stores the list of teachers that have created an account
+<br>
+public static TeacherList readFromFile() - reads from the binary file to return the TeacherList object
+<br>
+public boolean exists(Teacher teacher) - checks whether the specific teacher passed is contained in the teacher list
+<br>
+public boolean add(Teacher teaher) - adds a teacher to the teacher list, checks whether teacher has been added or already existed
+<br>
+public void saveToFile() - saves the TeacherList object to the file
+<br>
+public Teacher findTeacher(String username, String password) - returns a teacher from the teacher list whose username and password is given
+<br>
+<br>
