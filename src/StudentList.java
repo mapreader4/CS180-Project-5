@@ -1,13 +1,15 @@
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * StudentList Class : Handles file reading, writing and use of the list of students
+ *
+ * @author Jay Mehta
+ * @version Nov 13, 2021
+ */
+
 public class StudentList implements Serializable {
-    /**
-     * StudentList Class : Handles file reading, writing and use of the list of students
-     *
-     * @author Jay Mehta
-     * @version Nov 13, 2021
-     */
+
     public static final String FILENAME = "studentList.ser";
     private ArrayList<Student> students = new ArrayList<>();
 
