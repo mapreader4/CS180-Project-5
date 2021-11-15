@@ -170,6 +170,7 @@ public class Submission implements Serializable {
                     }
                 }
             }
+            pw.println("Total score: " + totalScore);
         } catch (IOException e) {
             e.printStackTrace();
             return;
