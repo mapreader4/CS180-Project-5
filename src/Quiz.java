@@ -258,6 +258,21 @@ public class Quiz implements Serializable {
         } while (done);
     }
 
+    public void randomizeQuestions() {
+        ArrayList <Question> temp = quiz;
+        ArrayList <Question> temp2 = new ArrayList<>();
+        int quizLength = quiz.size();
+        while (quizLength > 0) {
+            temp2.add(temp.remove((int) (Math.random() * quizLength)));
+            quizLength--;
+
+        }
+        quiz = temp2;
+
+    }
+
+
+
 }
 
 

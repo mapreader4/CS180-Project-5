@@ -10,7 +10,9 @@ Aditya: Accounts
 <br>
 Nathan R: Menu
 <br>
-Jay and Nathan S: Quizzes
+Nathan S: Quizzes
+<br>
+Jay: Submissions, File handling (CourseList, StudentList, TeacherList), Courses
 <br>
 <br>
 information on the structure of the program and division of roles found in image file which Nathan R will upload
@@ -131,3 +133,75 @@ return the user's input path for quiz files
 <br>
 public static ArrayList<String> readFile(String filePath) - 
 return an ArrayList of the contents of the quiz file for further processing.
+<br>
+<br>
+Course implements Serializable:
+<br>
+-----------------------
+<br>
+private String courseName - Stores name of Course
+<br>
+private Teacher teacher - Stores the teacher who created the course
+<br>
+private int courseNumber - Stores the unique number of the course
+<br>
+private ArrayList<Student> students - Stores the students taking the course
+<br>
+private ArrayList<Quiz> quizzes - Stores the quizzes that are present in the course
+<br>
+public Course(String courseName, Teacher teacher, int courseNumber) - Constructor that creates a course object
+<br>
+public String getCourseName() - returns the course name
+<br>
+public void setCourseName(String courseName) - sets the course name to String passed
+<br>
+public Teacher getTeacher() - returns the teacher who made the course
+<br>
+public void setTeacher(Teacher teacher) - sets the teacher who made the course
+<br>
+public int getCourseNumber - returns the course number 
+<br>
+public void setCourseNumber(int courseNumber) - sets the course number
+<br>
+public ArrayList<Student> getStudents() - returns the list of students taking the course
+<br>
+public void setStudents(ArrayList<Student> students - sets the list of students taking the course
+<br>
+public ArrayList<Quiz> getQuizzes() - returns the quizzes present in the course
+<br>
+public void setQuizzes(ArrayList<Quiz> quizzes) - sets the quizzes present in the course
+<br>
+public boolean addQuiz(Quiz quiz) - adds a quiz to the list of quizzes present in the course
+<br>
+public boolean removeQuiz(Quiz quiz) - removes a quiz from the list of quizzes in the course
+<br>
+public boolean addStudent(Student student) - adds a student to the course
+<br>
+public boolean removeStudent(Student student) - removes a student from the course
+<br>
+public boolean equals(Object o) - checks if the object passed is the same as the course object being referenced at that point
+<br>
+CourseList implements Serializable: 
+<br>
+-----------------------
+<br>
+public static final String FILENAME - stores the binary file that has the CourseList object
+<br>
+private ArrayList<Course> courses - stores the list of courses that have been created by teachers
+<br>
+public static CourseList readFromFile() - reads from the binary file to return the CourseList object
+<br>
+public ArrayList<Course> getCourses() - returns the list of courses created by teachers up till that point
+<br>
+public Course getCourse(int i) - returns the course in the course list at the index passed
+<br>
+public boolean exists(Course course) - checks whether the specific course passed is contained in the course list
+<br>
+public boolean add(Course course) - Adds the specific course passed to the course list, and returns whether it was added or already existed
+<br> 
+public boolean update(Course course) - stores an updated course object in the place of the same  course
+<br>
+public void saveToFile() - saves the CourseList object to the file
+<br>
+
+ 
