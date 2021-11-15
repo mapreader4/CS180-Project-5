@@ -166,9 +166,9 @@ public class Submission implements Serializable {
                     }
                 } else if (questions.get(i).getClass() == TrueFalse.class) {
                     TrueFalse temp = (TrueFalse) questions.get(i);
-                    pw.print("Question " + i + 1 + ". ");
+                    pw.print("Question " + (i + 1) + ". ");
                     pw.println(temp.getQuestion());
-                    pw.print("Answer " + i + 1 + ". ");
+                    pw.print("Answer " + (i + 1) + ". ");
                     pw.println(temp.getAnswer());
                     pw.println("Your answer: " + ((answers.get(i))));
                     if (temp.getAnswer().equalsIgnoreCase(answers.get(i))) {
@@ -179,9 +179,9 @@ public class Submission implements Serializable {
                     }
                 } else if (questions.get(i).getClass() == MultipleChoice.class) {
                     MultipleChoice temp = (MultipleChoice) questions.get(i);
-                    pw.print("Question " + i + 1 + ". ");
+                    pw.print("Question " + (i + 1) + ". ");
                     pw.println(temp.getQuestion());
-                    pw.print("Answer " + i + 1 + ". ");
+                    pw.print("Answer " + (i + 1) + ". ");
                     pw.println(temp.correctAnswerIndex);
                     pw.println("Your answer: " + ((answers.get(i))));
                     if (temp.correctAnswerIndex == Integer.parseInt((String) (answers.get(i)))) {
