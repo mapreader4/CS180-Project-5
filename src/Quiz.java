@@ -162,7 +162,8 @@ public class Quiz implements Serializable {
                 System.out.println("What answer choice is correct? (Enter the number of the correct answer)");
                 int answerIndex;
                 do {
-                    answerIndex = (scanner.nextInt()) -1;
+                    answerIndex = (scanner.nextInt());
+                    answerIndex -=1;
                     scanner.nextLine();
                     if(answerIndex<0 || answerIndex>answerChoices){
                         System.out.println("Enter the correct answer index");
@@ -218,7 +219,7 @@ public class Quiz implements Serializable {
                 }
             }
             if(selection ==3){
-                done = true;
+                done = false;
             }
 
         }while(done);

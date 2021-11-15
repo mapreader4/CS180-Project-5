@@ -119,6 +119,9 @@ public class Submission implements Serializable{
                 } else {
                     System.out.print("Your answer:");
                     studentAnswer = scanner.nextLine();
+                    int number = Integer.parseInt(studentAnswer);
+                    number --;
+                    studentAnswer = String.valueOf(number);
                 }
                 answers.add(studentAnswer);
                 questions.add(temp);
@@ -221,9 +224,9 @@ public class Submission implements Serializable{
             for(int i=0;i< answers.size();i++){
                 if(questions.get(i).getClass()==FillInTheBlank.class){
                     FillInTheBlank temp = (FillInTheBlank) questions.get(i);
-                    pw.print("Question "+i+1+". ");
+                    pw.print("Question "+(i+1)+". ");
                     pw.println(temp.getQuestion());
-                    pw.print("Answer "+i+1+". ");
+                    pw.print("Answer "+(i+1)+". ");
                     pw.println(temp.getAnswer());
                     pw.println("Your answer: "+ (answers.get(i)));
                     if(temp.getAnswer().equalsIgnoreCase(answers.get(i))) {

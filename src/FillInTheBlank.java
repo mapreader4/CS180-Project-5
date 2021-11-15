@@ -1,7 +1,7 @@
 import java.io.Serializable;
 import java.util.Scanner;
 
-public class FillInTheBlank extends Question implements Serializable {
+public class FillInTheBlank extends Question{
     String answer;
 
     public String getAnswer() {

@@ -15,15 +15,6 @@ public class MultipleChoice extends Question {
         this.correctAnswerIndex = answerIndex;
     }
 
-    public int findCorrectAnswer(String answer) {
-        for (int i = 0; i < numChoices; i++) {
-            if (answerChoices[i].equalsIgnoreCase(answer)) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
     public void displayQuestion() {
         System.out.println(getQuestion());
         for (int i = 0; i < numChoices; i++) {
