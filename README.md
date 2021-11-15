@@ -12,7 +12,7 @@ Nathan R: Menu
 <br>
 Nathan S: Quizzes
 <br>
-Jay: Submissions, File handling (CourseList, StudentList, TeacherList), Courses
+Jay: Submission, File handling (CourseList, StudentList, TeacherList), Course, Quiz (just the reading from file)
 <br>
 <br>
 information on the structure of the program and division of roles found in image file which Nathan R will upload
