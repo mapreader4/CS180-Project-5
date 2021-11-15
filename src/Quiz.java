@@ -85,13 +85,13 @@ public class Quiz implements Serializable {
                 System.out.println("What answer choice is correct?");
                 int answerIndex;
                 do {
-                    answerIndex = (scanner.nextInt()) + 1;
+                    answerIndex = (scanner.nextInt());
                     scanner.nextLine();
                     if(answerIndex<=0 || answerIndex>answerChoices){
                         System.out.println("Enter the correct answer index");
-                        break;
+                        continue;
                     }
-                    continue;
+                    break;
                 } while(true);
                 Question q = new MultipleChoice(questionList.get(i),answerChoices,choices,answerIndex,points);
                 quiz.add(q);
