@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.Random;
-
+/**
+ * Submission Class : handles the process of student taking the quiz, the grading of that submission, file writing,
+ * score assignment, and viewing previous submissions
+ *
+ * @author Jay Mehta
+ * @version Nov 13, 2021
+ */
 public class Submission implements Serializable {
-    /**
-     * Submission Class : handles the process of student taking the quiz, the grading of that submission, file writing,
-     * score assignment, and viewing previous submissions
-     *
-     * @author Jay Mehta
-     * @version Nov 13, 2021
-     */
+
     Student student;
     Quiz quizz;
     Timestamp timestamp;
@@ -209,7 +209,8 @@ public class Submission implements Serializable {
         ArrayList<Submission> allThePreviousSubmissions = student.getSubmissions();
         for (int i = 0; i < allThePreviousSubmissions.size(); i++) {
             if (i == submissionNumber) {
-                try (BufferedReader bfr = new BufferedReader(new FileReader(allThePreviousSubmissions.get(i).getFilename())
+                try (BufferedReader bfr = new BufferedReader(new FileReader(allThePreviousSubmissions.get(i)
+                        .getFilename())
                 )) {
                     String line = bfr.readLine();
                     while (line != null) {
