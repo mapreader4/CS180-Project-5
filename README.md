@@ -22,7 +22,7 @@ Classes
 <br>
 User (implements Serializable):
 <br>
------
+-------------------------------
 <br>
 String username - Stores username of Student/Teacher
 <br>
@@ -45,7 +45,7 @@ public static void testEquals() - Method used to test the equals(Object o) metho
 <br>
 Student (extends User):
 <br>
---------
+-----------------------
 <br>
 private ArrayList<Course> courses - Stores the courses the Student chooses to enroll in
 <br>
@@ -68,7 +68,7 @@ public String toString() - Returns String representation of Student
 <br>
 Teacher (extends User):
 <br>
---------
+-----------------------
 <br>
 private ArrayList<Course> courses - Stores courses created by the Teacher
 <br>
