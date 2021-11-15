@@ -282,3 +282,101 @@ public String readingTheAnswerFormFile(Scanner scanner) - reads the answer that 
 public void view(int submissionNumber) - shows the submission which is called through its number to the student
 <br>
 <br>
+public class Quiz implements Serializable
+<br>
+-----------------------
+<br>
+private int numQuestions - number of questions in quiz
+<br>
+private ArrayList<Question> quiz - an ArrayList that holds Question objects
+<br>
+private String name -  name of the quiz
+<br>
+private Course course -  the course that the quiz was added to;
+<br>
+private ArrayList<Submission> submissions - an ArrayList of Submissions for the Quiz
+<br>
+private boolean randomized - true if the quiz should be randomized, false if it is not
+<br>
+public Quiz (Scanner scanner, Course course) -calls the the creatQuizByInputIndividually(scanner) method as well as setting this.course to course
+<br>
+public Quiz (String fileName, Scanner scanner, Course course) - another quiz constructor that asks for name of the quiz and sets this.name = name. It also uses a filename and reads from a file to assist in creating a quiz. it also sets this.course = course;
+<br> 
+public boolean isRandomized() - getter for the randomized varaible;
+<br>
+public ArrayList<Submission> getSubmission() - getter for submissions varaible
+<br>
+public void addSubmission(Submission s) -  adds a submission to the Arraylist submissions
+<br>
+public void createQuiz FromFile (ArrayList<String> questionList,Scanner scanner) - creates a quiz from the given ArrayList of questions
+<br>
+public void creatQuizByInputIndividually(Scanner scanner) - creates a quiz object by walking the user through the steps. 
+<br>
+public String getName() - returns the name of the quiz
+<br>
+public ArrayList<Question> getQuiz() -  returns the array list of questions
+<br>
+public void editQuiz(Scanner scanner) - gives the user the oppurtunity to edit the variables of the quiz including the questions
+<br>
+public randomizeQuestions() - randomizes the order of the questions in the quiz 
+<br>
+<br>
+public class FillInTheBlank extends Question
+<br>
+-----------------------
+<br>
+String answer -  the answer to the question
+<br>
+public FillIntheBlank (String question, String answer, int pointValue) -calls the super class to set question and point value and also sets the answer to answer.
+<br>
+public String getAnswer() - returns the answer of the FillInTheBlankObject
+<br>
+public void displayQuesiton() - prints the question
+<br>
+public void editQuestion(Scanner scanner) - edits the question from user input
+<br>
+<br>
+public class TrueFalse extends Question
+<br>
+-----------------------
+<br>
+String answer -  the answer to the question
+<br>
+public TrueFalse (String question, String answer, int pointValue) -calls the super class to set question and point value and also sets the answer to answer.
+<br>
+public String getAnswer() - returns the answer of the FillInTheBlankObject
+<br>
+public void displayQuesiton() - prints the question with the options : "True" and "False"
+<br>
+public void editQuestion(Scanner scanner) - edits the question from user input
+<br>
+<br>
+public class TrueFalse extends Question
+<br>
+<br>
+public class MultipleChoice extends Question
+<br>
+-----------------------
+<br>
+int numChoice -  the number of choices in the question
+<br>
+String[] answerChoices -  the different of answer choices saved as strings
+<br>
+itn correctAnswerIndex - the index of the correct answer
+<br>
+public MultipleChoice (String question, int numChoices, String[] answerChoices,int answer Index, int pointValue) -Constructor that asigns the question, point value, number of choices, the answer choices, and the correct answer index
+<br>
+public void displayQuesiton() - prints the question with all of the different answer choices
+<br>
+public void editQuestion(Scanner scanner) - edits the question from user input
+<br>
+<br>
+
+
+
+
+
+
+
+
+
