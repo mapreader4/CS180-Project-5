@@ -21,7 +21,7 @@ public class FillInTheBlank extends Question {
         return this.answer;
     }
 
-    void displayQuestion() {
+    public void displayQuestion() {
         System.out.println(question);
     }
 
