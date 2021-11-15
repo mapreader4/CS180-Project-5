@@ -20,6 +20,9 @@ public class Quiz implements Serializable {
         this.course=course;
     }
     public Quiz(String fileName,Scanner scanner, Course course){
+        System.out.println("What do you want to name this quiz?");
+        String name = scanner.nextLine();
+        this.name = name;
         ArrayList<String> questionList=FileImports.readFile(fileName);
         createQuizFromFile(questionList, scanner);
         this.course=course;
@@ -35,7 +38,7 @@ public class Quiz implements Serializable {
     }
     public void createQuizFromFile(ArrayList<String> questionList, Scanner scanner){
         for(int i=1; i<questionList.size();i++){
-            System.out.println();
+            System.out.println("Question: " + questionList.get(i));
             System.out.println("How many points do you want this question to be?");
             int points=Integer.parseInt(scanner.nextLine());
             System.out.println("What type of question is this?");
@@ -84,7 +87,7 @@ public class Quiz implements Serializable {
                 do {
                     answerIndex = (scanner.nextInt()) + 1;
                     scanner.nextLine();
-                    if(answerIndex<0 || answerIndex>answerChoices){
+                    if(answerIndex<=0 || answerIndex>answerChoices){
                         System.out.println("Enter the correct answer index");
                         break;
                     }
@@ -162,9 +165,9 @@ public class Quiz implements Serializable {
                 System.out.println("What answer choice is correct?");
                 int answerIndex;
                 do {
-                    answerIndex = (scanner.nextInt()) + 1;
+                    answerIndex = (scanner.nextInt());
                     scanner.nextLine();
-                    if(answerIndex<0 || answerIndex>answerChoices){
+                    if(answerIndex<=0 || answerIndex>answerChoices){
                         System.out.println("Enter the correct answer index");
                         break;
                     }
