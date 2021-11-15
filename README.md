@@ -135,7 +135,7 @@ public static ArrayList<String> readFile(String filePath) -
 return an ArrayList of the contents of the quiz file for further processing.
 <br>
 <br>
-Courses:
+Course implements Serializable:
 <br>
 -----------------------
 <br>
@@ -180,3 +180,28 @@ public boolean addStudent(Student student) - adds a student to the course
 public boolean removeStudent(Student student) - removes a student from the course
 <br>
 public boolean equals(Object o) - checks if the object passed is the same as the course object being referenced at that point
+<br>
+CourseList implements Serializable: 
+<br>
+-----------------------
+<br>
+public static final String FILENAME - stores the binary file that has the CourseList object
+<br>
+private ArrayList<Course> courses - stores the list of courses that have been created by teachers
+<br>
+public static CourseList readFromFile() - reads from the binary file to return the CourseList object
+<br>
+public ArrayList<Course> getCourses() - returns the list of courses created by teachers up till that point
+<br>
+public Course getCourse(int i) - returns the course in the course list at the index passed
+<br>
+public boolean exists(Course course) - checks whether the specific course passed is contained in the course list
+<br>
+public boolean add(Course course) - Adds the specific course passed to the course list, and returns whether it was added or already existed
+<br> 
+public boolean update(Course course) - stores an updated course object in the place of the same  course
+<br>
+public void saveToFile() - saves the CourseList object to the file
+<br>
+
+ 
