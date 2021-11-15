@@ -15,9 +15,10 @@ public class FileImports {
             File quiz = new File(filePath);
             String quizQuestions = "";
             BufferedReader bfr = new BufferedReader(new FileReader(filePath));
+            quizQuestions=bfr.readLine();
             do {
+                userInput.add(quizQuestions);
                quizQuestions = bfr.readLine();
-               userInput.add(quizQuestions);
             } while (quizQuestions != null);
         } catch (IOException e) {
             System.out.println("Please input the right file path!");
