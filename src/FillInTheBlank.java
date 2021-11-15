@@ -33,11 +33,14 @@ public class FillInTheBlank extends Question implements Serializable {
                     System.out.println("3. Change point value.");
                     System.out.println("4: Exit");
                     selection = scanner.nextInt();
-                    System.out.println("Please enter a valid input!");
                     scanner.nextLine();
+                    if(selection>0 && selection<5){
+                        break;
+                    }
+                    System.out.println("Please enter a valid input!");
                 }catch(NumberFormatException e){
                 }
-            } while (selection != 1 || selection != 2 || selection != 3||selection!=4);
+            } while (true);
             if (selection == 1) {
                 System.out.println("Please enter the updated Question.");
                 this.question = scanner.nextLine();
@@ -57,10 +60,13 @@ public class FillInTheBlank extends Question implements Serializable {
                     try {
                         points = scanner.nextInt();
                         scanner.nextLine();
+                        if(points>-1){
+                            break;
+                        }
                     } catch (NumberFormatException e) {
                         System.out.println("An error has occurred. Please insert an integer.");
                     }
-                } while (points < 0); // positive points including 0;
+                } while (true); // positive points including 0;
                 this.pointValue = points;
             }
         } while (selection != 4);

@@ -59,8 +59,11 @@ public class MultipleChoice extends Question implements Serializable {
                 System.out.println("5.Exit");
                 selection = scanner.nextInt();
                 scanner.nextLine();
+                if(selection>0 && selection<6){
+                    break;
+                }
 
-            } while (selection != 1 || selection != 2 || selection != 3||selection!=4||selection!=5);
+            } while (true);
             if(selection == 1){
                 System.out.println("Please enter the updated Question.");
                 this.question = scanner.nextLine();
@@ -79,7 +82,7 @@ public class MultipleChoice extends Question implements Serializable {
                     System.out.println("Enter you answer choice number #"+(i+1));
                     this.answerChoices[i] = scanner.nextLine();
                 }
-                System.out.println("What answer choice is correct?");
+                System.out.println("What answer choice is correct? (Please insert a Integer)");
                 this.correctAnswerIndex =scanner.nextInt();
                 scanner.nextLine();
             }

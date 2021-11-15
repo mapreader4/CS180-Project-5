@@ -195,8 +195,11 @@ public class Quiz implements Serializable {
                 System.out.println("3. Exit");
                 selection = scanner.nextInt();
                 scanner.nextLine();
+                if(selection == 1 || selection == 2 || selection ==3){
+                    break;
+                }
                 System.out.println("Please enter a valid number");
-            }while(selection!=1||selection!=2||selection!=3);
+            }while(true);
             if(selection == 1){
                 String name;
                 System.out.println("Please insert the updated name for the quiz.");
