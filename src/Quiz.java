@@ -169,9 +169,9 @@ public class Quiz implements Serializable {
                     scanner.nextLine();
                     if(answerIndex<=0 || answerIndex>answerChoices){
                         System.out.println("Enter the correct answer index");
-                        break;
+                        continue;
                     }
-                    continue;
+                    break;
                 } while(true);
                 Question q = new MultipleChoice(question,answerChoices,choices,answerIndex,points);
                 quiz.add(q);
