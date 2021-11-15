@@ -36,8 +36,7 @@ public class Menu {
             "3. Delete quiz\n" +
             "4. View quiz submissions\n" +
             "5. Change course name\n" +
-            "6. Remove course\n" +
-            "7. Return to main menu";
+            "6. Return to main menu";
     private static final String quizInputMethodMessage = "Do you want to import the quiz as a file " +
             "or enter it through the terminal?\n" +
             "1. Import as file\n" +
@@ -50,8 +49,7 @@ public class Menu {
     private static final String studentCourseOptionsMessage = "Course Menu Options:\n" +
             "1. Take quiz\n" +
             "2. View previously taken quizzes\n" +
-            "3. Remove course\n" +
-            "4. Return to main menu";
+            "3. Return to main menu";
     private static final String exitMessage = "Thank you for using the Online Quiz Navigator!";
     private static final String notValidMessage = "That is not a valid option. Please try again.";
     private static final String cannotBeBlank = "This field cannot be blank. Please try again.";
@@ -241,9 +239,15 @@ public class Menu {
                         Course currentCourse = courses.get(i);
                         System.out.println(currentCourse.getCourseNumber() + ": " + currentCourse.getCourseName());
                     }
-                    System.out.println("Please enter the number of the course you want to access.");
-                    int courseNumber = getIntegerFromScanner(scanner, "Course Number: ", 0, 999999, false);
-                    course = teacher.getCourse(courseNumber);
+                    System.out.println("Please enter the number of the course you want to access.\n" +
+                            "Enter -1 to exit this menu.");
+                    int courseNumber = getIntegerFromScanner(scanner, "Course Number: ", -1, 999999, false);
+                    if (courseNumber == -1) {
+                        course = null;
+                        break;
+                    } else {
+                        course = teacher.getCourse(courseNumber);
+                    }
                     if (course == null) {
                         System.out.println(notValidMessage);
                     } else {
@@ -258,7 +262,9 @@ public class Menu {
                     }
                 } while (course == null);
             }
-            teacherCourseMenu(scanner, teacher, course, courseList);
+            if (course != null) {
+                teacherCourseMenu(scanner, teacher, course, courseList);
+            }
         }
     }
 
@@ -272,13 +278,8 @@ public class Menu {
     private static void teacherCourseMenu(Scanner scanner, Teacher teacher, Course course, CourseList courseList) {
         while (true) {
             System.out.println(course.getCourseName());
-            int actionChoice = getIntegerFromScanner(scanner, teacherCourseOptionsMessage, 1, 7, true);
-            if (actionChoice == 7) {
-                break;
-            } else if (actionChoice == 6) {
-                int courseNumber = course.getCourseNumber();
-                teacher.removeCourse(courseNumber);
-                System.out.println("Course removed!");
+            int actionChoice = getIntegerFromScanner(scanner, teacherCourseOptionsMessage, 1, 6, true);
+            if (actionChoice == 6) {
                 break;
             } else if (actionChoice == 1) {
                 Quiz quiz = null;
@@ -305,9 +306,16 @@ public class Menu {
                     Quiz quiz = quizzes.get(i);
                     System.out.println(i + ": " + quiz.getName());
                 }
-                System.out.println("Please enter the number of the quiz you want to edit.");
-                int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", 0, quizzes.size(), false);
-                Quiz quiz = quizzes.get(quizNumber);
+                System.out.println("Please enter the number of the quiz you want to edit.\n" +
+                        "Enter -1 to exit this menu.");
+                int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", -1, quizzes.size(), false);
+                Quiz quiz;
+                if (quizNumber == -1) {
+                    System.out.println("Exiting");
+                    continue;
+                } else {
+                    quiz = quizzes.get(quizNumber);
+                }
                 quiz.editQuiz(scanner);
             } else if (actionChoice == 3) {
                 ArrayList<Quiz> quizzes = course.getQuizzes();
@@ -316,9 +324,16 @@ public class Menu {
                     Quiz quiz = quizzes.get(i);
                     System.out.println(i + ": " + quiz.getName());
                 }
-                System.out.println("Please enter the number of the quiz you want to delete.");
-                int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", 0, quizzes.size(), false);
-                Quiz quiz = quizzes.get(quizNumber);
+                System.out.println("Please enter the number of the quiz you want to delete.\n" +
+                        "Enter -1 to exit this menu.");
+                int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", -1, quizzes.size(), false);
+                Quiz quiz;
+                if (quizNumber == -1) {
+                    System.out.println("Exiting");
+                    continue;
+                } else {
+                    quiz = quizzes.get(quizNumber);
+                }
                 if (course.removeQuiz(quiz)) {
                     System.out.println("Quiz removed!");
                 } else {
@@ -331,9 +346,16 @@ public class Menu {
                     Quiz quiz = quizzes.get(i);
                     System.out.println(i + ": " + quiz.getName());
                 }
-                System.out.println("Please enter of the quiz you want to view submissions for.");
-                int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", 0, quizzes.size(), false);
-                Quiz quiz = quizzes.get(quizNumber);
+                System.out.println("Please enter the number of the quiz you want to view submissions for.\n" +
+                        "Enter -1 to exit this menu.");
+                int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", -1, quizzes.size(), false);
+                Quiz quiz;
+                if (quizNumber == -1) {
+                    System.out.println("Exiting");
+                    continue;
+                } else {
+                    quiz = quizzes.get(quizNumber);
+                }
 
                 ArrayList<Submission> submissions = quiz.getSubmission();
                 System.out.println("Here is a list of submissions to this quiz:");
@@ -344,9 +366,16 @@ public class Menu {
                                 " - " + submission.getTimestamp());
                     }
                 }
-                System.out.println("Please enter the number of the submission you want to view.");
-                int submissionNumber = getIntegerFromScanner(scanner, "Submission Number: ", 0, submissions.size(), false);
-                Submission submission = submissions.get(submissionNumber);
+                System.out.println("Please enter the number of the submission you want to view.\n" +
+                        "Enter -1 to exit this menu.");
+                int submissionNumber = getIntegerFromScanner(scanner, "Submission Number: ", -1, submissions.size(), false);
+                Submission submission;
+                if (submissionNumber == -1) {
+                    System.out.println("Exiting");
+                    continue;
+                } else {
+                    submission = submissions.get(submissionNumber);
+                }
                 submission.view(scanner, submissionNumber);
             } else if (actionChoice == 5) {
                 System.out.println("Please enter the new course name.");
@@ -372,6 +401,9 @@ public class Menu {
                 break;
             } else if (addOrExistingCourseChoice == 1) {
                 course = addCourseMenu(scanner, student, courseList);
+                if (course == null) {
+                    System.out.println(notValidMessage);
+                }
             } else if (addOrExistingCourseChoice == 2) {
                 do {
                     ArrayList<Course> courses = student.getCourses();
@@ -380,9 +412,15 @@ public class Menu {
                         Course currentCourse = courses.get(i);
                         System.out.println(currentCourse.getCourseNumber() + ": " + currentCourse.getCourseName());
                     }
-                    System.out.println("Please enter the number of the course you want to access.");
-                    int courseNumber = getIntegerFromScanner(scanner, "Course Number: ", 0, 999999, false);
-                    course = student.getCourse(courseNumber);
+                    System.out.println("Please enter the number of the course you want to access.\n" +
+                            "Enter -1 to exit this menu.");
+                    int courseNumber = getIntegerFromScanner(scanner, "Course Number: ", -1, 999999, false);
+                    if (courseNumber == -1) {
+                        course = null;
+                        break;
+                    } else {
+                        course = student.getCourse(courseNumber);
+                    }
                     if (course == null) {
                         System.out.println(notValidMessage);
                     } else {
@@ -397,7 +435,9 @@ public class Menu {
                     }
                 } while (course == null);
             }
-            studentCourseMenu(scanner, student, course, courseList);
+            if (course != null) {
+                studentCourseMenu(scanner, student, course, courseList);
+            }
         }
     }
 
@@ -416,7 +456,7 @@ public class Menu {
             System.out.println(currentCourse.getCourseNumber() + ": " + currentCourse.getCourseName());
         }
 
-        System.out.println("Please enter the course number of the course you want to add.");
+        System.out.println("Please enter the number of the course you want to add.");
         int courseNumber = getIntegerFromScanner(scanner, "Course Number: ", 0, 999999, false);
         for (int i = 0; i < courses.size(); i++) {
             if (courses.get(i).getCourseNumber() == courseNumber) {
@@ -439,13 +479,8 @@ public class Menu {
     private static void studentCourseMenu(Scanner scanner, Student student, Course course, CourseList courseList) {
         while (true) {
             System.out.println(course.getCourseName());
-            int actionChoice = getIntegerFromScanner(scanner, studentCourseOptionsMessage, 1, 4, true);
-            if (actionChoice == 4) {
-                break;
-            } else if (actionChoice == 3) {
-                int courseNumber = course.getCourseNumber();
-                student.removeCourse(course);
-                System.out.println("Course removed!");
+            int actionChoice = getIntegerFromScanner(scanner, studentCourseOptionsMessage, 1, 3, true);
+            if (actionChoice == 3) {
                 break;
             } else if (actionChoice == 1) {
                 ArrayList<Quiz> quizzes = course.getQuizzes();
@@ -454,9 +489,16 @@ public class Menu {
                     Quiz quiz = quizzes.get(i);
                     System.out.println(i + ": " + quiz.getName());
                 }
-                System.out.println("Please enter the number of the quiz you want to take.");
-                int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", 0, quizzes.size(), false);
-                Quiz quiz = quizzes.get(quizNumber);
+                System.out.println("Please enter the number of the quiz you want to take.\n" +
+                        "Enter -1 to exit this menu.");
+                int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", -1, quizzes.size(), false);
+                Quiz quiz;
+                if (quizNumber == -1) {
+                    System.out.println("Exiting");
+                    continue;
+                } else {
+                    quiz = quizzes.get(quizNumber);
+                }
                 Submission submission = new Submission(student, quiz);
                 submission.takeQuiz(scanner);
             } else if (actionChoice == 2) {
@@ -469,9 +511,16 @@ public class Menu {
                                 " - " + submission.getTimestamp());
                     }
                 }
-                System.out.println("Please enter the number of the submission you want to view.");
-                int submissionNumber = getIntegerFromScanner(scanner, "Submission Number: ", 0, submissions.size(), false);
-                Submission submission = submissions.get(submissionNumber);
+                System.out.println("Please enter the number of the submission you want to view.\n" +
+                        "Enter -1 to exit this menu.");
+                int submissionNumber = getIntegerFromScanner(scanner, "Submission Number: ", -1, submissions.size(), false);
+                Submission submission;
+                if (submissionNumber == -1) {
+                    System.out.println("Exiting");
+                    continue;
+                } else {
+                    submission = submissions.get(submissionNumber);
+                }
                 submission.view(scanner, submissionNumber);
             }
         }
