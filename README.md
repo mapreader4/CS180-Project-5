@@ -368,7 +368,36 @@ public void displayQuesiton() - prints the question with all of the different an
 public void editQuestion(Scanner scanner) - edits the question from user input
 <br>
 <br>
-
+Question (implements Serializable)
+<br>
+----------------------------------
+<br>
+String question - Stores name of the question
+<br>
+int pointValue - Stores point value of specific question
+<br> 
+public Question(String question, int pointValue) - Instantiates question and pointValue
+<br>
+public String getQuestion() - Returns question
+<br>
+public int getPointValue() - Returns pointValue
+<br>
+public void editQuestion(Scanner scanner) - Edits question
+<br>
+<br>
+MultipleChoice (extends Question)
+<br>
+int numChoices - Number of choices available for this question
+<br>
+String[] answerChoices - List of possible answers
+<br>
+int correctAnswerIndex - Index of Correct answer within answerChoices
+<br>
+public MultipleChoice(String question, int numChoices, String[] answerChoices, int answerIndex, int pointValue) - Instantiates question and pointValue in super class; instantiates numChoices, answerIndex, and answerChoices in MultipleChoice
+<br>
+public void displayQuestion() - Displays multiple choice question
+<br>
+public void editQuestion(Scanner scanner) - Edits multiple choice question
 
 
 
