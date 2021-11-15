@@ -226,7 +226,7 @@ public class Submission implements Serializable {
         return studentAnswer1;
     }
 
-    public void view(Scanner scanner, int submissionNumber) {
+    public void view(int submissionNumber) {
         ArrayList<Submission> allThePreviousSubmissions = student.getSubmissions();
         for (int i = 0; i < allThePreviousSubmissions.size(); i++) {
             if (i == submissionNumber) {
