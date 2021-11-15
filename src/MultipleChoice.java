@@ -23,20 +23,6 @@ public class MultipleChoice extends Question {
 
     }
 
-    public String saveString() { //saves the question to a file
-        String s;
-        s = "multipleChoice|" + getQuestion() + "|" + numChoices + "|";
-        for (int i = 0; i < answerChoices.length; i++) {
-            if (i == answerChoices.length - 1) {
-                s += answerChoices[i];
-                break;
-            }
-            s += answerChoices[i] + ",";
-        }
-        s += "|" + correctAnswerIndex + "|" + getPointValue();
-        return s;
-    }
-
     public void editQuestion(Scanner scanner) {
         int selection;
         do {

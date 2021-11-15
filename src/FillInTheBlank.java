@@ -17,11 +17,6 @@ public class FillInTheBlank extends Question{
         System.out.println(question);
     }
 
-    public String saveString() {
-        String s = "fillInTheBlank|" + question + "|" + answer + "|" + pointValue;
-        return s;
-    }
-
     public void editQuestion(Scanner scanner) {
         int selection= 0;
         do {

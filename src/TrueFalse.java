@@ -17,9 +17,6 @@ public class TrueFalse extends Question{
         System.out.println("False");
     }
 
-    public String saveString(){
-        return "trueFalse|"+getQuestion()+"|"+answer+"|"+getPointValue();
-    }
     public void editQuestion(Scanner scanner){
         int selection;
         do {
