@@ -7,7 +7,7 @@ import java.util.Scanner;
  *
  * The class containing the main menu and supporting methods.
  *
- * @author Nathan Reed (mostly, add your name if you edit this part of the project)
+ * @author Nathan Reed
  * @version November 14, 2021
  */
 public class Menu {
@@ -197,7 +197,8 @@ public class Menu {
     private static void teacherMenu(Scanner scanner, Teacher teacher, CourseList courseList) throws IOException{
         while (true) {
             Course course = null;
-            int createOrEditCourseChoice = getIntegerFromScanner(scanner, createOrEditCourseMessage, 1, 3, true);
+            int createOrEditCourseChoice = getIntegerFromScanner(scanner, createOrEditCourseMessage, 1,
+                    3, true);
             if (createOrEditCourseChoice == 3) {
                 break;
             } else if (createOrEditCourseChoice == 1) {
@@ -216,7 +217,8 @@ public class Menu {
                     }
                     System.out.println("Please enter the number of the course you want to access.\n" +
                             "Enter -1 to exit this menu.");
-                    int courseNumber = getIntegerFromScanner(scanner, "Course Number: ", -1, 999999, false);
+                    int courseNumber = getIntegerFromScanner(scanner, "Course Number: ", -1,
+                            999999, false);
                     if (courseNumber == -1) {
                         course = null;
                         break;
@@ -278,12 +280,14 @@ public class Menu {
     private static void teacherCourseMenu(Scanner scanner, Teacher teacher, Course course, CourseList courseList) {
         while (true) {
             System.out.println(course.getCourseName());
-            int actionChoice = getIntegerFromScanner(scanner, teacherCourseOptionsMessage, 1, 6, true);
+            int actionChoice = getIntegerFromScanner(scanner, teacherCourseOptionsMessage, 1,
+                    6, true);
             if (actionChoice == 6) {
                 break;
             } else if (actionChoice == 1) {
                 Quiz quiz = null;
-                int quizInputMethod = getIntegerFromScanner(scanner, quizInputMethodMessage, 1, 2, true);
+                int quizInputMethod = getIntegerFromScanner(scanner, quizInputMethodMessage, 1, 2,
+                        true);
 
                 if (quizInputMethod == 1) {
                     do {
@@ -308,7 +312,8 @@ public class Menu {
                 }
                 System.out.println("Please enter the number of the quiz you want to edit.\n" +
                         "Enter -1 to exit this menu.");
-                int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", -1, quizzes.size(), false);
+                int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", -1, quizzes.size(),
+                        false);
                 Quiz quiz;
                 if (quizNumber == -1) {
                     System.out.println("Exiting");
@@ -326,7 +331,8 @@ public class Menu {
                 }
                 System.out.println("Please enter the number of the quiz you want to delete.\n" +
                         "Enter -1 to exit this menu.");
-                int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", -1, quizzes.size(), false);
+                int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", -1, quizzes.size(),
+                        false);
                 Quiz quiz;
                 if (quizNumber == -1) {
                     System.out.println("Exiting");
@@ -348,7 +354,8 @@ public class Menu {
                 }
                 System.out.println("Please enter the number of the quiz you want to view submissions for.\n" +
                         "Enter -1 to exit this menu.");
-                int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", -1, quizzes.size(), false);
+                int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", -1, quizzes.size(),
+                        false);
                 Quiz quiz;
                 if (quizNumber == -1) {
                     System.out.println("Exiting");
@@ -368,7 +375,8 @@ public class Menu {
                 }
                 System.out.println("Please enter the number of the submission you want to view.\n" +
                         "Enter -1 to exit this menu.");
-                int submissionNumber = getIntegerFromScanner(scanner, "Submission Number: ", -1, submissions.size(), false);
+                int submissionNumber = getIntegerFromScanner(scanner, "Submission Number: ", -1,
+                        submissions.size(), false);
                 Submission submission;
                 if (submissionNumber == -1) {
                     System.out.println("Exiting");
@@ -396,7 +404,8 @@ public class Menu {
     private static void studentMenu(Scanner scanner, Student student, CourseList courseList) {
         while (true) {
             Course course = null;
-            int addOrExistingCourseChoice = getIntegerFromScanner(scanner, addOrExistingCourseMessage, 1, 3, true);
+            int addOrExistingCourseChoice = getIntegerFromScanner(scanner, addOrExistingCourseMessage, 1,
+                    3, true);
             if (addOrExistingCourseChoice == 3) {
                 break;
             } else if (addOrExistingCourseChoice == 1) {
@@ -414,7 +423,8 @@ public class Menu {
                     }
                     System.out.println("Please enter the number of the course you want to access.\n" +
                             "Enter -1 to exit this menu.");
-                    int courseNumber = getIntegerFromScanner(scanner, "Course Number: ", -1, 999999, false);
+                    int courseNumber = getIntegerFromScanner(scanner, "Course Number: ", -1,
+                            999999, false);
                     if (courseNumber == -1) {
                         course = null;
                         break;
@@ -457,7 +467,8 @@ public class Menu {
         }
 
         System.out.println("Please enter the number of the course you want to add.");
-        int courseNumber = getIntegerFromScanner(scanner, "Course Number: ", 0, 999999, false);
+        int courseNumber = getIntegerFromScanner(scanner, "Course Number: ", 0, 999999,
+                false);
         for (int i = 0; i < courses.size(); i++) {
             if (courses.get(i).getCourseNumber() == courseNumber) {
                 Course currentCourse = courses.get(i);
@@ -479,7 +490,8 @@ public class Menu {
     private static void studentCourseMenu(Scanner scanner, Student student, Course course, CourseList courseList) {
         while (true) {
             System.out.println(course.getCourseName());
-            int actionChoice = getIntegerFromScanner(scanner, studentCourseOptionsMessage, 1, 3, true);
+            int actionChoice = getIntegerFromScanner(scanner, studentCourseOptionsMessage, 1, 3,
+                    true);
             if (actionChoice == 3) {
                 break;
             } else if (actionChoice == 1) {
@@ -491,7 +503,8 @@ public class Menu {
                 }
                 System.out.println("Please enter the number of the quiz you want to take.\n" +
                         "Enter -1 to exit this menu.");
-                int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", -1, quizzes.size(), false);
+                int quizNumber = getIntegerFromScanner(scanner, "Quiz Number: ", -1, quizzes.size(),
+                        false);
                 Quiz quiz;
                 if (quizNumber == -1) {
                     System.out.println("Exiting");
@@ -513,7 +526,8 @@ public class Menu {
                 }
                 System.out.println("Please enter the number of the submission you want to view.\n" +
                         "Enter -1 to exit this menu.");
-                int submissionNumber = getIntegerFromScanner(scanner, "Submission Number: ", -1, submissions.size(), false);
+                int submissionNumber = getIntegerFromScanner(scanner, "Submission Number: ", -1,
+                        submissions.size(), false);
                 Submission submission;
                 if (submissionNumber == -1) {
                     System.out.println("Exiting");

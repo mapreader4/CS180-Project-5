@@ -1,76 +1,64 @@
-import java.io.*;
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Objects;
 
 
-public class Course implements Serializable{
-
+public class Course implements Serializable {
+    /**
+     * Course Class : Handles the courses created by teacher and added by student
+     *
+     * @author Jay Mehta
+     * @version Nov 13, 2021
+     */
     private String courseName;
     private Teacher teacher;
     private int courseNumber;
     private ArrayList<Student> students;
     private ArrayList<Quiz> quizzes;
 
-//    public Course(String courseName,String filename,Teacher teacher, int courseNumber, ArrayList<Student> students, ArrayList<Quiz> quizzes){
-//        this(courseName,teacher,courseNumber);
-//        this.filename=filename;
-//        this.students=students;
-//        this.quizzes=quizzes;
-//
-//    }
+    public Course(String courseName, Teacher teacher, int courseNumber) {
 
-    public Course(String courseName, Teacher teacher, int courseNumber){
-//        try (ObjectOutputStream pw=new ObjectOutputStream(new FileOutputStream(new File(Menu.coursesFile),true))){
-//            pw.writeObject(this);
-//        } catch(FileNotFoundException e){
-//            System.out.println("No file found");
-//            return;
-//        } catch (IOException e){
-//            e.printStackTrace();
-//            return;
-//        }
-        this.courseName=courseName;
-        this.teacher=teacher;
-        this.courseNumber=courseNumber;
-        this.students=new ArrayList<Student>();
-        this.quizzes=new ArrayList<Quiz>();
+        this.courseName = courseName;
+        this.teacher = teacher;
+        this.courseNumber = courseNumber;
+        this.students = new ArrayList<Student>();
+        this.quizzes = new ArrayList<Quiz>();
 
     }
 
-    public String getCourseName(){
+    public String getCourseName() {
         return this.courseName;
     }
 
-    public void setCourseName(String courseName){
-        this.courseName=courseName;
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
     public Teacher getTeacher() {
         return teacher;
     }
 
-    public int getCourseNumber() {
-        return courseNumber;
-    }
-
-    public ArrayList<Student> getStudents() {
-        return students;
-    }
-
-    public ArrayList<Quiz> getQuizzes() {
-        return quizzes;
-    }
-
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
+    }
+
+    public int getCourseNumber() {
+        return courseNumber;
     }
 
     public void setCourseNumber(int courseNumber) {
         this.courseNumber = courseNumber;
     }
 
+    public ArrayList<Student> getStudents() {
+        return students;
+    }
+
     public void setStudents(ArrayList<Student> students) {
         this.students = students;
+    }
+
+    public ArrayList<Quiz> getQuizzes() {
+        return quizzes;
     }
 
     public void setQuizzes(ArrayList<Quiz> quizzes) {
@@ -87,17 +75,17 @@ public class Course implements Serializable{
         return true;
     }
 
-     public boolean removeQuiz(Quiz quiz){
-        for(int i=0;i<quizzes.size();i++){
-            if(quiz.equals(quizzes.get(i))){
+    public boolean removeQuiz(Quiz quiz) {
+        for (int i = 0; i < quizzes.size(); i++) {
+            if (quiz.equals(quizzes.get(i))) {
                 quizzes.remove(quizzes.get(i));
                 return true;
             }
         }
         return false;
-     }
+    }
 
-    public boolean addStudent(Student student){
+    public boolean addStudent(Student student) {
         for (int i = 0; i < students.size(); i++) {
             if (student.equals(students.get(i))) {
                 return false;
@@ -107,7 +95,7 @@ public class Course implements Serializable{
         return true;
     }
 
-    public boolean removeStudent(Student student){
+    public boolean removeStudent(Student student) {
         if (students.contains(student)) {
             students.remove(student);
             return true;

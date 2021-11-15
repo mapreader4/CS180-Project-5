@@ -1,14 +1,15 @@
-import java.io.Serializable;
 import java.util.Scanner;
 
-public class TrueFalse extends Question{
+public class TrueFalse extends Question {
     String answer;
-    public String getAnswer(){
-        return this.answer;
-    }
-    public TrueFalse(String question,String answer,int pointValue){
-        super(question,pointValue);
+
+    public TrueFalse(String question, String answer, int pointValue) {
+        super(question, pointValue);
         this.answer = answer;
+    }
+
+    public String getAnswer() {
+        return this.answer;
     }
 
     public void displayQuestion() {
@@ -17,7 +18,11 @@ public class TrueFalse extends Question{
         System.out.println("False");
     }
 
-    public void editQuestion(Scanner scanner){
+    public String saveString() {
+        return "trueFalse|" + getQuestion() + "|" + answer + "|" + getPointValue();
+    }
+
+    public void editQuestion(Scanner scanner) {
         int selection;
         do {
             do {
@@ -28,44 +33,44 @@ public class TrueFalse extends Question{
                 System.out.println("4: Exit");
                 selection = scanner.nextInt();
                 scanner.nextLine();
-                if(selection>0 && selection<5){
+                if (selection > 0 && selection < 5) {
                     break;
                 }
                 System.out.println("Please enter a valid input!");
-            } while (selection != 1 || selection != 2||selection != 3);
-            if(selection == 1){
+            } while (selection != 1 || selection != 2 || selection != 3);
+            if (selection == 1) {
                 System.out.println("Please enter the updated Question.");
                 this.question = scanner.nextLine();
                 System.out.println("Quiz question updated!");
             }
-            if(selection == 2){
+            if (selection == 2) {
                 String response;
-                do{
+                do {
                     System.out.println("What do you want the answer to be? (Please enter True or False)");
                     response = scanner.nextLine();
-                    if(response.equalsIgnoreCase("True")||response.equals("False")){
+                    if (response.equalsIgnoreCase("True") || response.equals("False")) {
                         break;
                     }
-                }while(true);
+                } while (true);
                 response.toLowerCase();
                 this.answer = response;
             }
-            if(selection == 3){
-                int points=-1;
+            if (selection == 3) {
+                int points = -1;
                 do {
                     System.out.println("What do you want the points for the question to be?");
                     try {
                         points = scanner.nextInt();
                         scanner.nextLine();
-                        if(selection>-1){
+                        if (selection > -1) {
                             break;
                         }
                     } catch (NumberFormatException e) {
                         System.out.println("An error has occurred. Please insert an integer.");
                     }
-                }while(points<0); // positive points including 0;
+                } while (points < 0); // positive points including 0;
                 this.pointValue = points;
             }
-        }while(selection!=4);
+        } while (selection != 4);
     }
 }
