@@ -137,8 +137,7 @@ public class Quiz implements Serializable {
             if (randomized.equalsIgnoreCase("N") || randomized.equalsIgnoreCase("NO")) {
                 this.randomized = false;
                 break;
-            } else if (randomized.equalsIgnoreCase("Y") ||
-                    randomized.equalsIgnoreCase("Yes")) {
+            } else if (randomized.equalsIgnoreCase("Y") ||randomized.equalsIgnoreCase("Yes")) {
                 this.randomized = true;
                 break;
             } else {
