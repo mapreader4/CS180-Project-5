@@ -22,6 +22,9 @@ public class Submission implements Serializable{
     public Submission(Student student, Quiz quizz){
         this.student=student;
         this.quizz=quizz;
+        if (quizz.isRandomized) {
+            quizz.randomizeQuestions();
+        }
         Date date =new Date();
         Timestamp ts = new Timestamp(date.getTime());
         this.timestamp=ts;
