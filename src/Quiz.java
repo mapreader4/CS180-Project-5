@@ -27,6 +27,7 @@ public class Quiz implements Serializable {
         this.course = course;
     }
 
+
     public Quiz(String fileName, Scanner scanner, Course course) {
         System.out.println("What do you want to name this quiz?");
         String name = scanner.nextLine();
@@ -35,6 +36,7 @@ public class Quiz implements Serializable {
         createQuizFromFile(questionList, scanner);
         this.course = course;
     }
+
     public boolean isRandomized(){
         return randomized;
     }
