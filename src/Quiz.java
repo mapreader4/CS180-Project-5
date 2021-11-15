@@ -37,7 +37,7 @@ public class Quiz implements Serializable {
         this.course = course;
     }
 
-    public boolean isRandomized(){
+    public boolean isRandomized() {
         return randomized;
     }
 
@@ -64,7 +64,8 @@ public class Quiz implements Serializable {
             do {
                 questionType = scanner.nextLine();
                 if (!questionType.equalsIgnoreCase("True False") && !questionType.equalsIgnoreCase(
-                        "Fill in the blank") && !questionType.equalsIgnoreCase("Multiple Choice")) {
+                        "Fill in the blank") &&
+                        !questionType.equalsIgnoreCase("Multiple Choice")) {
                     System.out.println("Please enter a valid type of question");
                     continue;
                 }
@@ -130,19 +131,20 @@ public class Quiz implements Serializable {
             break;
         } while (true);
         this.numQuestions = questions;
-        do{
-                System.out.println("Would you like this quiz to be randomized? (Answer Yes or No)");
-                String randomized = scanner.nextLine();
-                if (randomized.equalsIgnoreCase("N") || randomized.equalsIgnoreCase("NO")) {
-                    this.randomized = false;
-                    break;
-                } else if (randomized.equalsIgnoreCase("Y") || randomized.equalsIgnoreCase("Yes")) {
-                    this.randomized = true;
-                    break;
-                } else {
-                    continue;
-                }
-        }while(true);
+        do {
+            System.out.println("Would you like this quiz to be randomized? (Answer Yes or No)");
+            String randomized = scanner.nextLine();
+            if (randomized.equalsIgnoreCase("N") || randomized.equalsIgnoreCase("NO")) {
+                this.randomized = false;
+                break;
+            } else if (randomized.equalsIgnoreCase("Y") ||
+                    randomized.equalsIgnoreCase("Yes")) {
+                this.randomized = true;
+                break;
+            } else {
+                continue;
+            }
+        } while (true);
         for (int i = 0; i < questions; i++) {
             //String type, String question, int numChoices, String[]answerChoices, int correctAnswerIndex
             System.out.println("What type of question would you like Question #" + (i + 1) + " to be?");
@@ -258,8 +260,8 @@ public class Quiz implements Serializable {
     }
 
     public void randomizeQuestions() {
-        ArrayList <Question> temp = quiz;
-        ArrayList <Question> temp2 = new ArrayList<>();
+        ArrayList<Question> temp = quiz;
+        ArrayList<Question> temp2 = new ArrayList<>();
         int quizLength = quiz.size();
         while (quizLength > 0) {
             temp2.add(temp.remove((int) (Math.random() * quizLength)));
@@ -269,7 +271,6 @@ public class Quiz implements Serializable {
         quiz = temp2;
 
     }
-
 
 
 }
