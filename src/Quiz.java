@@ -16,10 +16,10 @@ public class Quiz implements Serializable {
 
     private int numQuestions;
     private ArrayList<Question> quiz = new ArrayList<Question>();
-    private String pathway;
     private String name;
     private Course course;
     private ArrayList<Submission> submissions = new ArrayList<>();
+    private boolean randomized;
 
 
     public Quiz(Scanner scanner, Course course) { //create Quiz within the Quiz Class
@@ -125,6 +125,20 @@ public class Quiz implements Serializable {
             break;
         } while (true);
         this.numQuestions = questions;
+        do{
+                System.out.println("Would you like this question to be randomized? (Answer Yes or No)");
+                String randomized = scanner.nextLine();
+                if (randomized.equalsIgnoreCase("N") || randomized.equalsIgnoreCase("NO")) {
+                    this.randomized = false;
+                    break;
+                } else if (randomized.equalsIgnoreCase("Y") || randomized.equalsIgnoreCase("Yes")) {
+                    this.randomized = true;
+                    break;
+                } else {
+                    System.out.println();
+                    continue;
+                }
+        }while(true);
         for (int i = 0; i < questions; i++) {
             //String type, String question, int numChoices, String[]answerChoices, int correctAnswerIndex
             System.out.println("What type of question would you like Question #" + (i + 1) + " to be?");
