@@ -131,7 +131,7 @@ public class Quiz implements Serializable {
         } while (true);
         this.numQuestions = questions;
         do{
-                System.out.println("Would you like this question to be randomized? (Answer Yes or No)");
+                System.out.println("Would you like this quiz to be randomized? (Answer Yes or No)");
                 String randomized = scanner.nextLine();
                 if (randomized.equalsIgnoreCase("N") || randomized.equalsIgnoreCase("NO")) {
                     this.randomized = false;
