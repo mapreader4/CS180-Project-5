@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 /**
- * Teacher Class
+ * Teacher Class: Responsible for creating Teacher Users
  *
  * @author Aditya Menon
  * @version Nov 13, 2021

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Student Class
+ * Student Class: Responsible for creating Student Users
  *
  * @author Aditya Menon
  * @version Nov 13, 2021
