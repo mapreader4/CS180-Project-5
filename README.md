@@ -20,7 +20,7 @@ Classes
 <br>
 ********
 <br>
-User:
+User (implements Serializable):
 <br>
 -----
 <br>
@@ -43,7 +43,7 @@ public boolean equals(Object o) - Returns true or false comparing Object o to th
 public static void testEquals() - Method used to test the equals(Object o) method
 <br>
 <br>
-Student:
+Student (extends User):
 <br>
 --------
 <br>
@@ -66,7 +66,7 @@ public void addSubmission(Submission s) - Adds Submission s to submissions
 public String toString() - Returns String representation of Student
 <br>
 <br>
-Teacher:
+Teacher (extends User):
 <br>
 --------
 <br>
