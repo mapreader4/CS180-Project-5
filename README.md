@@ -245,3 +245,40 @@ public void saveToFile() - saves the TeacherList object to the file
 public Teacher findTeacher(String username, String password) - returns a teacher from the teacher list whose username and password is given
 <br>
 <br>
+Submission implements Serializable 
+<br>
+-----------------------
+<br>
+Student student - stores the who submittd the submission 
+<br>
+Quiz quizz - stores the quiz that is being attempted as a quiz submission
+<br>
+Timestamp timestamp - stores exactly when the student submitted his submission
+<br>
+int totalScore - stores the total score the student amassed by answering the question correct in the quiz submission
+<br>
+String filename - stores the name of the file in which the submission is being stored
+<br>
+public Submission(Student student, Quiz quizz) - Constructor that create a submission object using the student taking the quiz and the quiz being taken
+<br>
+public Student getStudent() - returns the student who is submitting the quiz
+<br>
+public String getFilename() - returns the name of the file where the submission will get stored
+<br>
+public TimeStamp getTimeStamp() - returns the time stamp of the submission
+<br>
+public Course getCourse() - returns the course the quiz which is being submitted belongs to
+<br>
+public Quiz getQuiz() - returns the quiz the submission belongs to
+<br>
+public boolean takeQuiz(Scanner scanner) - the quiz is attempted, a submission is made and stored in a file using submissionReport(ArrayList<String> answers, ArrayList<Question> questions).
+<br>
+public void submissionReport(ArrayList<String> answers, ArrayList<Question> questions)- generates a submission report and stores in a text file
+<br>
+public String createsNewFile() - creates a new file to store the submission report in
+<br>
+public String readingTheAnswerFormFile(Scanner scanner) - reads the answer that a student submits in a text file
+<br>
+public void view(int submissionNumber) - shows the submission which is called through its number to the student
+<br>
+<br>
