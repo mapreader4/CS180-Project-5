@@ -5,13 +5,13 @@ import java.util.Date;
 import java.util.Scanner;
 import java.util.Random;
 
-public class Submission implements Serializable{
+public class Submission implements Serializable {
     /**
      * Submission Class : handles the process of student taking the quiz, the grading of that submission, file writing,
      * score assignment, and viewing previous submissions
      *
-     *@author Jay Mehta
-     *@version Nov 13, 2021
+     * @author Jay Mehta
+     * @version Nov 13, 2021
      */
     Student student;
     Quiz quizz;
@@ -19,19 +19,19 @@ public class Submission implements Serializable{
     int totalScore;
     String filename;
 
-    public Submission(Student student, Quiz quizz){
-        this.student=student;
-        this.quizz=quizz;
-        Date date =new Date();
+    public Submission(Student student, Quiz quizz) {
+        this.student = student;
+        this.quizz = quizz;
+        Date date = new Date();
         Timestamp ts = new Timestamp(date.getTime());
-        this.timestamp=ts;
+        this.timestamp = ts;
     }
 
-    public Student getStudent(){
+    public Student getStudent() {
         return student;
     }
 
-    public String getFilename(){
+    public String getFilename() {
         return this.filename;
     }
 
@@ -39,13 +39,14 @@ public class Submission implements Serializable{
         return timestamp;
     }
 
-    public Course getCourse(){
+    public Course getCourse() {
         return this.quizz.getCourse();
     }
 
-    public Quiz getQuiz(){
+    public Quiz getQuiz() {
         return quizz;
     }
+
     public boolean takeQuiz(Scanner scanner) {
         ArrayList<String> answers = new ArrayList<>();
         ArrayList<Question> questions = new ArrayList<>();
@@ -130,7 +131,7 @@ public class Submission implements Serializable{
                     System.out.print("Your answer:");
                     studentAnswer = scanner.nextLine();
                     int number = Integer.parseInt(studentAnswer);
-                    number --;
+                    number--;
                     studentAnswer = String.valueOf(number);
                 }
                 answers.add(studentAnswer);
@@ -138,59 +139,57 @@ public class Submission implements Serializable{
             }
 
         }
-        submissionReport(answers,questions);
+        submissionReport(answers, questions);
         return true;
     }
 
-    public void submissionReport(ArrayList<String> answers, ArrayList<Question> questions){
+    public void submissionReport(ArrayList<String> answers, ArrayList<Question> questions) {
         String filepath = createsNewFile();
-        try(PrintWriter pw =new PrintWriter(new FileWriter(filepath))){
-            pw.println(student.getUsername()+": "+ quizz.getName());
-            for(int i=0;i< answers.size();i++){
-                if(questions.get(i).getClass()==FillInTheBlank.class){
+        try (PrintWriter pw = new PrintWriter(new FileWriter(filepath))) {
+            pw.println(student.getUsername() + ": " + quizz.getName());
+            for (int i = 0; i < answers.size(); i++) {
+                if (questions.get(i).getClass() == FillInTheBlank.class) {
                     FillInTheBlank temp = (FillInTheBlank) questions.get(i);
-                    pw.print("Question "+(i+1)+". ");
+                    pw.print("Question " + (i + 1) + ". ");
                     pw.println(temp.getQuestion());
-                    pw.print("Answer "+(i+1)+". ");
+                    pw.print("Answer " + (i + 1) + ". ");
                     pw.println(temp.getAnswer());
-                    pw.println("Your answer: "+ (answers.get(i)));
-                    if(temp.getAnswer().equalsIgnoreCase(answers.get(i))) {
+                    pw.println("Your answer: " + (answers.get(i)));
+                    if (temp.getAnswer().equalsIgnoreCase(answers.get(i))) {
                         pw.println("Points got: " + temp.getPointValue());
-                        totalScore+=temp.getPointValue();
+                        totalScore += temp.getPointValue();
                     } else {
-                        pw.println("Points got: "+0);
+                        pw.println("Points got: " + 0);
                     }
-                }
-                else if(questions.get(i).getClass()==TrueFalse.class){
-                    TrueFalse temp=(TrueFalse) questions.get(i);
-                    pw.print("Question "+i+1+". ");
+                } else if (questions.get(i).getClass() == TrueFalse.class) {
+                    TrueFalse temp = (TrueFalse) questions.get(i);
+                    pw.print("Question " + i + 1 + ". ");
                     pw.println(temp.getQuestion());
-                    pw.print("Answer "+i+1+". ");
+                    pw.print("Answer " + i + 1 + ". ");
                     pw.println(temp.getAnswer());
-                    pw.println("Your answer: "+ ((answers.get(i))));
-                    if(temp.getAnswer().equalsIgnoreCase(answers.get(i))) {
+                    pw.println("Your answer: " + ((answers.get(i))));
+                    if (temp.getAnswer().equalsIgnoreCase(answers.get(i))) {
                         pw.println("Points got: " + temp.getPointValue());
-                        totalScore+=temp.getPointValue();
+                        totalScore += temp.getPointValue();
                     } else {
-                        pw.println("Points got: "+0);
+                        pw.println("Points got: " + 0);
                     }
-                }
-                else if(questions.get(i).getClass()==MultipleChoice.class){
-                    MultipleChoice temp=(MultipleChoice) questions.get(i);
-                    pw.print("Question "+i+1+". ");
+                } else if (questions.get(i).getClass() == MultipleChoice.class) {
+                    MultipleChoice temp = (MultipleChoice) questions.get(i);
+                    pw.print("Question " + i + 1 + ". ");
                     pw.println(temp.getQuestion());
-                    pw.print("Answer "+i+1+". ");
+                    pw.print("Answer " + i + 1 + ". ");
                     pw.println(temp.correctAnswerIndex);
-                    pw.println("Your answer: "+ ((answers.get(i))));
-                    if(temp.correctAnswerIndex==Integer.parseInt((String)(answers.get(i)))){
+                    pw.println("Your answer: " + ((answers.get(i))));
+                    if (temp.correctAnswerIndex == Integer.parseInt((String) (answers.get(i)))) {
                         pw.println("Points got: " + temp.getPointValue());
-                        totalScore+=temp.getPointValue();
+                        totalScore += temp.getPointValue();
                     } else {
-                        pw.println("Points got: "+0);
+                        pw.println("Points got: " + 0);
                     }
                 }
             }
-        } catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             return;
         }
@@ -198,14 +197,14 @@ public class Submission implements Serializable{
         quizz.addSubmission(this);
     }
 
-    public String createsNewFile(){
-        Random a=new Random();
-        String filepath="Submission"+student.getUsername()+a.nextInt(10000);
-        this.filename=filepath;
+    public String createsNewFile() {
+        Random a = new Random();
+        String filepath = "Submission" + student.getUsername() + a.nextInt(10000);
+        this.filename = filepath;
         return filepath;
     }
 
-    public String readingTheAnswerFromFile (Scanner scanner) {
+    public String readingTheAnswerFromFile(Scanner scanner) {
         String studentAnswer1 = "";
         try {
             System.out.println("Enter the file path:");
@@ -214,7 +213,7 @@ public class Submission implements Serializable{
             BufferedReader bfr = new BufferedReader(new FileReader(f));
             String line = bfr.readLine();
             while (line != null) {
-                studentAnswer1 = studentAnswer1+line;
+                studentAnswer1 = studentAnswer1 + line;
                 line = bfr.readLine();
             }
         } catch (IOException e) {
@@ -224,22 +223,22 @@ public class Submission implements Serializable{
         return studentAnswer1;
     }
 
-    public void view(Scanner scanner, int submissionNumber){
-        ArrayList<Submission> allThePreviousSubmissions= student.getSubmissions();
-        for(int i=0;i< allThePreviousSubmissions.size();i++){
-            if(i==submissionNumber){
-                try(BufferedReader bfr=new BufferedReader(new FileReader(allThePreviousSubmissions.get(i).getFilename())
-                )){
-                        String line=bfr.readLine();
-                        while(line!=null){
-                            System.out.println(line);
-                            line=bfr.readLine();
-                        }
-                        break;
-                    } catch(IOException e){
-                        System.out.println("There was an error reading from the file.");
-                        throw new RuntimeException();
+    public void view(Scanner scanner, int submissionNumber) {
+        ArrayList<Submission> allThePreviousSubmissions = student.getSubmissions();
+        for (int i = 0; i < allThePreviousSubmissions.size(); i++) {
+            if (i == submissionNumber) {
+                try (BufferedReader bfr = new BufferedReader(new FileReader(allThePreviousSubmissions.get(i).getFilename())
+                )) {
+                    String line = bfr.readLine();
+                    while (line != null) {
+                        System.out.println(line);
+                        line = bfr.readLine();
                     }
+                    break;
+                } catch (IOException e) {
+                    System.out.println("There was an error reading from the file.");
+                    throw new RuntimeException();
+                }
             }
         }
     }

@@ -4,8 +4,8 @@ import java.util.Scanner;
  * True False Class : This class is in charge of storing a True False  type question and also has useful
  * functions for the rest of the program.
  *
- *@author Nathan Schlutz
- *@version Nov 13, 2021
+ * @author Nathan Schlutz
+ * @version Nov 13, 2021
  */
 
 public class TrueFalse extends Question {

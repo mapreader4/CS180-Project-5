@@ -4,8 +4,8 @@ import java.util.Scanner;
  * Multiple Choice Class : This class is in charge of storing a Multiple Choice type question and also has useful
  * functions for the rest of the program.
  *
- *@author Nathan Schlutz
- *@version Nov 15, 2021
+ * @author Nathan Schlutz
+ * @version Nov 15, 2021
  */
 
 public class MultipleChoice extends Question {
