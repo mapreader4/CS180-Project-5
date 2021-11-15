@@ -181,6 +181,7 @@ public boolean removeStudent(Student student) - removes a student from the cours
 <br>
 public boolean equals(Object o) - checks if the object passed is the same as the course object being referenced at that point
 <br>
+<br>
 CourseList implements Serializable: 
 <br>
 -----------------------
@@ -203,5 +204,26 @@ public boolean update(Course course) - stores an updated course object in the pl
 <br>
 public void saveToFile() - saves the CourseList object to the file
 <br>
+<br>
+StudentList implements Serializable
+<br>
+-----------------------
+<br>
+public static final String FILENAME - stores the binary file that has the StudentList object
+<br>
+private ArrayList<Student> students - stores the list of students that have created an account
+<br>
+public static StudentList readFromFile() - reads from the binary file to return the StudentList object
+<br>
+public boolean exists(Course course) - checks whether the specific student passed is contained in the student list
+<br>
+public boolean add(Student student) - adds a student to the student list, checks whether student has been added or already existed
+<br>
+public boolean removes(Student student) - removes a student to the student list, checks whether student has been removed or never existed
+<br>
+public void saveToFile() - saves the StudentList object to the file
+<br>
+public Student findStudent(String username, String password) - returns a student from the student list whose username and password is given
+<br>
+<br>
 
- 
