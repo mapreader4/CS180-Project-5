@@ -140,7 +140,6 @@ public class Quiz implements Serializable {
                     this.randomized = true;
                     break;
                 } else {
-                    System.out.println();
                     continue;
                 }
         }while(true);
