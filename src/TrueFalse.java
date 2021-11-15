@@ -11,7 +11,6 @@ public class TrueFalse extends Question implements Serializable {
         this.answer = answer;
     }
 
-
     public void displayQuestion() {
         System.out.println(this.getQuestion());
         System.out.println("[T] True");
@@ -31,8 +30,11 @@ public class TrueFalse extends Question implements Serializable {
                 System.out.println("3. Change point value.");
                 System.out.println("4: Exit");
                 selection = scanner.nextInt();
-                System.out.println("Please enter a valid input!");
                 scanner.nextLine();
+                if(selection>0 && selection<5){
+                    break;
+                }
+                System.out.println("Please enter a valid input!");
             } while (selection != 1 || selection != 2||selection != 3);
             if(selection == 1){
                 System.out.println("Please enter the updated Question.");
@@ -42,9 +44,12 @@ public class TrueFalse extends Question implements Serializable {
             if(selection == 2){
                 String response;
                 do{
-                    System.out.println("What do you want the answer to be? (True, False)");
+                    System.out.println("What do you want the answer to be? (Please enter True or False)");
                     response = scanner.nextLine();
-                }while(response.equalsIgnoreCase("True")||response.equalsIgnoreCase("False"));
+                    if(response.equalsIgnoreCase("True")||response.equals("False")){
+                        break;
+                    }
+                }while(true);
                 response.toLowerCase();
                 this.answer = response;
             }
@@ -55,6 +60,9 @@ public class TrueFalse extends Question implements Serializable {
                     try {
                         points = scanner.nextInt();
                         scanner.nextLine();
+                        if(selection>-1){
+                            break;
+                        }
                     } catch (NumberFormatException e) {
                         System.out.println("An error has occurred. Please insert an integer.");
                     }
