@@ -189,31 +189,6 @@ public class Menu {
     }
 
     /**
-     * a menu for creating a course
-     *
-     * @param scanner used for getting user input
-     * @param teacher the account using the program
-     * @return the course that was generated
-     */
-    private static Course createCourseMenu(Scanner scanner, Teacher teacher, CourseList courseList) throws IOException{
-        Course course = null;
-        boolean courseAdded = false;
-        do {
-            System.out.println("Please enter the information for the course you want to add.");
-            String courseName = getStringFromScanner(scanner, "Course Name: ", false);
-            int courseNumber = getIntegerFromScanner(scanner, "Course Number (between 0 and 999999): ",
-                    0, 999999, false);
-            course = new Course(courseName, teacher, courseNumber);
-            courseAdded = courseList.add(course);
-            if (!courseAdded) {
-                System.out.println("Another course with that number already exists. Please try again.");
-            }
-        } while (!courseAdded);
-        teacher.addCourse(course);
-        return course;
-    }
-
-    /**
      * the menu for the teacher
      *
      * @param scanner used for getting user input
@@ -266,6 +241,31 @@ public class Menu {
                 teacherCourseMenu(scanner, teacher, course, courseList);
             }
         }
+    }
+
+    /**
+     * a menu for creating a course
+     *
+     * @param scanner used for getting user input
+     * @param teacher the account using the program
+     * @return the course that was generated
+     */
+    private static Course createCourseMenu(Scanner scanner, Teacher teacher, CourseList courseList) throws IOException{
+        Course course = null;
+        boolean courseAdded = false;
+        do {
+            System.out.println("Please enter the information for the course you want to add.");
+            String courseName = getStringFromScanner(scanner, "Course Name: ", false);
+            int courseNumber = getIntegerFromScanner(scanner, "Course Number (between 0 and 999999): ",
+                    0, 999999, false);
+            course = new Course(courseName, teacher, courseNumber);
+            courseAdded = courseList.add(course);
+            if (!courseAdded) {
+                System.out.println("Another course with that number already exists. Please try again.");
+            }
+        } while (!courseAdded);
+        teacher.addCourse(course);
+        return course;
     }
 
     /**
