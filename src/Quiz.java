@@ -6,6 +6,14 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Quiz implements Serializable {
+
+    /**
+     * Quiz Class : Handles the making of the quiz by file input/ terminal and also handles editing of the quiz
+     *
+     *@author Nathan Schultz, Jay Mehta
+     *@version Nov 13, 2021
+     */
+
     private int numQuestions;
     private ArrayList<Question> quiz = new ArrayList<Question>();
     private String pathway;
@@ -46,7 +54,8 @@ public class Quiz implements Serializable {
             String questionType;
             do {
                 questionType = scanner.nextLine();
-                if (!questionType.equalsIgnoreCase("True False") && !questionType.equalsIgnoreCase("Fill in the blank") && !questionType.equalsIgnoreCase("Multiple Choice")){
+                if (!questionType.equalsIgnoreCase("True False") && !questionType.equalsIgnoreCase(
+                        "Fill in the blank") && !questionType.equalsIgnoreCase("Multiple Choice")){
                     System.out.println("Please enter a valid type of question");
                     continue;
                 }
@@ -121,7 +130,9 @@ public class Quiz implements Serializable {
             String questionType;
             do {
                 questionType = scanner.nextLine();
-                if (!questionType.equalsIgnoreCase("True False") && !questionType.equalsIgnoreCase("Fill in the blank") && !questionType.equalsIgnoreCase("Multiple Choice")){
+                if (!questionType.equalsIgnoreCase("True False") && !questionType.equalsIgnoreCase(
+                        "Fill in the blank") && !questionType.equalsIgnoreCase(
+                                "Multiple Choice")){
                     System.out.println("Please enter a valid type of question");
                     continue;
                 }

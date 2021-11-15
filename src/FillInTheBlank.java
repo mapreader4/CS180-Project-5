@@ -4,13 +4,13 @@ import java.util.Scanner;
 public class FillInTheBlank extends Question implements Serializable {
     String answer;
 
-    public String getAnswer() {
-        return this.answer;
-    }
-
     public FillInTheBlank(String question, String answer, int pointValue) {
         super(question, pointValue);
         this.answer = answer;
+    }
+
+    public String getAnswer() {
+        return this.answer;
     }
 
     void displayQuestion() {
@@ -23,7 +23,7 @@ public class FillInTheBlank extends Question implements Serializable {
     }
 
     public void editQuestion(Scanner scanner) {
-        int selection= 0;
+        int selection = 0;
         do {
             do {
                 try {
@@ -34,11 +34,11 @@ public class FillInTheBlank extends Question implements Serializable {
                     System.out.println("4: Exit");
                     selection = scanner.nextInt();
                     scanner.nextLine();
-                    if(selection>0 && selection<5){
+                    if (selection > 0 && selection < 5) {
                         break;
                     }
                     System.out.println("Please enter a valid input!");
-                }catch(NumberFormatException e){
+                } catch (NumberFormatException e) {
                 }
             } while (true);
             if (selection == 1) {
@@ -60,7 +60,7 @@ public class FillInTheBlank extends Question implements Serializable {
                     try {
                         points = scanner.nextInt();
                         scanner.nextLine();
-                        if(points>-1){
+                        if (points > -1) {
                             break;
                         }
                     } catch (NumberFormatException e) {

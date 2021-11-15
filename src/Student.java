@@ -6,8 +6,8 @@ import java.util.ArrayList;
 /**
  * Student Class
  *
- *@author Aditya Menon (add your name if you implemented any functionality)
- *@version Nov 13, 2021
+ * @author Aditya Menon
+ * @version Nov 13, 2021
  */
 
 public class Student extends User {
@@ -18,11 +18,12 @@ public class Student extends User {
     private ArrayList<Quiz> quizzesTakenWithScores = new ArrayList<>();
     private ArrayList<Submission> submissions = new ArrayList<>();
 
-    public ArrayList<Submission> getSubmissions(){
-        return submissions;
-    }
     public Student(String username, String password) {
         super(username, password, false);
+    }
+
+    public ArrayList<Submission> getSubmissions() {
+        return submissions;
     }
 
     public void addToCourse(Course course, String courseFilePath) {
@@ -56,12 +57,12 @@ public class Student extends User {
         }
 
     }
-    
+
     public void addToCourse(Course c) {
         courses.add(c);
     }
 
-    public void removeCourse(Course course){
+    public void removeCourse(Course course) {
         courses.remove(course);
     }
 
@@ -69,7 +70,7 @@ public class Student extends User {
         quizzesTakenWithScores.add(quiz);
         grades.add(grade);
     }
-    
+
     public String showTotalScores() {
         String s = "";
         if (quizzesTakenWithScores.size() > 0) {
@@ -81,7 +82,7 @@ public class Student extends User {
             return "No scores assigned!";
         }
     }
-    
+
     public String showQuizzesTaken() {
         String s = "";
         if (quizzesTaken.size() > 0) {
@@ -91,22 +92,22 @@ public class Student extends User {
             return s;
         } else {
             return "No quizzes taken!";
-        }    
+        }
     }
-    
+
     public void addQuizTaken(Quiz quiz) {
         quizzesTaken.add(quiz);
     }
-    
+
     public String showStringCourses() {
         String s = "Courses: \n";
         for (int i = 0; i < courses.size(); i++) {
             s += courses.get(i).getCourseName() + "\n";
         }
-        
+
         return s;
     }
-    
+
     public ArrayList<Course> getCourses() {
         return courses;
     }
@@ -119,7 +120,7 @@ public class Student extends User {
         }
         return null;
     }
-    
+
     public void addSubmission(Submission s) {
         submissions.add(s);
     }

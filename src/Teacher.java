@@ -1,36 +1,21 @@
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * Teacher Class
  *
- *@author Aditya Menon (add your name if you implemented any functionality)
- *@version Nov 13, 2021
+ * @author Aditya Menon
+ * @version Nov 13, 2021
  */
 
-public class Teacher extends User{
+public class Teacher extends User {
 
     private ArrayList<Course> courses = new ArrayList<>(); //list of courses created by teacher
 
-    public Teacher (String username, String password) {
+    public Teacher(String username, String password) {
 
         super(username, password, true);
     }
 
-//    public void addCourse(int courseNumber, ArrayList<Student> students, ArrayList<Quiz> quizzes) {
-//
-//        boolean alreadyThere = false; //ensures no duplicate course is added
-//        for (Course c : courses) {
-//            if (c.getCourseNumber() == courseNumber) {
-//                alreadyThere = true;
-//            }
-//        }
-//
-//        if (!alreadyThere) {
-//            courses.add(new Course(this, courseNumber));
-//        }
-//    }
-    
     public void addCourse(Course c) {
         boolean alreadyThere = false;
         for (Course cs : courses) {
@@ -38,12 +23,12 @@ public class Teacher extends User{
                 alreadyThere = true;
             }
         }
-        
+
         if (!alreadyThere) {
             courses.add(c);
         }
-    }   
-                
+    }
+
 
     public void removeCourse(int courseNumber) {
         for (Course c : courses) {
@@ -60,18 +45,18 @@ public class Teacher extends User{
             }
         }
     }
-    
+
     public ArrayList<Course> getCourses() {
         return courses;
     }
-    
+
     public Course getCourse(int i) {
         for (Course c : courses) {
             if (c.getCourseNumber() == i) {
                 return c;
             }
-        }    
-        return null;     
+        }
+        return null;
     }
 
     @Override
@@ -83,4 +68,5 @@ public class Teacher extends User{
                 ", isTeacher=" + isTeacher +
                 '}';
     }
+
 }

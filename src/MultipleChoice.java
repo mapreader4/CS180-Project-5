@@ -1,5 +1,3 @@
-import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.Scanner;
 
 public class MultipleChoice extends Question {
@@ -59,49 +57,49 @@ public class MultipleChoice extends Question {
                 System.out.println("5.Exit");
                 selection = scanner.nextInt();
                 scanner.nextLine();
-                if(selection>0 && selection<6){
+                if (selection > 0 && selection < 6) {
                     break;
                 }
 
             } while (true);
-            if(selection == 1){
+            if (selection == 1) {
                 System.out.println("Please enter the updated Question.");
                 this.question = scanner.nextLine();
                 System.out.println("Quiz question updated!");
             }
-            if(selection == 2){
+            if (selection == 2) {
                 this.answerChoices = null;
-                this.numChoices = 0 ;
+                this.numChoices = 0;
                 System.out.println("Current answer choices have been erased!");
                 System.out.println("How many answer choices do you want for this question?");
                 int numChoices = scanner.nextInt();
                 this.numChoices = numChoices;
                 scanner.nextLine();
                 this.answerChoices = new String[numChoices];
-                for(int i = 0 ; i < numChoices;i++){
-                    System.out.println("Enter you answer choice number #"+(i+1));
+                for (int i = 0; i < numChoices; i++) {
+                    System.out.println("Enter you answer choice number #" + (i + 1));
                     this.answerChoices[i] = scanner.nextLine();
                 }
                 System.out.println("What answer choice is correct? (Please insert a Integer)");
-                this.correctAnswerIndex =scanner.nextInt();
+                this.correctAnswerIndex = scanner.nextInt();
                 scanner.nextLine();
             }
-            if(selection == 3){
+            if (selection == 3) {
                 int answerIndex;
-                do{
-                    for(int i = 0 ; i< answerChoices.length;i++){
-                        System.out.println(i+": "+this.answerChoices[i]);
+                do {
+                    for (int i = 0; i < answerChoices.length; i++) {
+                        System.out.println(i + ": " + this.answerChoices[i]);
                     }
                     System.out.println("What do you want the correct answer to be");
                     answerIndex = scanner.nextInt();
                     scanner.nextLine();
                     System.out.println("There was a problem editing the current answer choice!");
-                }while(answerIndex>answerChoices.length-1);
+                } while (answerIndex > answerChoices.length - 1);
                 System.out.println("The correct answer has been updated.");
 
             }
-            if(selection == 4){
-                int points=-1;
+            if (selection == 4) {
+                int points = -1;
                 do {
                     System.out.println("What do you want the points for the question to be?");
                     try {
@@ -110,10 +108,10 @@ public class MultipleChoice extends Question {
                     } catch (NumberFormatException e) {
                         System.out.println("An error has occurred. Please insert an integer.");
                     }
-                }while(points<0);
+                } while (points < 0);
                 this.pointValue = points;
             }
-        }while(selection!=5);
+        } while (selection != 5);
     }
 }
 
