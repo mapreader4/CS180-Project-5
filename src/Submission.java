@@ -40,7 +40,8 @@ public class Submission implements Serializable{
         return quizz;
     }
     public boolean takeQuiz(Scanner scanner) {
-        Object[][] needToBeSubmitted = new Object[quizz.getQuiz().size()][2];
+        ArrayList<String> answers = new ArrayList<>();
+        ArrayList<Question> questions = new ArrayList<>();
         String studentAnswer;
         for (int i = 0; i < quizz.getQuiz().size(); i++) {
             Question temp = quizz.getQuiz().get(i);
@@ -65,11 +66,11 @@ public class Submission implements Serializable{
                         return false;
                     }
                 } else {
-                    System.out.println("Your answer:");
+                    System.out.print("Your answer:");
                     studentAnswer = scanner.nextLine();
                 }
-                Object[] relevantInfo = {temp2, studentAnswer};
-                needToBeSubmitted[i] = relevantInfo;
+                answers.add(studentAnswer);
+                questions.add(temp);
             } else if (quizz.getQuiz().get(i).getClass() == TrueFalse.class) {
                 TrueFalse temp2 = (TrueFalse) temp;
                 temp2.displayQuestion();
@@ -91,13 +92,13 @@ public class Submission implements Serializable{
                         return false;
                     }
                 } else {
-                    System.out.println("Your answer:");
+                    System.out.print("Your answer:");
                     studentAnswer = scanner.nextLine();
                 }
-                Object[] relevantInfo = {temp2, studentAnswer};
-                needToBeSubmitted[i] = relevantInfo;
+                answers.add(studentAnswer);
+                questions.add(temp);
             } else if (quizz.getQuiz().get(i).getClass() == MultipleChoice.class) {
-                MultipleChoice temp2=(MultipleChoice) temp;
+                MultipleChoice temp2 = (MultipleChoice) temp;
                 temp2.displayQuestion();
                 System.out.println("1. Do you want to attach a file for the answer?\n2. Do you want to type the answer?");
                 int option;
@@ -116,59 +117,144 @@ public class Submission implements Serializable{
                         System.out.println("You submitted an invalid file for the answer");
                     }
                 } else {
-                    System.out.println("Your answer:");
+                    System.out.print("Your answer:");
                     studentAnswer = scanner.nextLine();
                 }
-                Object[] relevantInfo = {temp2, studentAnswer};
-                needToBeSubmitted[i] = relevantInfo;
+                answers.add(studentAnswer);
+                questions.add(temp);
             }
+
         }
-        submissionReport(needToBeSubmitted);
+        submissionReport(answers,questions);
         return true;
     }
-
-    public void submissionReport(Object[][] needToBeSubmitted){
-
+//        Object[][] needToBeSubmitted = new Object[quizz.getQuiz().size()][2];
+//        String studentAnswer;
+//        for (int i = 0; i < quizz.getQuiz().size(); i++) {
+//            Question temp = quizz.getQuiz().get(i);
+//            if (quizz.getQuiz().get(i).getClass() == FillInTheBlank.class) {
+//                FillInTheBlank temp2 = (FillInTheBlank) temp;
+//                temp2.displayQuestion();
+//                System.out.println("1. Do you want to attach a file for the answer?\n2. Do you want to type the answer?");
+//                int option;
+//                do {
+//                    option = scanner.nextInt();
+//                    scanner.nextLine();
+//                    if (option > 2 || option < 1) {
+//                        System.out.println("Invalid input, try again");
+//                        continue;
+//                    }
+//                    break;
+//                } while (true);
+//                if (option == 1) {
+//                    studentAnswer = readingTheAnswerFromFile(scanner);
+//                    if (studentAnswer == null) {
+//                        System.out.println("You submitted an invalid file for the answer");
+//                        return false;
+//                    }
+//                } else {
+//                    System.out.println("Your answer:");
+//                    studentAnswer = scanner.nextLine();
+//                }
+//                Object[] relevantInfo = {temp2, studentAnswer};
+//                needToBeSubmitted[i] = relevantInfo;
+//            } else if (quizz.getQuiz().get(i).getClass() == TrueFalse.class) {
+//                TrueFalse temp2 = (TrueFalse) temp;
+//                temp2.displayQuestion();
+//                System.out.println("1. Do you want to attach a file for the answer?\n2. Do you want to type the answer?");
+//                int option;
+//                do {
+//                    option = scanner.nextInt();
+//                    scanner.nextLine();
+//                    if (option > 2 || option < 1) {
+//                        System.out.println("Invalid input, try again");
+//                        continue;
+//                    }
+//                    break;
+//                } while (true);
+//                if (option == 1) {
+//                    studentAnswer = readingTheAnswerFromFile(scanner);
+//                    if (studentAnswer == null) {
+//                        System.out.println("You submitted an invalid file for the answer");
+//                        return false;
+//                    }
+//                } else {
+//                    System.out.println("Your answer:");
+//                    studentAnswer = scanner.nextLine();
+//                }
+//                Object[] relevantInfo = {temp2, studentAnswer};
+//                needToBeSubmitted[i] = relevantInfo;
+//            } else if (quizz.getQuiz().get(i).getClass() == MultipleChoice.class) {
+//                MultipleChoice temp2=(MultipleChoice) temp;
+//                temp2.displayQuestion();
+//                System.out.println("1. Do you want to attach a file for the answer?\n2. Do you want to type the answer?");
+//                int option;
+//                do {
+//                    option = scanner.nextInt();
+//                    scanner.nextLine();
+//                    if (option > 2 || option < 1) {
+//                        System.out.println("Invalid input, try again");
+//                        continue;
+//                    }
+//                    break;
+//                } while (true);
+//                if (option == 1) {
+//                    studentAnswer = readingTheAnswerFromFile(scanner);
+//                    if (studentAnswer == null) {
+//                        System.out.println("You submitted an invalid file for the answer");
+//                    }
+//                } else {
+//                    System.out.println("Your answer:");
+//                    studentAnswer = scanner.nextLine();
+//                }
+//                Object[] relevantInfo = {temp2, studentAnswer};
+//                needToBeSubmitted[i] = relevantInfo;
+//            }
+//        }
+//        submissionReport(needToBeSubmitted);
+//        return true;
+//    }
+    public void submissionReport(ArrayList<String> answers, ArrayList<Question> questions){
         String filepath = createsNewFile();
         try(PrintWriter pw =new PrintWriter(new FileWriter(filepath))){
             pw.println(student.getUsername()+": "+ quizz.getName());
-            for(int i=0;i<needToBeSubmitted.length;i++){
-                if(needToBeSubmitted[i][0].getClass()==FillInTheBlank.class){
-                    FillInTheBlank temp = (FillInTheBlank) needToBeSubmitted[i][0];
-                    pw.print("Question: "+i+1+". ");
+            for(int i=0;i< answers.size();i++){
+                if(questions.get(i).getClass()==FillInTheBlank.class){
+                    FillInTheBlank temp = (FillInTheBlank) questions.get(i);
+                    pw.print("Question "+i+1+". ");
                     pw.println(temp.getQuestion());
-                    pw.print("Answer: "+i+1+". ");
+                    pw.print("Answer "+i+1+". ");
                     pw.println(temp.getAnswer());
-                    pw.println("Your answer: "+ ((String)needToBeSubmitted[i][1]));
-                    if(temp.getAnswer().equals(needToBeSubmitted[i][1])) {
+                    pw.println("Your answer: "+ (answers.get(i)));
+                    if(temp.getAnswer().equals(answers.get(i))) {
                         pw.println("Points got: " + temp.getPointValue());
                         totalScore+=temp.getPointValue();
                     } else {
                         pw.println("Points got: "+0);
                     }
                 }
-                else if(needToBeSubmitted[i][0].getClass()==TrueFalse.class){
-                    TrueFalse temp=(TrueFalse) needToBeSubmitted[i][0];
-                    pw.print("Question: "+i+1+". ");
+                else if(questions.get(i).getClass()==TrueFalse.class){
+                    TrueFalse temp=(TrueFalse) questions.get(i);
+                    pw.print("Question "+i+1+". ");
                     pw.println(temp.getQuestion());
-                    pw.print("Answer: "+i+1+". ");
+                    pw.print("Answer "+i+1+". ");
                     pw.println(temp.getAnswer());
-                    pw.println("Your answer: "+ ((String)needToBeSubmitted[i][1]));
-                    if(temp.getAnswer().equals(needToBeSubmitted[i][1])) {
+                    pw.println("Your answer: "+ ((answers.get(i))));
+                    if(temp.getAnswer().equals(answers.get(i))) {
                         pw.println("Points got: " + temp.getPointValue());
                         totalScore+=temp.getPointValue();
                     } else {
                         pw.println("Points got: "+0);
                     }
                 }
-                else if(needToBeSubmitted[i][0].getClass()==MultipleChoice.class){
-                    MultipleChoice temp=(MultipleChoice) needToBeSubmitted[i][0];
-                    pw.print("Question: "+i+1+". ");
+                else if(questions.get(i).getClass()==MultipleChoice.class){
+                    MultipleChoice temp=(MultipleChoice) questions.get(i);
+                    pw.print("Question "+i+1+". ");
                     pw.println(temp.getQuestion());
-                    pw.print("Answer: "+i+1+". ");
+                    pw.print("Answer "+i+1+". ");
                     pw.println(temp.correctAnswerIndex);
-                    pw.println("Your answer: "+ ((String)needToBeSubmitted[i][1]));
-                    if(temp.correctAnswerIndex==Integer.parseInt((String)needToBeSubmitted[i][1])){
+                    pw.println("Your answer: "+ ((answers.get(i))));
+                    if(temp.correctAnswerIndex==Integer.parseInt((String)(answers.get(i)))){
                         pw.println("Points got: " + temp.getPointValue());
                         totalScore+=temp.getPointValue();
                     } else {
@@ -183,6 +269,62 @@ public class Submission implements Serializable{
         student.addSubmission(this);
         quizz.addSubmission(this);
     }
+//    public void submissionReport(Object[][] needToBeSubmitted){
+//
+//        String filepath = createsNewFile();
+//        try(PrintWriter pw =new PrintWriter(new FileWriter(filepath))){
+//            pw.println(student.getUsername()+": "+ quizz.getName());
+//            for(int i=0;i<needToBeSubmitted.length;i++){
+//                if(needToBeSubmitted[i][0].getClass()==FillInTheBlank.class){
+//                    FillInTheBlank temp = (FillInTheBlank) needToBeSubmitted[i][0];
+//                    pw.print("Question "+i+1+". ");
+//                    pw.println(temp.getQuestion());
+//                    pw.print("Answer "+i+1+". ");
+//                    pw.println(temp.getAnswer());
+//                    pw.println("Your answer: "+ ((needToBeSubmitted[i][1])));
+//                    if(temp.getAnswer().equals((needToBeSubmitted[i][1]))) {
+//                        pw.println("Points got: " + temp.getPointValue());
+//                        totalScore+=temp.getPointValue();
+//                    } else {
+//                        pw.println("Points got: "+0);
+//                    }
+//                }
+//                else if(needToBeSubmitted[i][0].getClass()==TrueFalse.class){
+//                    TrueFalse temp=(TrueFalse) needToBeSubmitted[i][0];
+//                    pw.print("Question: "+i+1+". ");
+//                    pw.println(temp.getQuestion());
+//                    pw.print("Answer: "+i+1+". ");
+//                    pw.println(temp.getAnswer());
+//                    pw.println("Your answer: "+ ((needToBeSubmitted[i][1])));
+//                    if(temp.getAnswer().equals((needToBeSubmitted[i][1]))) {
+//                        pw.println("Points got: " + temp.getPointValue());
+//                        totalScore+=temp.getPointValue();
+//                    } else {
+//                        pw.println("Points got: "+0);
+//                    }
+//                }
+//                else if(needToBeSubmitted[i][0].getClass()==MultipleChoice.class){
+//                    MultipleChoice temp=(MultipleChoice) needToBeSubmitted[i][0];
+//                    pw.print("Question: "+i+1+". ");
+//                    pw.println(temp.getQuestion());
+//                    pw.print("Answer: "+i+1+". ");
+//                    pw.println(temp.correctAnswerIndex);
+//                    pw.println("Your answer: "+ ((needToBeSubmitted[i][1])));
+//                    if(temp.correctAnswerIndex==Integer.parseInt((String)needToBeSubmitted[i][1])){
+//                        pw.println("Points got: " + temp.getPointValue());
+//                        totalScore+=temp.getPointValue();
+//                    } else {
+//                        pw.println("Points got: "+0);
+//                    }
+//                }
+//            }
+//        } catch(IOException e){
+//            e.printStackTrace();
+//            return;
+//        }
+//        student.addSubmission(this);
+//        quizz.addSubmission(this);
+//    }
 
     public String createsNewFile(){
         Random a=new Random();
@@ -191,8 +333,8 @@ public class Submission implements Serializable{
         return filepath;
     }
 
-    public String readingTheAnswerFromFile(Scanner scanner) {
-        String studentAnswer = "";
+    public String readingTheAnswerFromFile (Scanner scanner) {
+        String studentAnswer1 = "";
         try {
             System.out.println("Enter the file path:");
             String filepath = scanner.nextLine();
@@ -200,14 +342,14 @@ public class Submission implements Serializable{
             BufferedReader bfr = new BufferedReader(new FileReader(f));
             String line = bfr.readLine();
             while (line != null) {
-                studentAnswer = studentAnswer+line;
+                studentAnswer1 = studentAnswer1+line;
                 line = bfr.readLine();
             }
         } catch (IOException e) {
             System.out.println("There was an error accessing your file.");
             return null;
         }
-        return studentAnswer;
+        return studentAnswer1;
     }
 
     public void view(Scanner scanner, int submissionNumber){

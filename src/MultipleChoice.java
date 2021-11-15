@@ -1,6 +1,6 @@
 import java.io.Serializable;
 
-public class MultipleChoice extends Question implements Serializable {
+public class MultipleChoice extends Question {
     int numChoices;
     String[]answerChoices;
     int correctAnswerIndex;

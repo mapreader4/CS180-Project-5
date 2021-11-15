@@ -1,5 +1,5 @@
 import java.io.Serializable;
-public class FillInTheBlank extends Question implements Serializable {
+public class FillInTheBlank extends Question {
     String answer;
     public String getAnswer(){
         return this.answer;
