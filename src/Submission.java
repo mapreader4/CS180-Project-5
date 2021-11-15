@@ -59,18 +59,9 @@ public class Submission implements Serializable {
             if (quizz.getQuiz().get(i).getClass() == FillInTheBlank.class) {
                 FillInTheBlank temp2 = (FillInTheBlank) temp;
                 temp2.displayQuestion();
-                System.out.println("1. Do you want to attach a file for the answer?\n2. Do you want to type the " +
-                        "answer?");
-                int option;
-                do {
-                    option = scanner.nextInt();
-                    scanner.nextLine();
-                    if (option > 2 || option < 1) {
-                        System.out.println("Invalid input, try again");
-                        continue;
-                    }
-                    break;
-                } while (true);
+                String fileOrType = "1. Do you want to attach a file for the answer?\n2. Do you want to type the " +
+                        "answer?";
+                int option = Menu.getIntegerFromScanner(scanner, fileOrType, 1, 2, true);
                 if (option == 1) {
                     studentAnswer = readingTheAnswerFromFile(scanner);
                     if (studentAnswer == null) {
@@ -78,26 +69,16 @@ public class Submission implements Serializable {
                         return false;
                     }
                 } else {
-                    System.out.print("Your answer:");
-                    studentAnswer = scanner.nextLine();
+                    studentAnswer = Menu.getStringFromScanner(scanner, "Your answer: ", false);
                 }
                 answers.add(studentAnswer);
                 questions.add(temp);
             } else if (quizz.getQuiz().get(i).getClass() == TrueFalse.class) {
                 TrueFalse temp2 = (TrueFalse) temp;
                 temp2.displayQuestion();
-                System.out.println("1. Do you want to attach a file for the answer?\n2. Do you want to type the " +
-                        "answer?");
-                int option;
-                do {
-                    option = scanner.nextInt();
-                    scanner.nextLine();
-                    if (option > 2 || option < 1) {
-                        System.out.println("Invalid input, try again");
-                        continue;
-                    }
-                    break;
-                } while (true);
+                String fileOrType = "1. Do you want to attach a file for the answer?\n2. Do you want to type the " +
+                        "answer?";
+                int option = Menu.getIntegerFromScanner(scanner, fileOrType, 1, 2, true);
                 if (option == 1) {
                     studentAnswer = readingTheAnswerFromFile(scanner);
                     if (studentAnswer == null) {
@@ -105,37 +86,34 @@ public class Submission implements Serializable {
                         return false;
                     }
                 } else {
-                    System.out.print("Your answer:");
-                    studentAnswer = scanner.nextLine();
+                    studentAnswer = Menu.getStringFromScanner(scanner, "Your answer: ", false);
                 }
                 answers.add(studentAnswer);
                 questions.add(temp);
             } else if (quizz.getQuiz().get(i).getClass() == MultipleChoice.class) {
                 MultipleChoice temp2 = (MultipleChoice) temp;
                 temp2.displayQuestion();
-                System.out.println("1. Do you want to attach a file for the correct answer index?\n2. Do you want to " +
-                        "type the correct answer index?");
-                int option;
-                do {
-                    option = scanner.nextInt();
-                    scanner.nextLine();
-                    if (option > 2 || option < 1) {
-                        System.out.println("Invalid input, try again");
-                        continue;
-                    }
-                    break;
-                } while (true);
+                String fileOrType = "1. Do you want to attach a file for the correct answer index?\n2. Do you want to "
+                        + "type the correct answer index?";
+                int option = Menu.getIntegerFromScanner(scanner, fileOrType, 1, 2, true);
                 if (option == 1) {
                     studentAnswer = readingTheAnswerFromFile(scanner);
                     if (studentAnswer == null) {
                         System.out.println("You submitted an invalid file for the answer");
                     }
                 } else {
-                    System.out.print("Your answer:");
-                    studentAnswer = scanner.nextLine();
-                    int number = Integer.parseInt(studentAnswer);
-                    number--;
-                    studentAnswer = String.valueOf(number);
+                    do {
+                        try {
+                            System.out.print("Your answer:");
+                            studentAnswer = scanner.nextLine();
+                            int number = Integer.parseInt(studentAnswer);
+                            number--;
+                            studentAnswer = String.valueOf(number);
+                            break;
+                        } catch (NumberFormatException e) {
+                            continue;
+                        }
+                    } while (true);
                 }
                 answers.add(studentAnswer);
                 questions.add(temp);
