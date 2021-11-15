@@ -1,6 +1,14 @@
 import java.io.Serializable;
 import java.util.Scanner;
 
+/**
+ * Fill InThe Blank Class : This class is in charge of storing a Fill in the blank type question and also has useful
+ * functions for the rest of the program.
+ *
+ *@author Nathan Schlutz
+ *@version Nov 13, 2021
+ */
+
 public class FillInTheBlank extends Question{
     String answer;
 
