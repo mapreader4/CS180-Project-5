@@ -351,9 +351,6 @@ public void displayQuesiton() - prints the question with the options : "True" an
 public void editQuestion(Scanner scanner) - edits the question from user input
 <br>
 <br>
-public class TrueFalse extends Question
-<br>
-<br>
 public class MultipleChoice extends Question
 <br>
 -----------------------
