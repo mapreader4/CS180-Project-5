@@ -35,6 +35,9 @@ public class Quiz implements Serializable {
         createQuizFromFile(questionList, scanner);
         this.course = course;
     }
+    public boolean isRandomized(){
+        return randomized;
+    }
 
     public ArrayList<Submission> getSubmission() {
         return submissions;
