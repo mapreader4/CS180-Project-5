@@ -159,13 +159,14 @@ public class Quiz implements Serializable {
                     System.out.println("Enter the Answer choice #"+(j+1));
                     choices[j] = scanner.nextLine();
                 }
-                System.out.println("What answer choice is correct?");
+                System.out.println("What answer choice is correct? (Enter the number of the correct answer)");
                 int answerIndex;
                 do {
-                    answerIndex = (scanner.nextInt()) + 1;
+                    answerIndex = (scanner.nextInt()) -1;
                     scanner.nextLine();
                     if(answerIndex<0 || answerIndex>answerChoices){
                         System.out.println("Enter the correct answer index");
+                    }else{
                         break;
                     }
                     continue;
