@@ -122,3 +122,12 @@ controls the lower menu for the student after course selection, allowing the stu
 submissions
 <br>
 <br>
+File Imports:
+<br>
+-----------------------
+<br>
+public static String prompt() - 
+return the user's input path for quiz files
+<br>
+public static ArrayList<String> readFile(String filePath) - 
+return an ArrayList of the contents of the quiz file for further processing.
