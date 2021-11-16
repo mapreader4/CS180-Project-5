@@ -1,6 +1,11 @@
 import java.io.Serializable;
 import java.util.Scanner;
-
+/**
+ * Question Class : Used for creating quiz objects
+ *
+ * @author Nathan S.
+ * @version Nov 13, 2021
+ */
 public class Question implements Serializable {
     String question;
     int pointValue;

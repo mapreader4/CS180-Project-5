@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -94,10 +95,10 @@ public class Quiz implements Serializable {
                     }
                     break;
                 } while (true);
-                String[] choices = new String[answerChoices];
+                ArrayList<String> choices = new ArrayList<String>();
                 for (int j = 0; j < answerChoices; j++) {
                     System.out.println("Enter the Answer choice #" + (j + 1));
-                    choices[j] = scanner.nextLine();
+                    choices.add(scanner.nextLine());
                 }
                 System.out.println("What answer choice is correct?");
                 int answerIndex;
@@ -118,8 +119,8 @@ public class Quiz implements Serializable {
 
     public void creatQuizByInputIndividually(Scanner scanner) {
         System.out.println("What do you want to name this quiz?");
-        String name = scanner.nextLine();
-        this.name = name;
+        String title = scanner.nextLine();
+        this.name = title;
         int questions;
         do {
             System.out.println("How many Questions do you want your Quiz to have?");
@@ -133,11 +134,11 @@ public class Quiz implements Serializable {
         this.numQuestions = questions;
         do {
             System.out.println("Would you like this quiz to be randomized? (Answer Yes or No)");
-            String randomized = scanner.nextLine();
-            if (randomized.equalsIgnoreCase("N") || randomized.equalsIgnoreCase("NO")) {
+            String random = scanner.nextLine();
+            if (random.equalsIgnoreCase("N") || random.equalsIgnoreCase("NO")) {
                 this.randomized = false;
                 break;
-            } else if (randomized.equalsIgnoreCase("Y") ||randomized.equalsIgnoreCase("Yes")) {
+            } else if (random.equalsIgnoreCase("Y") || random.equalsIgnoreCase("Yes")) {
                 this.randomized = true;
                 break;
             } else {
@@ -187,10 +188,10 @@ public class Quiz implements Serializable {
                     }
                     break;
                 } while (true);
-                String[] choices = new String[answerChoices];
+                ArrayList<String> choices = new ArrayList<String>();
                 for (int j = 0; j < answerChoices; j++) {
                     System.out.println("Enter the Answer choice #" + (j + 1));
-                    choices[j] = scanner.nextLine();
+                    choices.add(scanner.nextLine());
                 }
                 System.out.println("What answer choice is correct? (Enter the number of the correct answer)");
                 int answerIndex;
@@ -208,7 +209,7 @@ public class Quiz implements Serializable {
                 quiz.add(q);
             }
         }
-        System.out.println("Congrats, you created the quiz titled " + name + ".");
+        System.out.println("Congrats, you created the quiz titled " + title + ".");
     }
 
     public String getName() {
@@ -236,10 +237,10 @@ public class Quiz implements Serializable {
                 System.out.println("Please enter a valid number");
             } while (true);
             if (selection == 1) {
-                String name;
+                String title;
                 System.out.println("Please insert the updated name for the quiz.");
-                name = scanner.nextLine();
-                this.name = name;
+                title = scanner.nextLine();
+                this.name = title;
                 System.out.println("Quiz name updated!");
             }
             if (selection == 2) {

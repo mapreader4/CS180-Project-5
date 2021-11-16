@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -10,23 +12,33 @@ import java.util.Scanner;
 
 public class MultipleChoice extends Question {
     int numChoices;
-    String[] answerChoices;
-    int correctAnswerIndex;
+
+    public ArrayList<String> getAnswerChoices() {
+        return answerChoices;
+    }
+
+    private ArrayList<String> answerChoices;
+
+    public int getCorrectAnswerIndex() {
+        return correctAnswerIndex;
+    }
+
+    private int correctAnswerIndex;
 
 
-    public MultipleChoice(String question, int numChoices, String[] answerChoices, int answerIndex, int pointValue) {
+    public MultipleChoice(String question, int numChoices,ArrayList answerChoices, int answerIndex, int pointValue) {
         super(question, pointValue);
         this.numChoices = numChoices;
         this.answerChoices = answerChoices;
         this.correctAnswerIndex = answerIndex;
     }
 
+
     public void displayQuestion() {
         System.out.println(getQuestion());
         for (int i = 0; i < numChoices; i++) {
-            System.out.println("[" + (i + 1) + "] " + answerChoices[i]);
+            System.out.printf("[%d] %s%n", i + 1, answerChoices.get(i));
         }
-
     }
 
     public void editQuestion(Scanner scanner) {
@@ -60,10 +72,10 @@ public class MultipleChoice extends Question {
                 int nextInt = scanner.nextInt();
                 this.numChoices = nextInt;
                 scanner.nextLine();
-                this.answerChoices = new String[nextInt];
+                this.answerChoices = new ArrayList<String>();
                 for (int i = 0; i < nextInt; i++) {
                     System.out.println("Enter you answer choice number #" + (i + 1));
-                    this.answerChoices[i] = scanner.nextLine();
+                    answerChoices.set(i,scanner.nextLine());
                 }
                 System.out.println("What answer choice is correct? (Please insert a Integer)");
                 this.correctAnswerIndex = scanner.nextInt();
@@ -72,14 +84,14 @@ public class MultipleChoice extends Question {
             if (selection == 3) {
                 int answerIndex;
                 do {
-                    for (int i = 0; i < answerChoices.length; i++) {
-                        System.out.println(i + ": " + this.answerChoices[i]);
+                    for (int i = 0; i < answerChoices.size(); i++) {
+                        System.out.printf("%d: %s%n", i, this.answerChoices.get(i));
                     }
                     System.out.println("What do you want the correct answer to be");
                     answerIndex = scanner.nextInt();
                     scanner.nextLine();
                     System.out.println("There was a problem editing the current answer choice!");
-                } while (answerIndex > answerChoices.length - 1);
+                } while (answerIndex > answerChoices.size() - 1);
                 System.out.println("The correct answer has been updated.");
 
             }
