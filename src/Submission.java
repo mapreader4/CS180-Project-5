@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.Random;
-
+/**
+ * Submission Class : handles the process of student taking the quiz, the grading of that submission, file writing,
+ * score assignment, and viewing previous submissions
+ *
+ * @author Jay Mehta
+ * @version Nov 13, 2021
+ */
 public class Submission implements Serializable {
-    /**
-     * Submission Class : handles the process of student taking the quiz, the grading of that submission, file writing,
-     * score assignment, and viewing previous submissions
-     *
-     * @author Jay Mehta
-     * @version Nov 13, 2021
-     */
+
     Student student;
     Quiz quizz;
     Timestamp timestamp;
@@ -59,18 +59,9 @@ public class Submission implements Serializable {
             if (quizz.getQuiz().get(i).getClass() == FillInTheBlank.class) {
                 FillInTheBlank temp2 = (FillInTheBlank) temp;
                 temp2.displayQuestion();
-                System.out.println("1. Do you want to attach a file for the answer?\n2. Do you want to type the " +
-                        "answer?");
-                int option;
-                do {
-                    option = scanner.nextInt();
-                    scanner.nextLine();
-                    if (option > 2 || option < 1) {
-                        System.out.println("Invalid input, try again");
-                        continue;
-                    }
-                    break;
-                } while (true);
+                String fileOrType = "1. Do you want to attach a file for the answer?\n2. Do you want to type the " +
+                        "answer?";
+                int option = Menu.getIntegerFromScanner(scanner, fileOrType, 1, 2, true);
                 if (option == 1) {
                     studentAnswer = readingTheAnswerFromFile(scanner);
                     if (studentAnswer == null) {
@@ -78,26 +69,16 @@ public class Submission implements Serializable {
                         return false;
                     }
                 } else {
-                    System.out.print("Your answer:");
-                    studentAnswer = scanner.nextLine();
+                    studentAnswer = Menu.getStringFromScanner(scanner, "Your answer: ", false);
                 }
                 answers.add(studentAnswer);
                 questions.add(temp);
             } else if (quizz.getQuiz().get(i).getClass() == TrueFalse.class) {
                 TrueFalse temp2 = (TrueFalse) temp;
                 temp2.displayQuestion();
-                System.out.println("1. Do you want to attach a file for the answer?\n2. Do you want to type the " +
-                        "answer?");
-                int option;
-                do {
-                    option = scanner.nextInt();
-                    scanner.nextLine();
-                    if (option > 2 || option < 1) {
-                        System.out.println("Invalid input, try again");
-                        continue;
-                    }
-                    break;
-                } while (true);
+                String fileOrType = "1. Do you want to attach a file for the answer?\n2. Do you want to type the " +
+                        "answer?";
+                int option = Menu.getIntegerFromScanner(scanner, fileOrType, 1, 2, true);
                 if (option == 1) {
                     studentAnswer = readingTheAnswerFromFile(scanner);
                     if (studentAnswer == null) {
@@ -105,37 +86,34 @@ public class Submission implements Serializable {
                         return false;
                     }
                 } else {
-                    System.out.print("Your answer:");
-                    studentAnswer = scanner.nextLine();
+                    studentAnswer = Menu.getStringFromScanner(scanner, "Your answer: ", false);
                 }
                 answers.add(studentAnswer);
                 questions.add(temp);
             } else if (quizz.getQuiz().get(i).getClass() == MultipleChoice.class) {
                 MultipleChoice temp2 = (MultipleChoice) temp;
                 temp2.displayQuestion();
-                System.out.println("1. Do you want to attach a file for the correct answer index?\n2. Do you want to " +
-                        "type the correct answer index?");
-                int option;
-                do {
-                    option = scanner.nextInt();
-                    scanner.nextLine();
-                    if (option > 2 || option < 1) {
-                        System.out.println("Invalid input, try again");
-                        continue;
-                    }
-                    break;
-                } while (true);
+                String fileOrType = "1. Do you want to attach a file for the correct answer index?\n2. Do you want to "
+                        + "type the correct answer index?";
+                int option = Menu.getIntegerFromScanner(scanner, fileOrType, 1, 2, true);
                 if (option == 1) {
                     studentAnswer = readingTheAnswerFromFile(scanner);
                     if (studentAnswer == null) {
                         System.out.println("You submitted an invalid file for the answer");
                     }
                 } else {
-                    System.out.print("Your answer:");
-                    studentAnswer = scanner.nextLine();
-                    int number = Integer.parseInt(studentAnswer);
-                    number--;
-                    studentAnswer = String.valueOf(number);
+                    do {
+                        try {
+                            System.out.print("Your answer:");
+                            studentAnswer = scanner.nextLine();
+                            int number = Integer.parseInt(studentAnswer);
+                            number--;
+                            studentAnswer = String.valueOf(number);
+                            break;
+                        } catch (NumberFormatException e) {
+                            continue;
+                        }
+                    } while (true);
                 }
                 answers.add(studentAnswer);
                 questions.add(temp);
@@ -166,9 +144,9 @@ public class Submission implements Serializable {
                     }
                 } else if (questions.get(i).getClass() == TrueFalse.class) {
                     TrueFalse temp = (TrueFalse) questions.get(i);
-                    pw.print("Question " + i + 1 + ". ");
+                    pw.print("Question " + (i + 1) + ". ");
                     pw.println(temp.getQuestion());
-                    pw.print("Answer " + i + 1 + ". ");
+                    pw.print("Answer " + (i + 1) + ". ");
                     pw.println(temp.getAnswer());
                     pw.println("Your answer: " + ((answers.get(i))));
                     if (temp.getAnswer().equalsIgnoreCase(answers.get(i))) {
@@ -179,12 +157,12 @@ public class Submission implements Serializable {
                     }
                 } else if (questions.get(i).getClass() == MultipleChoice.class) {
                     MultipleChoice temp = (MultipleChoice) questions.get(i);
-                    pw.print("Question " + i + 1 + ". ");
+                    pw.print("Question " + (i + 1) + ". ");
                     pw.println(temp.getQuestion());
-                    pw.print("Answer " + i + 1 + ". ");
-                    pw.println(temp.getCorrectAnswerIndex());
+                    pw.print("Answer " + (i + 1) + ". ");
+                    pw.println(temp.correctAnswerIndex);
                     pw.println("Your answer: " + ((answers.get(i))));
-                    if (temp.getCorrectAnswerIndex() == Integer.parseInt((String) (answers.get(i)))) {
+                    if (temp.correctAnswerIndex == Integer.parseInt((String) (answers.get(i)))) {
                         pw.println("Points got: " + temp.getPointValue());
                         totalScore += temp.getPointValue();
                     } else {
@@ -192,6 +170,7 @@ public class Submission implements Serializable {
                     }
                 }
             }
+            pw.println("Total score: " + totalScore);
         } catch (IOException e) {
             e.printStackTrace();
             return;
@@ -226,11 +205,12 @@ public class Submission implements Serializable {
         return studentAnswer1;
     }
 
-    public void view(Scanner scanner, int submissionNumber) {
+    public void view(int submissionNumber) {
         ArrayList<Submission> allThePreviousSubmissions = student.getSubmissions();
         for (int i = 0; i < allThePreviousSubmissions.size(); i++) {
             if (i == submissionNumber) {
-                try (BufferedReader bfr = new BufferedReader(new FileReader(allThePreviousSubmissions.get(i).getFilename())
+                try (BufferedReader bfr = new BufferedReader(new FileReader(allThePreviousSubmissions.get(i)
+                        .getFilename())
                 )) {
                     String line = bfr.readLine();
                     while (line != null) {

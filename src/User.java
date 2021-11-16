@@ -1,7 +1,7 @@
 import java.io.Serializable;
 
 /**
- * User Class
+ * User Class: Creates User objects for login
  *
  * @author Aditya Menon, Jay Mehta
  * @version Nov 13, 2021

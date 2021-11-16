@@ -10,12 +10,15 @@ Aditya: Accounts
 <br>
 Nathan R: Menu
 <br>
-Nathan S: Quizzes
+Nathan S: Quizzes and Question types
 <br>
-Jay: Submissions, File handling (CourseList, StudentList, TeacherList), Courses
+Jay: Submission, File handling (CourseList, StudentList, TeacherList), Course, Quiz (just the reading from file)
 <br>
 <br>
 information on the structure of the program and division of roles found in image file which Nathan R will upload
+<br>
+<br>
+Both Project and Project Report will be submitted by Nathan Reed
 <br>
 <br>
 Classes
@@ -245,3 +248,150 @@ public void saveToFile() - saves the TeacherList object to the file
 public Teacher findTeacher(String username, String password) - returns a teacher from the teacher list whose username and password is given
 <br>
 <br>
+Submission implements Serializable 
+<br>
+-----------------------
+<br>
+Student student - stores the who submittd the submission 
+<br>
+Quiz quizz - stores the quiz that is being attempted as a quiz submission
+<br>
+Timestamp timestamp - stores exactly when the student submitted his submission
+<br>
+int totalScore - stores the total score the student amassed by answering the question correct in the quiz submission
+<br>
+String filename - stores the name of the file in which the submission is being stored
+<br>
+public Submission(Student student, Quiz quizz) - Constructor that create a submission object using the student taking the quiz and the quiz being taken
+<br>
+public Student getStudent() - returns the student who is submitting the quiz
+<br>
+public String getFilename() - returns the name of the file where the submission will get stored
+<br>
+public TimeStamp getTimeStamp() - returns the time stamp of the submission
+<br>
+public Course getCourse() - returns the course the quiz which is being submitted belongs to
+<br>
+public Quiz getQuiz() - returns the quiz the submission belongs to
+<br>
+public boolean takeQuiz(Scanner scanner) - the quiz is attempted, a submission is made and stored in a file using submissionReport(ArrayList<String> answers, ArrayList<Question> questions).
+<br>
+public void submissionReport(ArrayList<String> answers, ArrayList<Question> questions)- generates a submission report and stores in a text file
+<br>
+public String createsNewFile() - creates a new file to store the submission report in
+<br>
+public String readingTheAnswerFormFile(Scanner scanner) - reads the answer that a student submits in a text file
+<br>
+public void view(int submissionNumber) - shows the submission which is called through its number to the student
+<br>
+<br>
+public class Quiz implements Serializable
+<br>
+-----------------------
+<br>
+private int numQuestions - number of questions in quiz
+<br>
+private ArrayList<Question> quiz - an ArrayList that holds Question objects
+<br>
+private String name -  name of the quiz
+<br>
+private Course course -  the course that the quiz was added to;
+<br>
+private ArrayList<Submission> submissions - an ArrayList of Submissions for the Quiz
+<br>
+private boolean randomized - true if the quiz should be randomized, false if it is not
+<br>
+public Quiz (Scanner scanner, Course course) -calls the the creatQuizByInputIndividually(scanner) method as well as setting this.course to course
+<br>
+public Quiz (String fileName, Scanner scanner, Course course) - another quiz constructor that asks for name of the quiz and sets this.name = name. It also uses a filename and reads from a file to assist in creating a quiz. it also sets this.course = course;
+<br> 
+public boolean isRandomized() - getter for the randomized varaible;
+<br>
+public ArrayList<Submission> getSubmission() - getter for submissions varaible
+<br>
+public void addSubmission(Submission s) -  adds a submission to the Arraylist submissions
+<br>
+public void createQuiz FromFile (ArrayList<String> questionList,Scanner scanner) - creates a quiz from the given ArrayList of questions
+<br>
+public void creatQuizByInputIndividually(Scanner scanner) - creates a quiz object by walking the user through the steps. 
+<br>
+public String getName() - returns the name of the quiz
+<br>
+public ArrayList<Question> getQuiz() -  returns the array list of questions
+<br>
+public void editQuiz(Scanner scanner) - gives the user the oppurtunity to edit the variables of the quiz including the questions
+<br>
+public randomizeQuestions() - randomizes the order of the questions in the quiz 
+<br>
+<br>
+public class FillInTheBlank extends Question
+<br>
+-----------------------
+<br>
+String answer -  the answer to the question
+<br>
+public FillIntheBlank (String question, String answer, int pointValue) -calls the super class to set question and point value and also sets the answer to answer.
+<br>
+public String getAnswer() - returns the answer of the FillInTheBlankObject
+<br>
+public void displayQuesiton() - prints the question
+<br>
+public void editQuestion(Scanner scanner) - edits the question from user input
+<br>
+<br>
+public class TrueFalse extends Question
+<br>
+-----------------------
+<br>
+String answer -  the answer to the question
+<br>
+public TrueFalse (String question, String answer, int pointValue) -calls the super class to set question and point value and also sets the answer to answer.
+<br>
+public String getAnswer() - returns the answer of the FillInTheBlankObject
+<br>
+public void displayQuesiton() - prints the question with the options : "True" and "False"
+<br>
+public void editQuestion(Scanner scanner) - edits the question from user input
+<br>
+<br>
+public class MultipleChoice extends Question
+<br>
+-----------------------
+<br>
+int numChoice -  the number of choices in the question
+<br>
+String[] answerChoices -  the different of answer choices saved as strings
+<br>
+itn correctAnswerIndex - the index of the correct answer
+<br>
+public MultipleChoice (String question, int numChoices, String[] answerChoices,int answer Index, int pointValue) -Constructor that asigns the question, point value, number of choices, the answer choices, and the correct answer index
+<br>
+public void displayQuesiton() - prints the question with all of the different answer choices
+<br>
+public void editQuestion(Scanner scanner) - edits the question from user input
+<br>
+<br>
+Question (implements Serializable)
+<br>
+----------------------------------
+<br>
+String question - Stores name of the question
+<br>
+int pointValue - Stores point value of specific question
+<br> 
+public Question(String question, int pointValue) - Instantiates question and pointValue
+<br>
+public String getQuestion() - Returns question
+<br>
+public int getPointValue() - Returns pointValue
+<br>
+public void editQuestion(Scanner scanner) - Edits question
+
+
+
+
+
+
+
+
+

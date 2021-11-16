@@ -5,6 +5,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * FileImports Class : Handles file imports
+ *
+ * @author Anh V Nguyen
+ * @version Nov 15, 2021
+ */
+
 public class FileImports {
     public static String prompt() {
         Scanner scanner = new Scanner(System.in);

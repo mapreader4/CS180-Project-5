@@ -1,14 +1,15 @@
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Course Class : Handles the courses created by teacher and added by student
+ *
+ * @author Jay Mehta
+ * @version Nov 13, 2021
+ */
 
 public class Course implements Serializable {
-    /**
-     * Course Class : Handles the courses created by teacher and added by student
-     *
-     * @author Jay Mehta
-     * @version Nov 13, 2021
-     */
+
     private String courseName;
     private Teacher teacher;
     private int courseNumber;

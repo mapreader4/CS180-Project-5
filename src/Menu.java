@@ -11,48 +11,48 @@ import java.util.Scanner;
  * @version November 14, 2021
  */
 public class Menu {
-    private static final String welcomeMessage = "Welcome to the Online Quiz Navigator!";
-    private static final String loginOrCreate = "Would you like to log in or create an account?\n" +
+    private static final String WELCOME_MESSAGE = "Welcome to the Online Quiz Navigator!";
+    private static final String LOGIN_OR_CREATE = "Would you like to log in or create an account?\n" +
             "1. Log in\n" +
             "2. Create account\n" +
             "3. Quit";
-    private static final String teacherOrStudent = "Are you a teacher or a student?\n" +
+    private static final String TEACHER_OR_STUDENT = "Are you a teacher or a student?\n" +
             "1. Teacher\n" +
             "2. Student";
-    private static final String accountAlreadyExistsMessage = "Another account with the given username already exists."
+    private static final String ACCOUNT_ALREADY_EXISTS_MESSAGE = "Another account with the given username already exists."
             + " Please try again.";
-    private static final String accountInvalidMessage = "The account with the given username and password" +
+    private static final String ACCOUNT_INVALID_MESSAGE = "The account with the given username and password" +
             " could not be found. Please try again.";
-    private static final String accountCreatedMessage = "Account created!";
-    private static final String loggedInMessage = "Logged in!";
-    private static final String createOrEditCourseMessage = "Would you like to create a new course or " +
+    private static final String ACCOUNT_CREATED_MESSAGE = "Account created!";
+    private static final String LOGGED_IN_MESSAGE = "Logged in!";
+    private static final String CREATE_OR_EDIT_COURSE_MESSAGE = "Would you like to create a new course or " +
             "edit an existing course?\n" +
             "1. Create course\n" +
             "2. Edit course\n" +
             "3. Quit";
-    private static final String teacherCourseOptionsMessage = "Course Menu Options:\n" +
+    private static final String TEACHER_COURSE_OPTIONS_MESSAGE = "Course Menu Options:\n" +
             "1. Add quiz\n" +
             "2. Edit quiz\n" +
             "3. Delete quiz\n" +
             "4. View quiz submissions\n" +
             "5. Change course name\n" +
             "6. Return to main menu";
-    private static final String quizInputMethodMessage = "Do you want to import the quiz as a file " +
+    private static final String QUIZ_INPUT_METHOD_MESSAGE = "Do you want to import the quiz as a file " +
             "or enter it through the terminal?\n" +
             "1. Import as file\n" +
             "2. Enter through terminal";
-    private static final String addOrExistingCourseMessage = "Would you like to add a new course or use an existing " +
+    private static final String ADD_OR_EXISTING_COURSE_MESSAGE = "Would you like to add a new course or use an existing " +
             "course?\n" +
             "1. Add a new course\n" +
             "2. Use an existing course\n" +
             "3. Quit";
-    private static final String studentCourseOptionsMessage = "Course Menu Options:\n" +
+    private static final String STUDENT_COURSE_OPTIONS_MESSAGE = "Course Menu Options:\n" +
             "1. Take quiz\n" +
             "2. View previously taken quizzes\n" +
             "3. Return to main menu";
-    private static final String exitMessage = "Thank you for using the Online Quiz Navigator!";
-    private static final String notValidMessage = "That is not a valid option. Please try again.";
-    private static final String cannotBeBlank = "This field cannot be blank. Please try again.";
+    private static final String EXIT_MESSAGE = "Thank you for using the Online Quiz Navigator!";
+    private static final String NOT_VALID_MESSAGE = "That is not a valid option. Please try again.";
+    private static final String CANNOT_BE_BLANK = "This field cannot be blank. Please try again.";
 
     /**
      * Displays a message containing multiple choices to the user, then ensures the user chooses an integer between the
@@ -80,7 +80,7 @@ public class Menu {
                 integerToGet = minValue - 1;
             }
             if (integerToGet < minValue || integerToGet > maxValue) {
-                System.out.println(notValidMessage);
+                System.out.println(NOT_VALID_MESSAGE);
             }
         } while (integerToGet < minValue || integerToGet > maxValue);
         return integerToGet;
@@ -105,7 +105,7 @@ public class Menu {
             }
             stringToGet = scanner.nextLine();
             if (stringToGet == null || stringToGet.isBlank()) {
-                System.out.println(cannotBeBlank);
+                System.out.println(CANNOT_BE_BLANK);
             }
         } while (stringToGet == null || stringToGet.isBlank());
         return stringToGet;
@@ -118,12 +118,12 @@ public class Menu {
      * @return a User object representing the user who just logged in or created an account, null if user quits
      */
     private static User login(Scanner scanner, TeacherList teacherList, StudentList studentList) {
-        int loginType = getIntegerFromScanner(scanner, loginOrCreate, 1, 3, true);
+        int loginType = getIntegerFromScanner(scanner, LOGIN_OR_CREATE, 1, 3, true);
         if (loginType == 3) {
             return null;
         }
 
-        int accountType = getIntegerFromScanner(scanner, teacherOrStudent, 1, 2, true);
+        int accountType = getIntegerFromScanner(scanner, TEACHER_OR_STUDENT, 1, 2, true);
 
         if (accountType == 1) {
             Teacher teacher = null;
@@ -134,10 +134,10 @@ public class Menu {
                     String password = getStringFromScanner(scanner, "Password: ", false);
                     teacher = new Teacher(username, password);
                     if (teacherList.add(teacher)) {
-                        System.out.println(accountCreatedMessage);
+                        System.out.println(ACCOUNT_CREATED_MESSAGE);
                     } else {
                         teacher = null;
-                        System.out.println(accountAlreadyExistsMessage);
+                        System.out.println(ACCOUNT_ALREADY_EXISTS_MESSAGE);
                     }
                 } while (teacher == null);
             } else if (loginType == 1) {
@@ -146,9 +146,9 @@ public class Menu {
                     String password = getStringFromScanner(scanner, "Password: ", false);
                     teacher = teacherList.findTeacher(username, password);
                     if (teacher == null) {
-                        System.out.println(accountInvalidMessage);
+                        System.out.println(ACCOUNT_INVALID_MESSAGE);
                     } else {
-                        System.out.println(loggedInMessage);
+                        System.out.println(LOGGED_IN_MESSAGE);
                     }
                 } while (teacher == null);
             }
@@ -163,10 +163,10 @@ public class Menu {
                     String password = getStringFromScanner(scanner, "Password: ", false);
                     student = new Student(username, password);
                     if (studentList.add(student)) {
-                        System.out.println(accountCreatedMessage);
+                        System.out.println(ACCOUNT_CREATED_MESSAGE);
                     } else {
                         student = null;
-                        System.out.println(accountAlreadyExistsMessage);
+                        System.out.println(ACCOUNT_ALREADY_EXISTS_MESSAGE);
                     }
                 } while (student == null);
             } else if (loginType == 1) {
@@ -175,9 +175,9 @@ public class Menu {
                     String password = getStringFromScanner(scanner, "Password: ", false);
                     student = studentList.findStudent(username, password);
                     if (student == null) {
-                        System.out.println(accountInvalidMessage);
+                        System.out.println(ACCOUNT_INVALID_MESSAGE);
                     } else {
-                        System.out.println(loggedInMessage);
+                        System.out.println(LOGGED_IN_MESSAGE);
                     }
                 } while (student == null);
             }
@@ -194,10 +194,10 @@ public class Menu {
      * @param scanner used for getting user input
      * @param teacher the account using the program
      */
-    private static void teacherMenu(Scanner scanner, Teacher teacher, CourseList courseList) throws IOException{
+    private static void teacherMenu(Scanner scanner, Teacher teacher, CourseList courseList) throws IOException {
         while (true) {
             Course course = null;
-            int createOrEditCourseChoice = getIntegerFromScanner(scanner, createOrEditCourseMessage, 1,
+            int createOrEditCourseChoice = getIntegerFromScanner(scanner, CREATE_OR_EDIT_COURSE_MESSAGE, 1,
                     3, true);
             if (createOrEditCourseChoice == 3) {
                 break;
@@ -206,7 +206,7 @@ public class Menu {
             } else if (createOrEditCourseChoice == 2) {
                 do {
                     ArrayList<Course> courses = teacher.getCourses();
-                    if(courses==null){
+                    if (courses == null) {
                         System.out.println("There are no courses");
                         return;
                     }
@@ -226,7 +226,7 @@ public class Menu {
                         course = teacher.getCourse(courseNumber);
                     }
                     if (course == null) {
-                        System.out.println(notValidMessage);
+                        System.out.println(NOT_VALID_MESSAGE);
                     } else {
                         Course updatedCourse = courseList.getCourse(courseNumber);
                         ArrayList<Course> teacherCourses = teacher.getCourses();
@@ -252,7 +252,7 @@ public class Menu {
      * @param teacher the account using the program
      * @return the course that was generated
      */
-    private static Course createCourseMenu(Scanner scanner, Teacher teacher, CourseList courseList) throws IOException{
+    private static Course createCourseMenu(Scanner scanner, Teacher teacher, CourseList courseList) throws IOException {
         Course course = null;
         boolean courseAdded = false;
         do {
@@ -280,13 +280,13 @@ public class Menu {
     private static void teacherCourseMenu(Scanner scanner, Teacher teacher, Course course, CourseList courseList) {
         while (true) {
             System.out.println(course.getCourseName());
-            int actionChoice = getIntegerFromScanner(scanner, teacherCourseOptionsMessage, 1,
+            int actionChoice = getIntegerFromScanner(scanner, TEACHER_COURSE_OPTIONS_MESSAGE, 1,
                     6, true);
             if (actionChoice == 6) {
                 break;
             } else if (actionChoice == 1) {
                 Quiz quiz = null;
-                int quizInputMethod = getIntegerFromScanner(scanner, quizInputMethodMessage, 1, 2,
+                int quizInputMethod = getIntegerFromScanner(scanner, QUIZ_INPUT_METHOD_MESSAGE, 1, 2,
                         true);
 
                 if (quizInputMethod == 1) {
@@ -384,7 +384,7 @@ public class Menu {
                 } else {
                     submission = submissions.get(submissionNumber);
                 }
-                submission.view(scanner, submissionNumber);
+                submission.view(submissionNumber);
             } else if (actionChoice == 5) {
                 System.out.println("Please enter the new course name.");
                 String courseName = getStringFromScanner(scanner, "Course Name: ", false);
@@ -404,14 +404,14 @@ public class Menu {
     private static void studentMenu(Scanner scanner, Student student, CourseList courseList) {
         while (true) {
             Course course = null;
-            int addOrExistingCourseChoice = getIntegerFromScanner(scanner, addOrExistingCourseMessage, 1,
+            int addOrExistingCourseChoice = getIntegerFromScanner(scanner, ADD_OR_EXISTING_COURSE_MESSAGE, 1,
                     3, true);
             if (addOrExistingCourseChoice == 3) {
                 break;
             } else if (addOrExistingCourseChoice == 1) {
                 course = addCourseMenu(scanner, student, courseList);
                 if (course == null) {
-                    System.out.println(notValidMessage);
+                    System.out.println(NOT_VALID_MESSAGE);
                 }
             } else if (addOrExistingCourseChoice == 2) {
                 do {
@@ -432,7 +432,7 @@ public class Menu {
                         course = student.getCourse(courseNumber);
                     }
                     if (course == null) {
-                        System.out.println(notValidMessage);
+                        System.out.println(NOT_VALID_MESSAGE);
                     } else {
                         Course updatedCourse = courseList.getCourse(courseNumber);
                         ArrayList<Course> studentCourses = student.getCourses();
@@ -490,7 +490,7 @@ public class Menu {
     private static void studentCourseMenu(Scanner scanner, Student student, Course course, CourseList courseList) {
         while (true) {
             System.out.println(course.getCourseName());
-            int actionChoice = getIntegerFromScanner(scanner, studentCourseOptionsMessage, 1, 3,
+            int actionChoice = getIntegerFromScanner(scanner, STUDENT_COURSE_OPTIONS_MESSAGE, 1, 3,
                     true);
             if (actionChoice == 3) {
                 break;
@@ -535,7 +535,7 @@ public class Menu {
                 } else {
                     submission = submissions.get(submissionNumber);
                 }
-                submission.view(scanner, submissionNumber);
+                submission.view(submissionNumber);
             }
         }
         courseList.update(course);
@@ -549,14 +549,14 @@ public class Menu {
      *
      * @param args
      */
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
         TeacherList teacherList = TeacherList.readFromFile();
         StudentList studentList = StudentList.readFromFile();
         CourseList courseList = CourseList.readFromFile();
 
         try {
-            System.out.println(welcomeMessage);
+            System.out.println(WELCOME_MESSAGE);
             User user = login(scanner, teacherList, studentList);
             if (user == null) {
                 //null user indicates user has quit on login menu
@@ -567,7 +567,7 @@ public class Menu {
                 Student student = (Student) user;
                 studentMenu(scanner, student, courseList);
             }
-            System.out.println(exitMessage);
+            System.out.println(EXIT_MESSAGE);
         } catch (Exception e) {
             throw e;
         } finally {
