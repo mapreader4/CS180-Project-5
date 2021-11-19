@@ -8,14 +8,10 @@ Four sections of the project:
 - View (client-side), handles GUI
 <br>
 Model:
----------------
 <br>
-Network
----------------
+Network:
 <br>
-Controller
----------------
+Controller:
 <br>
-View
----------------
+View:
 <br>
