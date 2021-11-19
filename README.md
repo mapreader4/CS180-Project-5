@@ -17,6 +17,8 @@ Model (Jay):
 <br>
 handles data when called from Server
 <br>
+need to update existing data structures for compatibility
+<br>
 <br>
 Server (Nathan S):
 <br>
