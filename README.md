@@ -19,6 +19,8 @@ while loop checks for new Clients and creates threads when they do
 <br>
 in thread, while loop checks for updates from Client or Model
 <br>
+note: when communicating with Clients, this should send the fields (eg Strings of names, etc) of the data structures rather than the Course/Quiz/User objects themselves
+<br>
 <br>
 Client-Side:
 <br>
