@@ -15,9 +15,15 @@ login(String username, String password) to create or login to account
 <br>
 Server-Side:
 <br>
+while loop checks for updates from Client or Model
+<br>
 <br>
 Client-Side:
 <br>
+while loop checks for updates from Server or View
+<br>
 <br>
 View:
+<br>
+will call methods on client-side to fetch information
 <br>
