@@ -7,11 +7,15 @@ Four sections of the project:
 - Controller (client-side), handles exchange of information between Network and View
 - View (client-side), handles GUI
 <br>
+<br>
 Model:
+<br>
 <br>
 Network:
 <br>
+<br>
 Controller:
+<br>
 <br>
 View:
 <br>
