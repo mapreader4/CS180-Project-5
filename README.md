@@ -9,9 +9,13 @@ Four sections of the project:
 <br>
 Model:
 ---------------
+<br>
 Network
 ---------------
+<br>
 Controller
 ---------------
+<br>
 View
 ---------------
+<br>
