@@ -10,12 +10,14 @@ Four sections of the project:
 <br>
 Model:
 <br>
-login(String username, String password) to create or login to account
+handles data when called from Server
 <br>
 <br>
 Server-Side:
 <br>
-while loop checks for updates from Client or Model
+while loop checks for new Clients and creates threads when they do
+<br>
+in thread, while loop checks for updates from Client or Model
 <br>
 <br>
 Client-Side:
@@ -25,5 +27,7 @@ while loop checks for updates from Server or View
 <br>
 View:
 <br>
-will call methods on client-side to fetch information
+listens for user updates and send them to Client
+<br>
+updates when server receives updates
 <br>
