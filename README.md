@@ -10,11 +10,13 @@ Four sections of the project:
 <br>
 Model:
 <br>
+login(String username, String password) to create or login to account
 <br>
-Network:
+<br>
+Server-Side:
 <br>
 <br>
-Controller:
+Client-Side:
 <br>
 <br>
 View:
