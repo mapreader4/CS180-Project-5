@@ -2,7 +2,7 @@
 <br>
 Louis' role TBD
 <br>
-Anyone who finishes their part of the project can help others.
+handles concurrency part which allows multiple users to use the application at the same time.
 <br>
 <br>
 Model (Jay):
