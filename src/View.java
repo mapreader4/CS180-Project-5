@@ -3,6 +3,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
+//TODO: add create account menu and access to it
+
 /**
  * Online Quiz Navigator v2 - View
  *
@@ -30,9 +32,23 @@ public class View extends JComponent {
                     createLoginScreen();
                 } else {
                     JOptionPane.showMessageDialog(null,
-                            "Was not able to connect to the server with the given domain name and " +
+                            "Unable to connect to the server with the given domain name and " +
                             "port number. Please try again.", "Unable to Connect", JOptionPane.ERROR_MESSAGE);
                 }
+            } else if (actionCommand.equals("send login info")) {
+                JTextField usernameTxt = (JTextField) activeComponents.get(0);
+                JTextField passwordTxt = (JTextField) activeComponents.get(1);
+                if (client.login(usernameTxt.getText(), passwordTxt.getText())) {
+                    createMainMenu();
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "Unable to log in to the account with the given username or password. " +
+                            "Please try again.", "Unable to login", JOptionPane.ERROR_MESSAGE);
+                }
+            } else if (actionCommand.equals("switch to create account menu")) {
+                createCreateAccountScreen();
+            } else if (actionCommand.equals("switch to login menu")) {
+                createLoginScreen();
             }
         }
     };
@@ -101,6 +117,36 @@ public class View extends JComponent {
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
+    }
+
+    private void createLoginScreen() {
+        mainPanel.removeAll();
+        activeComponents.clear();
+
+        JLabel usernameLabel = new JLabel("Username:");
+        JTextField usernameTxt = new JTextField(30);
+        activeComponents.add(usernameTxt);
+        JLabel passwordLabel = new JLabel("Password:");
+        JTextField passwordTxt = new JTextField(30);
+        activeComponents.add(passwordTxt);
+
+        JPanel usernamePanel = new JPanel(new FlowLayout());
+        JPanel passwordPanel = new JPanel(new FlowLayout());
+        usernamePanel.add(usernameLabel);
+        usernamePanel.add(usernameTxt);
+        passwordPanel.add(passwordLabel);
+        passwordPanel.add(passwordTxt);
+
+        JButton submitButton = new JButton("Submit");
+        submitButton.setActionCommand("send login info");
+        submitButton.addActionListener(actionListener);
+
+        mainPanel.add(usernamePanel, BorderLayout.NORTH);
+        mainPanel.add(passwordPanel, BorderLayout.CENTER);
+        mainPanel.add(submitButton, BorderLayout.SOUTH);
+
+        mainPanel.validate();
+        mainPanel.repaint();
     }
 
     //TODO: remove before submission
