@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 /**
  * Online Quiz Navigator v2 - View
@@ -13,9 +14,28 @@ import java.awt.event.*;
  * @version November 29, 2021
  */
 public class View extends JComponent {
-    Client client;
-    JFrame frame;
-    JPanel mainPanel;
+    private Client client;
+    private JFrame frame;
+    private JPanel mainPanel;
+    private ArrayList<JComponent> activeComponents = new ArrayList<JComponent>();
+
+    ActionListener actionListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String actionCommand = e.getActionCommand();
+            if (actionCommand.equals("send connection info")) {
+                JTextField domainNameTxt = (JTextField) activeComponents.get(0);
+                JTextField portNumberTxt = (JTextField) activeComponents.get(1);
+                if (client.connectToServer(domainNameTxt.getText(), portNumberTxt.getText())) {
+                    createLoginScreen();
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "Was not able to connect to the server with the given domain name and " +
+                            "port number. Please try again.", "Unable to Connect", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    };
 
     //TODO: remove this method before submission
     /**
@@ -55,8 +75,26 @@ public class View extends JComponent {
         mainPanel = new JPanel(new BorderLayout());
         frame.add(mainPanel);
 
-        JButton button = new JButton("Test");
-        mainPanel.add(button);
+        JLabel domainNameLabel = new JLabel("Domain Name:");
+        JTextField domainNameTxt = new JTextField(30);
+        activeComponents.add(domainNameTxt);
+        JLabel portNumberLabel = new JLabel("Port Number:");
+        JTextField portNumberTxt = new JTextField(30);
+        activeComponents.add(portNumberTxt);
+
+        JPanel domainNamePanel = new JPanel(new FlowLayout());
+        JPanel portNumberPanel = new JPanel(new FlowLayout());
+        domainNamePanel.add(domainNameLabel);
+        domainNamePanel.add(domainNameTxt);
+        portNumberPanel.add(portNumberLabel);
+        portNumberPanel.add(portNumberTxt);
+
+        JButton submitButton = new JButton("Submit");
+        submitButton.setActionCommand("send connection info");
+
+        mainPanel.add(domainNamePanel, BorderLayout.NORTH);
+        mainPanel.add(portNumberPanel, BorderLayout.CENTER);
+        mainPanel.add(submitButton, BorderLayout.SOUTH);
 
         frame.setSize(600, 400);
         frame.setLocationRelativeTo(null);
