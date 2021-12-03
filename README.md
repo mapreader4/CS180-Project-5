@@ -1,6 +1,6 @@
 # CS180-Project-5
 <br>
-Louis' role TBD
+Louis' role:
 <br>
 handles concurrency part which allows multiple users to use the application at the same time.
 <br>
