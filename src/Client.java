@@ -10,6 +10,19 @@ public class Client {
             e.printStackTrace();
         }
     }
+    public boolean connectToServer(String domainName, String inputPortNumber) {
+        boolean connected = false;
+        try {
+            int portNumber = Integer.parseInt(inputPortNumber);
+            if (domainName != null) {
+                connected = true;
+            }
+
+        } catch (NumberFormatException e) {
+            connected = false;
+        }
+        return connected;
+    }
 
 
 }
