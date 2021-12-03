@@ -2,9 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-//TODO: Deconfuse my mental model of GUIs
-//because I am very confused and am not going to make progress until I know what I'm doing
-
 /**
  * Online Quiz Navigator v2 - View
  *
@@ -17,6 +14,8 @@ import java.awt.event.*;
  */
 public class View extends JComponent {
     Client client;
+    JFrame frame;
+    JPanel mainPanel;
 
     //TODO: remove this method before submission
     /**
@@ -52,12 +51,12 @@ public class View extends JComponent {
      * Creates and displays initial GUI
      */
     private void createGUI() {
-        JFrame frame = new JFrame("Online Quiz Navigator v2");
-        Container content = frame.getContentPane();
-        content.setLayout(new BorderLayout());
+        frame = new JFrame("Online Quiz Navigator v2");
+        mainPanel = new JPanel(new BorderLayout());
+        frame.add(mainPanel);
 
         JButton button = new JButton("Test");
-        content.add(button);
+        mainPanel.add(button);
 
         frame.setSize(600, 400);
         frame.setLocationRelativeTo(null);
