@@ -3,8 +3,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
-//TODO: add create account menu and access to it
-
 /**
  * Online Quiz Navigator v2 - View
  *
@@ -45,10 +43,16 @@ public class View extends JComponent {
                             "Unable to log in to the account with the given username or password. " +
                             "Please try again.", "Unable to login", JOptionPane.ERROR_MESSAGE);
                 }
-            } else if (actionCommand.equals("switch to create account menu")) {
-                createCreateAccountScreen();
-            } else if (actionCommand.equals("switch to login menu")) {
-                createLoginScreen();
+            } else if (actionCommand.equals("send account creation info")) {
+                JTextField usernameTxt = (JTextField) activeComponents.get(0);
+                JTextField passwordTxt = (JTextField) activeComponents.get(1);
+                if (client.createAccount(usernameTxt.getText(), passwordTxt.getText())) {
+                    createMainMenu();
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "The account with the given username already exists. " +
+                                    "Please try again.", "Unable to create account", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
     };
@@ -130,20 +134,26 @@ public class View extends JComponent {
         JTextField passwordTxt = new JTextField(30);
         activeComponents.add(passwordTxt);
 
+        JButton createAccountButton = new JButton("Create Account");
+        createAccountButton.setActionCommand("send account creation info");
+        createAccountButton.addActionListener(actionListener);
+        JButton loginButton = new JButton("Login");
+        loginButton.setActionCommand("send login info");
+        loginButton.addActionListener(actionListener);
+
         JPanel usernamePanel = new JPanel(new FlowLayout());
         JPanel passwordPanel = new JPanel(new FlowLayout());
+        JPanel submitPanel = new JPanel(new FlowLayout());
         usernamePanel.add(usernameLabel);
         usernamePanel.add(usernameTxt);
         passwordPanel.add(passwordLabel);
         passwordPanel.add(passwordTxt);
-
-        JButton submitButton = new JButton("Submit");
-        submitButton.setActionCommand("send login info");
-        submitButton.addActionListener(actionListener);
+        submitPanel.add(createAccountButton);
+        submitPanel.add(loginButton);
 
         mainPanel.add(usernamePanel, BorderLayout.NORTH);
         mainPanel.add(passwordPanel, BorderLayout.CENTER);
-        mainPanel.add(submitButton, BorderLayout.SOUTH);
+        mainPanel.add(submitPanel, BorderLayout.SOUTH);
 
         mainPanel.validate();
         mainPanel.repaint();
