@@ -91,6 +91,7 @@ public class View extends JComponent {
 
         JButton submitButton = new JButton("Submit");
         submitButton.setActionCommand("send connection info");
+        submitButton.addActionListener(actionListener);
 
         mainPanel.add(domainNamePanel, BorderLayout.NORTH);
         mainPanel.add(portNumberPanel, BorderLayout.CENTER);
