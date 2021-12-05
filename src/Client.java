@@ -25,6 +25,6 @@ public class Client {
     }
     public boolean createAccount(String username, String password){
         return true;
-        //We still need to impliment this
+        //We still need to implement this
     }
 }
