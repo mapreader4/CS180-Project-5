@@ -3,25 +3,21 @@ import java.net.Socket;
 
 public class Client {
     public static void main(String[] args) {
-        try {
-            Socket socket = new Socket("localhost", 8818);
+        Client client=new Client();
+        View view=new View(client);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
     public boolean connectToServer(String domainName, String inputPortNumber) {
-        boolean connected = false;
         try {
             int portNumber = Integer.parseInt(inputPortNumber);
-            if (domainName != null) {
-                connected = true;
+            Socket socket = new Socket(domainName, portNumber);
+            if(socket.isConnected()){
+                return true;
             }
-
-        } catch (NumberFormatException e) {
-            connected = false;
+        } catch (Exception e) {
+            return false;
         }
-        return connected;
+        return false;
     }
     public boolean createAccount(String username, String password){
     return true;
