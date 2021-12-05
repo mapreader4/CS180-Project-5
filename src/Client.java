@@ -19,7 +19,12 @@ public class Client {
         }
         return false;
     }
-    public boolean createAccount(String username, String password){
+    public boolean createAccount(String username, String password,String typeOfAccount){
+        if(typeOfAccount.equalsIgnoreCase("teacher")){
+
+        } else if(typeOfAccount.equalsIgnoreCase("student")){
+
+        }
     return true;
     //We still need to implement this
     }

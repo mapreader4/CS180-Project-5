@@ -19,9 +19,5 @@ public class Server {
             e.printStackTrace();
         }
     }
-    public void updateLists(){
-
-    }
-
-
 }
+
