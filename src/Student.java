@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Student Class: Responsible for creating Student Users
@@ -138,4 +139,5 @@ public class Student extends User {
                 ", isTeacher=" + isTeacher +
                 '}';
     }
+
 }
