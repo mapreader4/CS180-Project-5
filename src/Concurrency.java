@@ -3,10 +3,11 @@ import java.net.Socket;
 
 public class Concurrency extends Thread {
     private final Socket socket;
-
-    private TeacherList teacherList;
-    private StudentList studentList;
-    private CourseList courseList;
+    BufferedReader reader=null;
+    PrintWriter writer=null;
+    TeacherList teacherList = TeacherList.readFromFile();
+    StudentList studentList = StudentList.readFromFile();
+    CourseList courseList = CourseList.readFromFile();
 
     public Concurrency(Socket socket) {
         this.socket = socket;
@@ -18,8 +19,8 @@ public class Concurrency extends Thread {
         //Reader is used to get data from the server, Writer is used to send data to the server if you need to.
         try {
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            PrintWriter writer = new PrintWriter(socket.getOutputStream());
+            reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            writer = new PrintWriter(socket.getOutputStream());
             while (true) {
                 String line =  reader.readLine();
                 String [] message = line.split(" ");
@@ -37,8 +38,20 @@ public class Concurrency extends Thread {
         }
     }
     public boolean login(String username, String  password,String typeOfUser){
-
-
+        if(typeOfUser.equals("teacher")){
+            if(teacherList.findTeacher(username, password)==null){
+                writer.println("failure");
+            } else {
+                writer.println("success");
+            }
+        } else if(typeOfUser.equals("student")){
+            if(studentList.findStudent(username, password)==null){
+                writer.println("failure");
+            } else {
+                writer.println("success");
+            }
+        }
+        return false;
 
     }
     public String createAccount(String username, String password, String typeOfUser){
