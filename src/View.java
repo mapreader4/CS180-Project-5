@@ -36,8 +36,22 @@ public class View extends JComponent {
             } else if (actionCommand.equals("send login info")) {
                 JTextField usernameTxt = (JTextField) activeComponents.get(0);
                 JTextField passwordTxt = (JTextField) activeComponents.get(1);
-                if (client.login(usernameTxt.getText(), passwordTxt.getText())) {
+                JRadioButton studentButton = (JRadioButton) activeComponents.get(2);
+                JRadioButton teacherButton = (JRadioButton) activeComponents.get(3);
+                String typeOfAccount;
+                if (studentButton.isSelected()) {
+                    typeOfAccount = "student";
+                } else if (teacherButton.isSelected()) {
+                    typeOfAccount = "teacher";
+                } else {
+                    typeOfAccount = null;
+                }
+                if (typeOfAccount != null
+                        && client.login(usernameTxt.getText(), passwordTxt.getText(), typeOfAccount)) {
                     createMainMenu();
+                } else if (typeOfAccount == null) {
+                    JOptionPane.showMessageDialog(null, "Please select either a teacher " +
+                            "or a student account.", "Type of account not selected", JOptionPane.ERROR_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null,
                             "Unable to log in to the account with the given username or password. " +
@@ -46,8 +60,22 @@ public class View extends JComponent {
             } else if (actionCommand.equals("send account creation info")) {
                 JTextField usernameTxt = (JTextField) activeComponents.get(0);
                 JTextField passwordTxt = (JTextField) activeComponents.get(1);
-                if (client.createAccount(usernameTxt.getText(), passwordTxt.getText())) {
+                JRadioButton studentButton = (JRadioButton) activeComponents.get(2);
+                JRadioButton teacherButton = (JRadioButton) activeComponents.get(3);
+                String typeOfAccount;
+                if (studentButton.isSelected()) {
+                    typeOfAccount = "student";
+                } else if (teacherButton.isSelected()) {
+                    typeOfAccount = "teacher";
+                } else {
+                    typeOfAccount = null;
+                }
+                if (typeOfAccount != null
+                        && client.createAccount(usernameTxt.getText(), passwordTxt.getText(), typeOfAccount)) {
                     createMainMenu();
+                } else if (typeOfAccount == null) {
+                    JOptionPane.showMessageDialog(null, "Please select either a teacher " +
+                            "or a student account.", "Type of account not selected", JOptionPane.ERROR_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null,
                             "The account with the given username already exists. " +
@@ -141,18 +169,32 @@ public class View extends JComponent {
         loginButton.setActionCommand("send login info");
         loginButton.addActionListener(actionListener);
 
+        JRadioButton studentButton = new JRadioButton("Student", true);
+        JRadioButton teacherButton = new JRadioButton("Teacher");
+        ButtonGroup teacherOrStudentGroup = new ButtonGroup();
+        teacherOrStudentGroup.add(studentButton);
+        teacherOrStudentGroup.add(teacherButton);
+        activeComponents.add(studentButton);
+        activeComponents.add(teacherButton);
+
         JPanel usernamePanel = new JPanel(new FlowLayout());
         JPanel passwordPanel = new JPanel(new FlowLayout());
+        JPanel teacherOrStudentPanel = new JPanel(new FlowLayout());
+        JPanel loginPanel = new JPanel(new BorderLayout());
         JPanel submitPanel = new JPanel(new FlowLayout());
         usernamePanel.add(usernameLabel);
         usernamePanel.add(usernameTxt);
         passwordPanel.add(passwordLabel);
         passwordPanel.add(passwordTxt);
+        teacherOrStudentPanel.add(studentButton);
+        teacherOrStudentPanel.add(teacherButton);
+        loginPanel.add(usernamePanel, BorderLayout.NORTH);
+        loginPanel.add(passwordPanel, BorderLayout.CENTER);
+        loginPanel.add(teacherOrStudentPanel, BorderLayout.SOUTH);
         submitPanel.add(createAccountButton);
         submitPanel.add(loginButton);
 
-        mainPanel.add(usernamePanel, BorderLayout.NORTH);
-        mainPanel.add(passwordPanel, BorderLayout.CENTER);
+        mainPanel.add(loginPanel, BorderLayout.CENTER);
         mainPanel.add(submitPanel, BorderLayout.SOUTH);
 
         mainPanel.validate();
