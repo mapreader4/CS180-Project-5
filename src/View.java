@@ -257,6 +257,14 @@ public class View extends JComponent {
         mainPanel.add(selectButton, BorderLayout.SOUTH);
     }
 
+    //TODO: implement this and add relevant fields!
+    /**
+     * Updates view being displayed to be consistent with new server updates
+     */
+    public void update() {
+
+    }
+
     //TODO: remove before submission
     /**
      * Main method for testing
