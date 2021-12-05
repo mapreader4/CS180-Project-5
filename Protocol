@@ -2,11 +2,8 @@ For user authentication
 c: login <Username> <Password>
 s: success / failure
 
-Creating account teacher
-c: create-teacher <Username> <Password> <typeOfAccount>
+Creating account
+c: create-account <Username> <Password> <typeOfAccount>
 s: success / duplicate
 
-Creating account student
-c: create-student <Username> <Password>
-s: success / duplicate
 

@@ -25,16 +25,29 @@ public class Client {
         return false;
     }
     public boolean createAccount(String username, String password, String typeOfAccount){
-        pw.println("login "+username+" "+ password + " "+typeOfAccount);
+        pw.println("create-account "+username+" "+ password + " "+typeOfAccount);
         try {
             String checker = bfr.readLine();
-            if(checker=="success"){
+            if(checker.equals("success")){
                 return true;
             }
         } catch (IOException e){
             throw new RuntimeException();
         }
         return false;
+    }
+    public boolean login(String username, String password, String typeOfAccount){
+        pw.println("login "+username+" "+password+" "+ typeOfAccount);
+        try {
+            String checker =bfr.readLine();
+            if(checker.equals("success")){
+                return true;
+            }
+        } catch (IOException e){
+            throw new RuntimeException();
+        }
+        return false;
+        }
     }
 
 }
