@@ -32,7 +32,9 @@ public class View extends JComponent {
     private JPanel mainPanel;
     private ArrayList<Object> activeComponents = new ArrayList<Object>();
 
-    private String accountType;
+    private int accountType;
+    private static final int STUDENT_OPTION = 0;
+    private static final int TEACHER_OPTION = 1;
 
     ActionListener actionListener = new ActionListener() {
         @Override
@@ -52,7 +54,11 @@ public class View extends JComponent {
                 JTextField usernameTxt = (JTextField) activeComponents.get(0);
                 JTextField passwordTxt = (JTextField) activeComponents.get(1);
                 ButtonGroup studentOrTeacher = (ButtonGroup) activeComponents.get(2);
-                accountType = studentOrTeacher.getSelection().getActionCommand();
+                if (studentOrTeacher.getSelection().getActionCommand().equals("student")) {
+                    accountType = STUDENT_OPTION;
+                } else if (studentOrTeacher.getSelection().getActionCommand().equals("teacher")) {
+                    accountType = TEACHER_OPTION;
+                }
                 if (client.login(usernameTxt.getText(), passwordTxt.getText(),
                         studentOrTeacher.getSelection().getActionCommand())) {
                     createMainMenu();
@@ -65,7 +71,11 @@ public class View extends JComponent {
                 JTextField usernameTxt = (JTextField) activeComponents.get(0);
                 JTextField passwordTxt = (JTextField) activeComponents.get(1);
                 ButtonGroup studentOrTeacher = (ButtonGroup) activeComponents.get(2);
-                accountType = studentOrTeacher.getSelection().getActionCommand();
+                if (studentOrTeacher.getSelection().getActionCommand().equals("student")) {
+                    accountType = STUDENT_OPTION;
+                } else if (studentOrTeacher.getSelection().getActionCommand().equals("teacher")) {
+                    accountType = TEACHER_OPTION;
+                }
                 if (client.createAccount(usernameTxt.getText(), passwordTxt.getText(),
                         studentOrTeacher.getSelection().getActionCommand())) {
                     createMainMenu();
@@ -78,8 +88,11 @@ public class View extends JComponent {
                 ButtonGroup courseList = (ButtonGroup) activeComponents.get(0);
                 String courseChosen = courseList.getSelection().getActionCommand();
                 if (courseChosen.equals("add course")) {
-                    createAddCourseScreen();
-                    //TODO: differentiate between students and teachers!
+                    if (accountType == STUDENT_OPTION) {
+                        createAddCourseScreen();
+                    } else if (accountType == TEACHER_OPTION) {
+                        createCreateCourseScreen();
+                    }
                 } else {
                     client.setActiveCourse(Integer.parseInt(courseChosen));
                     createCourseScreen();
@@ -234,7 +247,7 @@ public class View extends JComponent {
         mainPanel.removeAll();
         activeComponents.clear();
 
-        ArrayList<Course> courseList = client.getCourses();
+        ArrayList<Course> courseList = client.getAccountCourses();
         JPanel coursePanel = new JPanel(new GridLayout(0, 1));
         ButtonGroup courseGroup = new ButtonGroup();
 
