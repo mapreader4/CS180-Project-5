@@ -39,6 +39,24 @@ public class Concurrency extends Thread {
     public boolean login(String username, String  password,String typeOfUser){
 
 
+
+    }
+    public String createAccount(String username, String password, String typeOfUser){
+        if(typeOfUser.equalsIgnoreCase("Student")){
+            Student student = studentList.findStudent(username,password);
+            if(student == null){ //if student is not in the list, the account is created
+                studentList.add(new Student (username,password));
+                studentList.saveToFile();
+                updateLists();
+                return "success";
+            }else{ //if student already exists in list
+                return "failure";
+            }
+        } else if (typeOfUser.equalsIgnoreCase("Teacher")){
+
+        }else{
+
+        }
     }
     public void updateLists(){
         teacherList = TeacherList.readFromFile();
