@@ -84,6 +84,14 @@ public class View extends JComponent {
                     client.setActiveCourse(Integer.parseInt(courseChosen));
                     createCourseScreen();
                 }
+            } else if (actionCommand.equals("quit")) {
+                int closeConfirmation = JOptionPane.showConfirmDialog(null,
+                        "Are you sure you want to quit?", "Quit?",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (closeConfirmation == JOptionPane.YES_OPTION) {
+                    client.close();
+                    frame.dispose();
+                }
             }
         }
     };
@@ -251,10 +259,16 @@ public class View extends JComponent {
         JButton selectButton = new JButton("Select");
         selectButton.setActionCommand("choose course");
         selectButton.addActionListener(actionListener);
+        JButton quitButton = new JButton("Quit");
+        quitButton.setActionCommand("quit");
+        quitButton.addActionListener(actionListener);
+        JPanel selectOrQuitPanel = new JPanel(new FlowLayout());
+        selectOrQuitPanel.add(selectButton);
+        selectOrQuitPanel.add(quitButton);
 
         JScrollPane scrollPane = new JScrollPane(coursePanel);
         mainPanel.add(scrollPane, BorderLayout.CENTER);
-        mainPanel.add(selectButton, BorderLayout.SOUTH);
+        mainPanel.add(selectOrQuitPanel, BorderLayout.SOUTH);
     }
 
     //TODO: implement this and add relevant fields!
