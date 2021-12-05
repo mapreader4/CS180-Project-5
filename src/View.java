@@ -3,6 +3,19 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
+//TODO: implement the rest of the menu logic
+//parts of the menu logic remaining:
+//main menu - add quit button!!
+//creating courses - should allow teacher to create a course, then advance to course menu
+//adding courses - should allow student to add any course, then advance to course menu
+//course menu - should allow access to any quiz (and adding quiz if teacher), as well as exiting
+//quiz options menu - should allow choice of options for quizzes (different between teacher and student)
+//create quiz - long series of methods allowing teacher to create quiz
+//edit quiz - displays list of questions, then allows teacher to edit any particular question
+//take quiz - long series of methods allowing student to take quiz
+//view submission - displays submissions to quiz, then allows viewing of any submission
+//also, make sure client gets notified when view closes! (might be better implemented in client)
+
 /**
  * Online Quiz Navigator v2 - View
  *
@@ -66,6 +79,7 @@ public class View extends JComponent {
                 String courseChosen = courseList.getSelection().getActionCommand();
                 if (courseChosen.equals("add course")) {
                     createAddCourseScreen();
+                    //TODO: differentiate between students and teachers!
                 } else {
                     client.setActiveCourse(Integer.parseInt(courseChosen));
                     createCourseScreen();
