@@ -17,7 +17,9 @@ public class View extends JComponent {
     private Client client;
     private JFrame frame;
     private JPanel mainPanel;
-    private ArrayList<JComponent> activeComponents = new ArrayList<JComponent>();
+    private ArrayList<Object> activeComponents = new ArrayList<Object>();
+
+    private String accountType;
 
     ActionListener actionListener = new ActionListener() {
         @Override
@@ -36,22 +38,11 @@ public class View extends JComponent {
             } else if (actionCommand.equals("send login info")) {
                 JTextField usernameTxt = (JTextField) activeComponents.get(0);
                 JTextField passwordTxt = (JTextField) activeComponents.get(1);
-                JRadioButton studentButton = (JRadioButton) activeComponents.get(2);
-                JRadioButton teacherButton = (JRadioButton) activeComponents.get(3);
-                String typeOfAccount;
-                if (studentButton.isSelected()) {
-                    typeOfAccount = "student";
-                } else if (teacherButton.isSelected()) {
-                    typeOfAccount = "teacher";
-                } else {
-                    typeOfAccount = null;
-                }
-                if (typeOfAccount != null
-                        && client.login(usernameTxt.getText(), passwordTxt.getText(), typeOfAccount)) {
+                ButtonGroup studentOrTeacher = (ButtonGroup) activeComponents.get(2);
+                accountType = studentOrTeacher.getSelection().getActionCommand();
+                if (client.login(usernameTxt.getText(), passwordTxt.getText(),
+                        studentOrTeacher.getSelection().getActionCommand())) {
                     createMainMenu();
-                } else if (typeOfAccount == null) {
-                    JOptionPane.showMessageDialog(null, "Please select either a teacher " +
-                            "or a student account.", "Type of account not selected", JOptionPane.ERROR_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null,
                             "Unable to log in to the account with the given username or password. " +
@@ -60,26 +51,24 @@ public class View extends JComponent {
             } else if (actionCommand.equals("send account creation info")) {
                 JTextField usernameTxt = (JTextField) activeComponents.get(0);
                 JTextField passwordTxt = (JTextField) activeComponents.get(1);
-                JRadioButton studentButton = (JRadioButton) activeComponents.get(2);
-                JRadioButton teacherButton = (JRadioButton) activeComponents.get(3);
-                String typeOfAccount;
-                if (studentButton.isSelected()) {
-                    typeOfAccount = "student";
-                } else if (teacherButton.isSelected()) {
-                    typeOfAccount = "teacher";
-                } else {
-                    typeOfAccount = null;
-                }
-                if (typeOfAccount != null
-                        && client.createAccount(usernameTxt.getText(), passwordTxt.getText(), typeOfAccount)) {
+                ButtonGroup studentOrTeacher = (ButtonGroup) activeComponents.get(2);
+                accountType = studentOrTeacher.getSelection().getActionCommand();
+                if (client.createAccount(usernameTxt.getText(), passwordTxt.getText(),
+                        studentOrTeacher.getSelection().getActionCommand())) {
                     createMainMenu();
-                } else if (typeOfAccount == null) {
-                    JOptionPane.showMessageDialog(null, "Please select either a teacher " +
-                            "or a student account.", "Type of account not selected", JOptionPane.ERROR_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null,
                             "The account with the given username already exists. " +
                                     "Please try again.", "Unable to create account", JOptionPane.ERROR_MESSAGE);
+                }
+            } else if (actionCommand.equals("choose course")) {
+                ButtonGroup courseList = (ButtonGroup) activeComponents.get(0);
+                String courseChosen = courseList.getSelection().getActionCommand();
+                if (courseChosen.equals("add course")) {
+                    createAddCourseScreen();
+                } else {
+                    client.setActiveCourse(Integer.parseInt(courseChosen));
+                    createCourseScreen();
                 }
             }
         }
@@ -93,7 +82,7 @@ public class View extends JComponent {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                createGUI();
+                createConnectionScreen();
             }
         });
     }
@@ -109,20 +98,32 @@ public class View extends JComponent {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                createGUI();
+                createConnectionScreen();
             }
         });
     }
 
-    //TODO: add actual content to this
     /**
-     * Creates and displays initial GUI
+     * Sets up initial components of GUI
      */
     private void createGUI() {
         frame = new JFrame("Online Quiz Navigator v2");
         mainPanel = new JPanel(new BorderLayout());
         frame.add(mainPanel);
 
+        createConnectionScreen();
+
+        frame.setSize(600, 400);
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setVisible(true);
+    }
+
+    /**
+     * Displays text fields for domain name and port number
+     * as well as a submit button
+     */
+    private void createConnectionScreen() {
         JLabel domainNameLabel = new JLabel("Domain Name:");
         JTextField domainNameTxt = new JTextField(30);
         activeComponents.add(domainNameTxt);
@@ -144,13 +145,13 @@ public class View extends JComponent {
         mainPanel.add(domainNamePanel, BorderLayout.NORTH);
         mainPanel.add(portNumberPanel, BorderLayout.CENTER);
         mainPanel.add(submitButton, BorderLayout.SOUTH);
-
-        frame.setSize(600, 400);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setVisible(true);
     }
 
+    /**
+     * Displays text fields for username and password,
+     * a set of radio buttons for selecting a student or teacher account,
+     * as well as a login button and a create account button
+     */
     private void createLoginScreen() {
         mainPanel.removeAll();
         activeComponents.clear();
@@ -170,7 +171,9 @@ public class View extends JComponent {
         loginButton.addActionListener(actionListener);
 
         JRadioButton studentButton = new JRadioButton("Student", true);
+        studentButton.setActionCommand("student");
         JRadioButton teacherButton = new JRadioButton("Teacher");
+        teacherButton.setActionCommand("teacher");
         ButtonGroup teacherOrStudentGroup = new ButtonGroup();
         teacherOrStudentGroup.add(studentButton);
         teacherOrStudentGroup.add(teacherButton);
@@ -199,6 +202,45 @@ public class View extends JComponent {
 
         mainPanel.validate();
         mainPanel.repaint();
+    }
+
+    /**
+     * Displays a list of courses the user currently has and an "add course" option,
+     * as well as a submission button
+     */
+    private void createMainMenu() {
+        mainPanel.removeAll();
+        activeComponents.clear();
+
+        ArrayList<Course> courseList = client.getCourses();
+        JPanel coursePanel = new JPanel(new GridLayout(0, 1));
+        ButtonGroup courseGroup = new ButtonGroup();
+
+        for (Course currentCourse : courseList) {
+            int courseNumber = currentCourse.getCourseNumber();
+            String courseName = currentCourse.getCourseName();
+            String displayCourse = courseNumber + ": " + courseName;
+
+            JRadioButton courseButton = new JRadioButton(displayCourse);
+            courseButton.setActionCommand(Integer.toString(courseNumber));
+            courseGroup.add(courseButton);
+            coursePanel.add(courseButton);
+        }
+
+        JRadioButton addCourseButton = new JRadioButton("Add course", true);
+        addCourseButton.setActionCommand("add course");
+        courseGroup.add(addCourseButton);
+        coursePanel.add(addCourseButton);
+
+        activeComponents.add(courseGroup);
+
+        JButton selectButton = new JButton("Select");
+        selectButton.setActionCommand("choose course");
+        selectButton.addActionListener(actionListener);
+
+        JScrollPane scrollPane = new JScrollPane(coursePanel);
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
+        mainPanel.add(selectButton, BorderLayout.SOUTH);
     }
 
     //TODO: remove before submission
