@@ -24,7 +24,7 @@ public class Client {
         return connected;
     }
     public boolean createAccount(String username, String password){
-        return true;
-        //We still need to implement this
+    return true;
+    //We still need to implement this
     }
 }

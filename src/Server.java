@@ -1,8 +1,11 @@
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Server {
+    ArrayList<Teacher>teachers;
+    ArrayList<Student>students;
     public static void main(String[] args) {
         int port = 8818;
         try {
@@ -16,5 +19,9 @@ public class Server {
             e.printStackTrace();
         }
     }
+    public void updateLists(){
+
+    }
+
 
 }
