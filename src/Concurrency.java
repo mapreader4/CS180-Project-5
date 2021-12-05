@@ -3,7 +3,9 @@ import java.net.Socket;
 
 public class Concurrency extends Thread {
     private final Socket socket;
-
+    TeacherList teacherList = TeacherList.readFromFile();
+    StudentList studentList = StudentList.readFromFile();
+    CourseList courseList = CourseList.readFromFile();
     public Concurrency(Socket socket) {
         this.socket = socket;
     }
