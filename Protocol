@@ -3,7 +3,7 @@ c: login <Username> <Password>
 s: success / failure
 
 Creating account teacher
-c: create-teacher <Username> <Password>
+c: create-teacher <Username> <Password> <typeOfAccount>
 s: success / duplicate
 
 Creating account student
