@@ -29,7 +29,7 @@ public class Concurrency extends Thread {
                     String username = message[1];
                     String password = message[2];
                     String typeofAccount = message[3];
-                    login(username,password);
+                    login(username,password,typeofAccount);
                 }
             }
         } catch (IOException e) {
