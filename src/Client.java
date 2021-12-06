@@ -235,9 +235,18 @@ public class Client {
         }
     }
 //
-//    public Quiz getCurrentQuiz() {
-//
-//    }
+    public Quiz getCurrentQuiz() {
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("get-current-quiz");
+            oos.writeObject(objects);
+            oos.flush();
+            Quiz currentQuiz = (Quiz) ois.readObject();
+            return currentQuiz;
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
 //
 //    public void clearActiveSubmissions() {
 //

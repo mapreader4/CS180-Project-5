@@ -66,4 +66,8 @@ Get quizzes
 c: get-quizzes
 s: ArrayList<Quiz> quizList
 
+Get current quiz
+c: get-current-quiz
+s: Quiz currentQuiz
+
 
