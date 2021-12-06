@@ -157,10 +157,19 @@ public class Client {
         }
     }
 
-//    public ArrayList<Question> getQuestions() {
-//
-//    }
-//
+    public ArrayList<Question> getQuestions() {
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("get-questions");
+            oos.writeObject(objects);
+            oos.flush();
+            ArrayList<Question> questionList = (ArrayList<Question>) ois.readObject();
+            return questionList;
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
+
     public void setActiveQuestion(int questionNumber) {
         try {
             ArrayList<Object> objects = new ArrayList<>();

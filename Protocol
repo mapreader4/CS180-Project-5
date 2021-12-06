@@ -50,4 +50,8 @@ Set active quiz
 c: set-active-quiz <int quizNumber>
 s: N/A
 
+Get questions
+c: get-questions
+s: ArrayList<Question> questionList
+
 
