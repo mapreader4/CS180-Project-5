@@ -56,7 +56,8 @@ public class Client {
     }
 
     public boolean createCourse(String courseName, int courseNumber) {
-        pw.println("create-course"+courseName+" "+courseNumber);
+        pw.println("create-course "+courseName+" "+courseNumber);
+        pw.flush();
         try {
             String checker = bfr.readLine();
             if (checker.equals("success")) {
@@ -69,7 +70,7 @@ public class Client {
         return false;
     }
 
-    public boolean deleteQuiz() {
+    public void deleteQuiz() {
 
     }
 
