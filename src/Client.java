@@ -66,7 +66,7 @@ public class Client {
 
     }
 
-    public boolean addImportedQuiz(File f) {
+    public void addImportedQuiz(File f) {
 
     }
 
@@ -86,8 +86,33 @@ public class Client {
 
     }
 
-    public boolean deleteQuiz() {
+    public boolean deleteQuestion() {
 
     }
+
+    public boolean updateQuestion(Question question) {
+
+    }
+
+    public boolean submitSubmission(Submission submission) {
+
+    }
+
+    public ArrayList<Submission> getSubmissions() {
+
+    }
+
+    public void setActiveSubmission(int submissionNumber) {
+
+    }
+
+    public Quiz getCurrentQuiz() {
+
+    }
+
+    public void clearActiveSubmissions() {
+
+    }
+
 
 }
