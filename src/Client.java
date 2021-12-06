@@ -210,10 +210,10 @@ public class Client {
         }
     }
 
-    public ArrayList<Submission> getSubmissions() {
+    public ArrayList<Submission> getAllSubmissions() {
         try {
             ArrayList<Object> objects = new ArrayList<>();
-            objects.add("get-submissions");
+            objects.add("get-all-submissions");
             oos.writeObject(objects);
             oos.flush();
             ArrayList<Submission> submissionList = (ArrayList<Submission>) ois.readObject();

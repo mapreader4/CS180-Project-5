@@ -54,8 +54,8 @@ Get questions
 c: get-questions
 s: ArrayList<Question> questionList
 
-Get submissions
-c: get-submissions
+Get all submissions
+c: get-all-submissions
 s: ArrayList<Submission> submissionList
 
 Get all courses
