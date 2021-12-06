@@ -18,4 +18,8 @@ Creating quiz
 c: create-quiz <Quiz quiz>
 s: success / duplicate
 
+Importing quiz from file
+c: import-quiz-file <File f>
+s: success / duplicate
+
 

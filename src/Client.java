@@ -111,10 +111,24 @@ public class Client {
 //
 //    }
 //
-//    public boolean addImportedQuiz(File f) {
-//
-//    }
-//
+    public boolean addImportedQuiz(File f) {
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("import-quiz-file");
+            objects.add(f);
+            oos.writeObject(objects);
+            oos.flush();
+            String checker = (String) ois.readObject();
+            if(checker.equals("success")){
+                return true;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+
+        return false;
+    }
+
     public boolean createQuiz(Quiz quiz) {
         try {
             ArrayList<Object> objects = new ArrayList<>();
@@ -131,10 +145,9 @@ public class Client {
         }
         return false;
     }
-//
-//    public boolean addQuestionToQuiz(Question question) {
-//
-//    }
+    public boolean addQuestionToQuiz(Question question) {
+
+    }
 //
 //    public ArrayList<Question> getQuestions() {
 //
