@@ -225,9 +225,17 @@ public class Client {
 //
 //    }
 //
-//    public void setActiveCourse(int courseChosen) {
-//
-//    }
+    public void setActiveCourse(int courseChosen) {
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("set-active-course");
+            objects.add(courseChosen);
+            oos.writeObject(objects);
+            oos.flush();
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
 //
 //    public void close() {
 //

@@ -42,4 +42,9 @@ Set active submission
 c: set-active-submission <int submissionNumber>
 s: N/A
 
+Set active course
+c: set-active-course <int courseChosen>
+s: N/A
+
+
 
