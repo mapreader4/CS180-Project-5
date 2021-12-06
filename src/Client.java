@@ -27,7 +27,9 @@ public class Client {
         return false;
     }
     public boolean createAccount(String username, String password, String typeOfAccount){
+        System.out.println("Made it here");
         pw.println("create-account "+username+" "+ password + " "+typeOfAccount);
+        pw.flush();
         try {
             String checker = bfr.readLine();
             if(checker.equals("success")){
@@ -40,12 +42,13 @@ public class Client {
     }
     public boolean login(String username, String password, String typeOfAccount){
         pw.println("login "+username+" "+password+" "+ typeOfAccount);
+        pw.flush();
         try {
             String checker =bfr.readLine();
             if(checker.equals("success")){
                 return true;
             }
-        } catch (IOException e) {
+        } catch (IOException e){
             throw new RuntimeException();
         }
         return false;
@@ -70,85 +73,85 @@ public class Client {
         return false;
     }
 
-    public void deleteQuiz() {
-
-    }
-
-    public void addImportedQuiz(File f) {
-
-    }
-
-    public boolean createQuiz(Quiz quiz) {
-
-    }
-
-    public boolean addQuestionToQuiz(Question question) {
-
-    }
-
-    public ArrayList<Question> getQuestions() {
-
-    }
-
-    public boolean setActiveQuestion(int questionNumber) {
-
-    }
-
-    public boolean deleteQuestion() {
-
-    }
-
-    public boolean updateQuestion(Question question) {
-
-    }
-
-    public boolean submitSubmission(Submission submission) {
-
-    }
-
-    public ArrayList<Submission> getSubmissions() {
-
-    }
-
-    public void setActiveSubmission(int submissionNumber) {
-
-    }
-
-    public Quiz getCurrentQuiz() {
-
-    }
-
-    public void clearActiveSubmissions() {
-
-    }
-
-    public void setActiveCourse(int courseChosen) {
-
-    }
-
-    public void close() {
-
-    }
-
-    public ArrayList<Course> getAllCourses() {
-
-    }
-
-    public ArrayList<Quiz> getQuizzes() {
-
-    }
-
-    public void setActiveQuiz(int quizNumber) {
-
-    }
-
-    public void clearActiveCourse() {
-
-    }
-
-    public void clearActiveSubmission() {
-
-    }
+//    public void deleteQuiz() {
+//
+//    }
+//
+//    public void addImportedQuiz(File f) {
+//
+//    }
+//
+//    public boolean createQuiz(Quiz quiz) {
+//
+//    }
+//
+//    public boolean addQuestionToQuiz(Question question) {
+//
+//    }
+//
+//    public ArrayList<Question> getQuestions() {
+//
+//    }
+//
+//    public boolean setActiveQuestion(int questionNumber) {
+//
+//    }
+//
+//    public boolean deleteQuestion() {
+//
+//    }
+//
+//    public boolean updateQuestion(Question question) {
+//
+//    }
+//
+//    public boolean submitSubmission(Submission submission) {
+//
+//    }
+//
+//    public ArrayList<Submission> getSubmissions() {
+//
+//    }
+//
+//    public void setActiveSubmission(int submissionNumber) {
+//
+//    }
+//
+//    public Quiz getCurrentQuiz() {
+//
+//    }
+//
+//    public void clearActiveSubmissions() {
+//
+//    }
+//
+//    public void setActiveCourse(int courseChosen) {
+//
+//    }
+//
+//    public void close() {
+//
+//    }
+//
+//    public ArrayList<Course> getAllCourses() {
+//
+//    }
+//
+//    public ArrayList<Quiz> getQuizzes() {
+//
+//    }
+//
+//    public void setActiveQuiz(int quizNumber) {
+//
+//    }
+//
+//    public void clearActiveCourse() {
+//
+//    }
+//
+//    public void clearActiveSubmission() {
+//
+//    }
 
 
 
