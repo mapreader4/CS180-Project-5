@@ -8,6 +8,7 @@ public class Concurrency extends Thread {
     TeacherList teacherList = TeacherList.readFromFile();
     StudentList studentList = StudentList.readFromFile();
     CourseList courseList = CourseList.readFromFile();
+    String typeOfAccount;
 
     public Concurrency(Socket socket) {
         this.socket = socket;
@@ -48,12 +49,14 @@ public class Concurrency extends Thread {
                 writer.println("failure");
             } else {
                 writer.println("success");
+                typeOfAccount  = "Teacher";
             }
         } else if(typeOfUser.equals("student")){
             if(studentList.findStudent(username, password)==null){
                 writer.println("failure");
             } else {
                 writer.println("success");
+                typeOfAccount = "Student";
             }
         } else {
             writer.println("failure");
@@ -68,6 +71,7 @@ public class Concurrency extends Thread {
                 studentList.saveToFile();
                 updateLists();
                 writer.println("success");
+                typeOfAccount  = "Student";
             }else{ //if student already exists in list
                 writer.println("failure");
             }
@@ -78,6 +82,7 @@ public class Concurrency extends Thread {
                 teacherList.saveToFile();
                 updateLists();
                 writer.println("success");
+                typeOfAccount = "Teacher";
             } else {
                 writer.println("failure");
             }
