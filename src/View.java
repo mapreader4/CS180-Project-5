@@ -332,100 +332,168 @@ public class View extends JComponent {
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
     private void createAddCourseScreen() {
+        mainPanel.removeAll();
+        activeComponents.clear();
+
         ArrayList<Course> courseList = client.getAllCourses();
+
+        mainPanel.validate();
+        mainPanel.repaint();
     }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
     private void createCreateCourseScreen() {
+        mainPanel.removeAll();
+        activeComponents.clear();
+
         String courseName = "";
         int courseNumber = 0;
         client.createCourse(courseName, courseNumber);
+
+        mainPanel.validate();
+        mainPanel.repaint();
     }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
     private void createCourseMenu() {
+        mainPanel.removeAll();
+        activeComponents.clear();
+
         ArrayList<Quiz> quizList = client.getQuizzes();
         int quizNumber = 0;
         client.setActiveQuiz(quizNumber);
         client.clearActiveCourse();
+
+        mainPanel.validate();
+        mainPanel.repaint();
     }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
     private void createStudentQuizOptionsMenu() {
+        mainPanel.removeAll();
+        activeComponents.clear();
 
+        mainPanel.validate();
+        mainPanel.repaint();
     }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
     private void createTeacherQuizOptionsMenu() {
+        mainPanel.removeAll();
+        activeComponents.clear();
+
         client.deleteQuiz();
+
+        mainPanel.validate();
+        mainPanel.repaint();
     }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
     private void createCreateQuizIntroScreen() {
+        mainPanel.removeAll();
+        activeComponents.clear();
+
         //note: this should handle or call the file import option
         File file = new File();
         client.addImportedQuiz(file);
+
+        mainPanel.validate();
+        mainPanel.repaint();
     }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
     private void createCreateQuizTitleScreen() {
+        mainPanel.removeAll();
+        activeComponents.clear();
+
         Quiz quiz = new Quiz(new Scanner(System.in), new Course("", new Teacher("", ""), 0));
         client.createQuiz(quiz);
+
+        mainPanel.validate();
+        mainPanel.repaint();
     }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
     private void createCreateQuestionScreen() {
+        mainPanel.removeAll();
+        activeComponents.clear();
+
         Question question = new Question();
         client.addQuestionToQuiz(question);
+
+        mainPanel.validate();
+        mainPanel.repaint();
     }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
     private void createEditQuizMenu() {
+        mainPanel.removeAll();
+        activeComponents.clear();
+
         ArrayList<Question> questions = client.getQuestions();
         int questionNumber = 0;
         client.setActiveQuestion(questionNumber);
+
+        mainPanel.validate();
+        mainPanel.repaint();
     }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
     private void createEditQuestionScreen() {
+        mainPanel.removeAll();
+        activeComponents.clear();
+
         client.deleteQuestion();
         Question question = new Question();
         client.updateQuestion(question);
+
+        mainPanel.validate();
+        mainPanel.repaint();
     }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
     private void createTakeQuizIntroScreen() {
+        mainPanel.removeAll();
+        activeComponents.clear();
 
+        mainPanel.validate();
+        mainPanel.repaint();
     }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
     private void createActiveQuizScreen() {
+        mainPanel.removeAll();
+        activeComponents.clear();
+
         ArrayList<Question> questions = client.getQuestions();
         Quiz quiz = new Quiz(new Scanner(System.in), new Course("", new Teacher("", ""), 0));
         Submission submission = new Submission(new Student("", ""), quiz);
         client.submitSubmission(submission);
+
+        mainPanel.validate();
+        mainPanel.repaint();
     }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
@@ -453,17 +521,29 @@ public class View extends JComponent {
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
     private void createSubmissionMenu() {
+        mainPanel.removeAll();
+        activeComponents.clear();
+
         ArrayList<Submission> submissions = client.getSubmissions();
         client.setActiveSubmission(submissionNumber);
+
+        mainPanel.validate();
+        mainPanel.repaint();
     }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
     private void createSubmissionViewer() {
+        mainPanel.removeAll();
+        activeComponents.clear();
+
         Quiz quiz = client.getCurrentQuiz();
         ArrayList<Question> questions = client.getQuestions();
         client.clearActiveSubmission();
+
+        mainPanel.validate();
+        mainPanel.repaint();
     }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
