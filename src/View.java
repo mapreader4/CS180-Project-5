@@ -139,6 +139,30 @@ public class View extends JComponent {
                     client.setActiveCourse(Integer.parseInt(courseChosen));
                     createCourseMenu();
                 }
+            } else if (actionCommand.equals("add student to course")) {
+                ButtonGroup courseList = (ButtonGroup) activeComponents.get(0);
+                String courseChosen = courseList.getSelection().getActionCommand();
+                client.addStudentToCourse(Integer.parseInt(courseChosen));
+                createCourseMenu();
+            } else if (actionCommand.equals("create course")) {
+                JTextField courseNumberTxt = (JTextField) activeComponents.get(0);
+                JTextField courseNameTxt = (JTextField) activeComponents.get(1);
+                try {
+                    int courseNumber = Integer.parseInt(courseNumberTxt.getText());
+                    String courseName = courseNameTxt.getText();
+                    if (client.createCourse(courseName, courseNumber)) {
+                        createCourseMenu();
+                    } else {
+                        JOptionPane.showMessageDialog(null,
+                                "A course with the given number already exists. " +
+                                        "Please try again.", "Unable to create course", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Please enter an integer for the " +
+                            "course number.", "Enter an integer", JOptionPane.ERROR_MESSAGE);
+                }
+            } else if (actionCommand.equals("back to main menu")) {
+                createMainMenu();
             } else if (actionCommand.equals("quit")) {
                 int closeConfirmation = JOptionPane.showConfirmDialog(null,
                         "Are you sure you want to quit?", "Quit?",
@@ -336,6 +360,35 @@ public class View extends JComponent {
         activeComponents.clear();
 
         ArrayList<Course> courseList = client.getAllCourses();
+        JPanel coursePanel = new JPanel(new GridLayout(0, 1));
+        ButtonGroup courseGroup = new ButtonGroup();
+
+        for (Course currentCourse : courseList) {
+            int courseNumber = currentCourse.getCourseNumber();
+            String courseName = currentCourse.getCourseName();
+            String displayCourse = courseNumber + ": " + courseName;
+
+            JRadioButton courseButton = new JRadioButton(displayCourse);
+            courseButton.setActionCommand(Integer.toString(courseNumber));
+            courseGroup.add(courseButton);
+            coursePanel.add(courseButton);
+        }
+
+        activeComponents.add(courseGroup);
+
+        JButton selectButton = new JButton("Select");
+        selectButton.setActionCommand("add student to course");
+        selectButton.addActionListener(actionListener);
+        JButton backButton = new JButton("Back");
+        backButton.setActionCommand("back to main menu");
+        backButton.addActionListener(actionListener);
+        JPanel selectOrBackPanel = new JPanel(new FlowLayout());
+        selectOrBackPanel.add(selectButton);
+        selectOrBackPanel.add(backButton);
+
+        JScrollPane scrollPane = new JScrollPane(coursePanel);
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
+        mainPanel.add(selectOrBackPanel, BorderLayout.SOUTH);
 
         mainPanel.validate();
         mainPanel.repaint();
@@ -351,6 +404,33 @@ public class View extends JComponent {
         String courseName = "";
         int courseNumber = 0;
         client.createCourse(courseName, courseNumber);
+
+        JLabel courseNumberLabel = new JLabel("Course Number:");
+        JTextField courseNumberTxt = new JTextField(30);
+        activeComponents.add(courseNumberTxt);
+        JLabel courseNameLabel = new JLabel("Course Name:");
+        JTextField courseNameTxt = new JTextField(30);
+        activeComponents.add(courseNameTxt);
+
+        JButton createCourseButton = new JButton("Create Course");
+        createCourseButton.setActionCommand("create course");
+        createCourseButton.addActionListener(actionListener);
+        JButton backButton = new JButton("Back");
+        backButton.setActionCommand("back to main menu");
+        backButton.addActionListener(actionListener);
+
+        JPanel courseNumberPanel = new JPanel(new FlowLayout());
+        JPanel courseNamePanel = new JPanel(new FlowLayout());
+        JPanel createOrBackPanel = new JPanel(new FlowLayout());
+        courseNumberPanel.add(courseNumberLabel);
+        courseNumberPanel.add(courseNumberTxt);
+        courseNamePanel.add(courseNameLabel);
+        courseNamePanel.add(courseNameTxt);
+        createOrBackPanel.add(createCourseButton);
+        createOrBackPanel.add(backButton);
+        mainPanel.add(courseNumberPanel, BorderLayout.NORTH);
+        mainPanel.add(courseNamePanel, BorderLayout.CENTER);
+        mainPanel.add(createOrBackPanel, BorderLayout.SOUTH);
 
         mainPanel.validate();
         mainPanel.repaint();
