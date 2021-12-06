@@ -46,5 +46,8 @@ Set active course
 c: set-active-course <int courseChosen>
 s: N/A
 
+Set active quiz
+c: set-active-quiz <int quizNumber>
+s: N/A
 
 

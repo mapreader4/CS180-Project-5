@@ -249,9 +249,17 @@ public class Client {
 //
 //    }
 //
-//    public void setActiveQuiz(int quizNumber) {
-//
-//    }
+    public void setActiveQuiz(int quizNumber) {
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("set-active-quiz");
+            objects.add(quizNumber);
+            oos.writeObject(objects);
+            oos.flush();
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
 //
 //    public void clearActiveCourse() {
 //
