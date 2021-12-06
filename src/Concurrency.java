@@ -40,6 +40,8 @@ public class Concurrency extends Thread {
                     String password = (String)objects.get(2);
                     String typeofAccount = (String)objects.get(3);
                     createAccount(username,password,typeofAccount);
+                } else if(line.equals("get-courses")){
+                    getAccountCourses();
                 }
             }
         } catch (Exception e) {
@@ -70,6 +72,7 @@ public class Concurrency extends Thread {
     }
     public void createAccount(String username, String password, String typeOfUser) throws IOException {
         ArrayList<Object> result = new ArrayList<>();
+        System.out.println("we are here= server create account");
         if(typeOfUser.equalsIgnoreCase("Student")){
             Student student = studentList.findStudent(username,password);
             if(student == null){ //if student is not in the list, the account is created
@@ -95,6 +98,8 @@ public class Concurrency extends Thread {
         }else{
             result.add("failure");
         }
+        System.out.println("we have completed server create account");
+        System.out.println(result.get(0));
         outputStream.writeObject(result);
     }
 
