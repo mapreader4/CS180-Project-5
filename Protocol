@@ -30,4 +30,8 @@ Setting active question
 c: set-active-question <int questionNumber>
 s: N/A
 
+Update question
+c: update-question
+s: N/A
+
 

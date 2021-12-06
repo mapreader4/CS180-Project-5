@@ -177,10 +177,18 @@ public class Client {
 //
 //    }
 //
-//    public boolean updateQuestion(Question question) {
-//
-//    }
-//
+    public void updateQuestion(Question question) {
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("update-question");
+            objects.add(question);
+            oos.writeObject(objects);
+            oos.flush();
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
+
 //    public boolean submitSubmission(Submission submission) {
 //
 //    }
