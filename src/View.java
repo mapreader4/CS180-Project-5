@@ -324,6 +324,9 @@ public class View extends JComponent {
         JScrollPane scrollPane = new JScrollPane(coursePanel);
         mainPanel.add(scrollPane, BorderLayout.CENTER);
         mainPanel.add(selectOrQuitPanel, BorderLayout.SOUTH);
+
+        mainPanel.validate();
+        mainPanel.repaint();
     }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
