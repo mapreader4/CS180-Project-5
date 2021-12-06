@@ -63,9 +63,9 @@ import java.util.Scanner;
  * Listens for updates from Client, then refreshes the board as need be.
  *
  * @author Nathan Reed, lab sec L24
- * @version December 6, 2021
+ * @version November 29, 2021
  */
-public class View extends JComponent {
+public class TestView extends JComponent {
     private Client client;
     private JFrame frame;
     private JPanel mainPanel;
@@ -87,7 +87,7 @@ public class View extends JComponent {
                 } else {
                     JOptionPane.showMessageDialog(null,
                             "Unable to connect to the server with the given domain name and " +
-                            "port number. Please try again.", "Unable to Connect", JOptionPane.ERROR_MESSAGE);
+                                    "port number. Please try again.", "Unable to Connect", JOptionPane.ERROR_MESSAGE);
                 }
             } else if (actionCommand.equals("send login info")) {
                 JTextField usernameTxt = (JTextField) activeComponents.get(0);
@@ -104,7 +104,7 @@ public class View extends JComponent {
                 } else {
                     JOptionPane.showMessageDialog(null,
                             "Unable to log in to the account with the given username or password. " +
-                            "Please try again.", "Unable to login", JOptionPane.ERROR_MESSAGE);
+                                    "Please try again.", "Unable to login", JOptionPane.ERROR_MESSAGE);
                 }
             } else if (actionCommand.equals("send account creation info")) {
                 JTextField usernameTxt = (JTextField) activeComponents.get(0);
@@ -123,77 +123,66 @@ public class View extends JComponent {
                             "The account with the given username already exists. " +
                                     "Please try again.", "Unable to create account", JOptionPane.ERROR_MESSAGE);
                 }
-            } else if (actionCommand.equals("choose course")) {
-                ButtonGroup courseList = (ButtonGroup) activeComponents.get(0);
-                String courseChosen = courseList.getSelection().getActionCommand();
-                if (courseChosen.equals("add course")) {
-                    if (accountType == STUDENT_OPTION) {
-                        createAddCourseScreen();
-                    } else if (accountType == TEACHER_OPTION) {
-                        createCreateCourseScreen();
-                    }
-                } else {
-                    client.setActiveCourse(Integer.parseInt(courseChosen));
-                    createCourseMenu();
-                }
-            } else if (actionCommand.equals("add student to course")) {
-                ButtonGroup courseList = (ButtonGroup) activeComponents.get(0);
-                String courseChosen = courseList.getSelection().getActionCommand();
-                client.addStudentToCourse(Integer.parseInt(courseChosen));
-                createCourseMenu();
-            } else if (actionCommand.equals("create course")) {
-                JTextField courseNumberTxt = (JTextField) activeComponents.get(0);
-                JTextField courseNameTxt = (JTextField) activeComponents.get(1);
-                try {
-                    int courseNumber = Integer.parseInt(courseNumberTxt.getText());
-                    String courseName = courseNameTxt.getText();
-                    if (client.createCourse(courseName, courseNumber)) {
-                        createCourseMenu();
-                    } else {
-                        JOptionPane.showMessageDialog(null,
-                                "A course with the given number already exists. " +
-                                        "Please try again.", "Unable to create course", JOptionPane.ERROR_MESSAGE);
-                    }
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Please enter an integer for the " +
-                            "course number.", "Enter an integer", JOptionPane.ERROR_MESSAGE);
-                }
-            } else if (actionCommand.equals("choose quiz")) {
-                ButtonGroup quizList = (ButtonGroup) activeComponents.get(0);
-                String quizChosen = quizList.getSelection().getActionCommand();
-                if (quizChosen.equals("add quiz")) {
-                    createCreateQuizIntroScreen();
-                } else {
-                    client.setActiveQuiz(Integer.parseInt(quizChosen));
-                    if (accountType == STUDENT_OPTION) {
-                        createStudentQuizOptionsMenu();
-                    } else if (accountType == TEACHER_OPTION) {
-                        createTeacherQuizOptionsMenu();
-                    }
-                }
-            } else if (actionCommand.equals("choose student option")) {
-                ButtonGroup optionsGroup = (ButtonGroup) activeComponents.get(0);
-                String optionChosen = optionsGroup.getSelection().getActionCommand();
-                if (optionChosen.equals("take quiz")) {
-                    createTakeQuizIntroScreen();
-                } else if (optionChosen.equals("view previous submissions from student")) {
-                    createStudentSubmissionMenu();
-                }
-            } else if (actionCommand.equals("back to course menu")) {
-                client.clearActiveQuiz();
-                createCourseMenu();
-            } else if (actionCommand.equals("back to main menu")) {
-                client.clearActiveCourse();
-                createMainMenu();
-            } else if (actionCommand.equals("quit")) {
-                int closeConfirmation = JOptionPane.showConfirmDialog(null,
-                        "Are you sure you want to quit?", "Quit?",
-                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                if (closeConfirmation == JOptionPane.YES_OPTION) {
-                    client.close();
-                    frame.dispose();
-                }
-            }
+            } //else if (actionCommand.equals("choose course")) {
+//                ButtonGroup courseList = (ButtonGroup) activeComponents.get(0);
+//                String courseChosen = courseList.getSelection().getActionCommand();
+//                if (courseChosen.equals("add course")) {
+//                    if (accountType == STUDENT_OPTION) {
+//                        createAddCourseScreen();
+//                    } else if (accountType == TEACHER_OPTION) {
+//                        createCreateCourseScreen();
+//                    }
+//                } else {
+//                    client.setActiveCourse(Integer.parseInt(courseChosen));
+//                    createCourseMenu();
+//                }
+//            } else if (actionCommand.equals("add student to course")) {
+//                ButtonGroup courseList = (ButtonGroup) activeComponents.get(0);
+//                String courseChosen = courseList.getSelection().getActionCommand();
+//                client.addStudentToCourse(Integer.parseInt(courseChosen));
+//                createCourseMenu();
+//            } else if (actionCommand.equals("create course")) {
+//                JTextField courseNumberTxt = (JTextField) activeComponents.get(0);
+//                JTextField courseNameTxt = (JTextField) activeComponents.get(1);
+//                try {
+//                    int courseNumber = Integer.parseInt(courseNumberTxt.getText());
+//                    String courseName = courseNameTxt.getText();
+//                    if (client.createCourse(courseName, courseNumber)) {
+//                        createCourseMenu();
+//                    } else {
+//                        JOptionPane.showMessageDialog(null,
+//                                "A course with the given number already exists. " +
+//                                        "Please try again.", "Unable to create course", JOptionPane.ERROR_MESSAGE);
+//                    }
+//                } catch (NumberFormatException ex) {
+//                    JOptionPane.showMessageDialog(null, "Please enter an integer for the " +
+//                            "course number.", "Enter an integer", JOptionPane.ERROR_MESSAGE);
+//                }
+//            } else if (actionCommand.equals("choose quiz")) {
+//                ButtonGroup quizList = (ButtonGroup) activeComponents.get(0);
+//                String quizChosen = quizList.getSelection().getActionCommand();
+//                if (quizChosen == "add quiz") {
+//                    createCreateQuizIntroScreen();
+//                } else {
+//                    client.setActiveQuiz(Integer.parseInt(quizChosen));
+//                    if (accountType == STUDENT_OPTION) {
+//                        createStudentQuizOptionsMenu();
+//                    } else if (accountType == TEACHER_OPTION) {
+//                        createTeacherQuizOptionsMenu();
+//                    }
+//                }
+//            } else if (actionCommand.equals("back to main menu")) {
+//                client.clearActiveCourse();
+//                createMainMenu();
+//            } else if (actionCommand.equals("quit")) {
+//                int closeConfirmation = JOptionPane.showConfirmDialog(null,
+//                        "Are you sure you want to quit?", "Quit?",
+//                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+//                if (closeConfirmation == JOptionPane.YES_OPTION) {
+//                    client.close();
+//                    frame.dispose();
+//                }
+//            }
         }
     };
 
@@ -201,7 +190,7 @@ public class View extends JComponent {
     /**
      * Constructor for testing without access to client
      */
-    private View() {
+    private TestView() {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -216,7 +205,7 @@ public class View extends JComponent {
      *
      * @param client the Client object used for this session
      */
-    View(Client client) {
+    TestView(Client client) {
         this.client = client;
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -377,44 +366,44 @@ public class View extends JComponent {
     /**
      * Displays all available courses to student, allowing them to add any course.
      */
-    private void createAddCourseScreen() {
-        mainPanel.removeAll();
-        activeComponents.clear();
-
-        ArrayList<Course> courseList = client.getAllCourses();
-        JPanel coursePanel = new JPanel(new GridLayout(0, 1));
-        ButtonGroup courseGroup = new ButtonGroup();
-
-        for (Course currentCourse : courseList) {
-            int courseNumber = currentCourse.getCourseNumber();
-            String courseName = currentCourse.getCourseName();
-            String displayCourse = courseNumber + ": " + courseName;
-
-            JRadioButton courseButton = new JRadioButton(displayCourse);
-            courseButton.setActionCommand(Integer.toString(courseNumber));
-            courseGroup.add(courseButton);
-            coursePanel.add(courseButton);
-        }
-
-        activeComponents.add(courseGroup);
-
-        JButton selectButton = new JButton("Select");
-        selectButton.setActionCommand("add student to course");
-        selectButton.addActionListener(actionListener);
-        JButton backButton = new JButton("Back");
-        backButton.setActionCommand("back to main menu");
-        backButton.addActionListener(actionListener);
-        JPanel selectOrBackPanel = new JPanel(new FlowLayout());
-        selectOrBackPanel.add(selectButton);
-        selectOrBackPanel.add(backButton);
-
-        JScrollPane scrollPane = new JScrollPane(coursePanel);
-        mainPanel.add(scrollPane, BorderLayout.CENTER);
-        mainPanel.add(selectOrBackPanel, BorderLayout.SOUTH);
-
-        mainPanel.validate();
-        mainPanel.repaint();
-    }
+//    private void createAddCourseScreen() {
+//        mainPanel.removeAll();
+//        activeComponents.clear();
+//
+//        ArrayList<Course> courseList = client.getAllCourses();
+//        JPanel coursePanel = new JPanel(new GridLayout(0, 1));
+//        ButtonGroup courseGroup = new ButtonGroup();
+//
+//        for (Course currentCourse : courseList) {
+//            int courseNumber = currentCourse.getCourseNumber();
+//            String courseName = currentCourse.getCourseName();
+//            String displayCourse = courseNumber + ": " + courseName;
+//
+//            JRadioButton courseButton = new JRadioButton(displayCourse);
+//            courseButton.setActionCommand(Integer.toString(courseNumber));
+//            courseGroup.add(courseButton);
+//            coursePanel.add(courseButton);
+//        }
+//
+//        activeComponents.add(courseGroup);
+//
+//        JButton selectButton = new JButton("Select");
+//        selectButton.setActionCommand("add student to course");
+//        selectButton.addActionListener(actionListener);
+//        JButton backButton = new JButton("Back");
+//        backButton.setActionCommand("back to main menu");
+//        backButton.addActionListener(actionListener);
+//        JPanel selectOrBackPanel = new JPanel(new FlowLayout());
+//        selectOrBackPanel.add(selectButton);
+//        selectOrBackPanel.add(backButton);
+//
+//        JScrollPane scrollPane = new JScrollPane(coursePanel);
+//        mainPanel.add(scrollPane, BorderLayout.CENTER);
+//        mainPanel.add(selectOrBackPanel, BorderLayout.SOUTH);
+//
+//        mainPanel.validate();
+//        mainPanel.repaint();
+//    }
 
     /**
      * Displays text fields for course creation to teacher, allowing them to create a course.
@@ -462,81 +451,55 @@ public class View extends JComponent {
      * Displays the menu for a particular course, allowing the user to select which quiz they want to access, as well as
      * create a new quiz if the user is a teacher.
      */
-    private void createCourseMenu() {
-        mainPanel.removeAll();
-        activeComponents.clear();
+//    private void createCourseMenu() {
+//        mainPanel.removeAll();
+//        activeComponents.clear();
+//
+//        ArrayList<Quiz> quizList = client.getQuizzes();
+//        JPanel quizPanel = new JPanel(new GridLayout(0, 1));
+//        ButtonGroup quizGroup = new ButtonGroup();
+//
+//        for (int i = 0; i < quizList.size(); i++) {
+//            String currentQuizName = quizList.get(i).getName();
+//            JRadioButton currentQuizButton = new JRadioButton(currentQuizName);
+//            currentQuizButton.setActionCommand(Integer.toString(i));
+//            quizGroup.add(currentQuizButton);
+//            quizPanel.add(currentQuizButton);
+//        }
+//
+//        if (accountType == TEACHER_OPTION) {
+//            JRadioButton addQuizButton = new JRadioButton("Add quiz", true);
+//            addQuizButton.setActionCommand("add quiz");
+//            quizGroup.add(addQuizButton);
+//            quizPanel.add(addQuizButton);
+//        }
+//
+//        activeComponents.add(quizGroup);
+//
+//        JButton selectButton = new JButton("Select");
+//        selectButton.setActionCommand("choose quiz");
+//        selectButton.addActionListener(actionListener);
+//        JButton backButton = new JButton("Back");
+//        backButton.setActionCommand("back to main menu");
+//        backButton.addActionListener(actionListener);
+//        JPanel selectOrBackPanel = new JPanel(new FlowLayout());
+//        selectOrBackPanel.add(selectButton);
+//        selectOrBackPanel.add(backButton);
+//
+//        JScrollPane scrollPane = new JScrollPane(quizPanel);
+//        mainPanel.add(scrollPane, BorderLayout.CENTER);
+//        mainPanel.add(selectOrBackPanel);
+//
+//        mainPanel.validate();
+//        mainPanel.repaint();
+//    }
 
-        ArrayList<Quiz> quizList = client.getQuizzes();
-        JPanel quizPanel = new JPanel(new GridLayout(0, 1));
-        ButtonGroup quizGroup = new ButtonGroup();
-
-        for (int i = 0; i < quizList.size(); i++) {
-            String currentQuizName = quizList.get(i).getName();
-            JRadioButton currentQuizButton = new JRadioButton(currentQuizName);
-            currentQuizButton.setActionCommand(Integer.toString(i));
-            quizGroup.add(currentQuizButton);
-            quizPanel.add(currentQuizButton);
-        }
-
-        if (accountType == TEACHER_OPTION) {
-            JRadioButton addQuizButton = new JRadioButton("Add quiz", true);
-            addQuizButton.setActionCommand("add quiz");
-            quizGroup.add(addQuizButton);
-            quizPanel.add(addQuizButton);
-        }
-
-        activeComponents.add(quizGroup);
-
-        JButton selectButton = new JButton("Select");
-        selectButton.setActionCommand("choose quiz");
-        selectButton.addActionListener(actionListener);
-        JButton backButton = new JButton("Back");
-        backButton.setActionCommand("back to main menu");
-        backButton.addActionListener(actionListener);
-        JPanel selectOrBackPanel = new JPanel(new FlowLayout());
-        selectOrBackPanel.add(selectButton);
-        selectOrBackPanel.add(backButton);
-
-        JScrollPane scrollPane = new JScrollPane(quizPanel);
-        mainPanel.add(scrollPane, BorderLayout.CENTER);
-        mainPanel.add(selectOrBackPanel);
-
-        mainPanel.validate();
-        mainPanel.repaint();
-    }
-
-    /**
-     * Displays options for a particular quiz to a student
-     */
+    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
+    //use that method in the actual implementation. I have described various details of the needed methods at the top of
+    //the page directly under the import statements.
     private void createStudentQuizOptionsMenu() {
         mainPanel.removeAll();
         activeComponents.clear();
-
-        JRadioButton takeButton = new JRadioButton("Take quiz");
-        takeButton.setActionCommand("take quiz");
-        JRadioButton viewButton = new JRadioButton("View previous submissions");
-        viewButton.setActionCommand("view previous submissions from student");
-        ButtonGroup optionsGroup = new ButtonGroup();
-        optionsGroup.add(takeButton);
-        optionsGroup.add(viewButton);
-        activeComponents.add(optionsGroup);
-        JPanel optionsPanel = new JPanel(new GridLayout(0, 1));
-        optionsPanel.add(takeButton);
-        optionsPanel.add(viewButton);
-
-        JButton selectButton = new JButton("Select");
-        selectButton.setActionCommand("choose student option");
-        selectButton.addActionListener(actionListener);
-        JButton backButton = new JButton("Back");
-        backButton.setActionCommand("back to course menu");
-        backButton.addActionListener(actionListener);
-        JPanel selectOrBackPanel = new JPanel(new FlowLayout());
-        selectOrBackPanel.add(selectButton);
-        selectOrBackPanel.add(backButton);
-
-        JScrollPane scrollPane = new JScrollPane(optionsPanel);
-        mainPanel.add(optionsPanel, BorderLayout.CENTER);
-        mainPanel.add(selectOrBackPanel, BorderLayout.SOUTH);
 
         mainPanel.validate();
         mainPanel.repaint();
@@ -545,15 +508,15 @@ public class View extends JComponent {
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
-    private void createTeacherQuizOptionsMenu() {
-        mainPanel.removeAll();
-        activeComponents.clear();
-
-        client.deleteQuiz();
-
-        mainPanel.validate();
-        mainPanel.repaint();
-    }
+//    private void createTeacherQuizOptionsMenu() {
+//        mainPanel.removeAll();
+//        activeComponents.clear();
+//
+//        client.deleteQuiz();
+//
+//        mainPanel.validate();
+//        mainPanel.repaint();
+//    }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
@@ -569,16 +532,16 @@ public class View extends JComponent {
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
-    private void createFileInputScreen() {
-        mainPanel.removeAll();
-        activeComponents.clear();
-
-        File file = new File();
-        client.addImportedQuiz(file);
-
-        mainPanel.validate();
-        mainPanel.repaint();
-    }
+//    private void createFileInputScreen() {
+//        mainPanel.removeAll();
+//        activeComponents.clear();
+//
+//        File file = new File();
+//        client.addImportedQuiz(file);
+//
+//        mainPanel.validate();
+//        mainPanel.repaint();
+//    }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
@@ -611,32 +574,32 @@ public class View extends JComponent {
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
-    private void createEditQuizMenu() {
-        mainPanel.removeAll();
-        activeComponents.clear();
-
-        ArrayList<Question> questions = client.getQuestions();
-        int questionNumber = 0;
-        client.setActiveQuestion(questionNumber);
-
-        mainPanel.validate();
-        mainPanel.repaint();
-    }
+//    private void createEditQuizMenu() {
+//        mainPanel.removeAll();
+//        activeComponents.clear();
+//
+//        ArrayList<Question> questions = client.getQuestions();
+//        int questionNumber = 0;
+//        client.setActiveQuestion(questionNumber);
+//
+//        mainPanel.validate();
+//        mainPanel.repaint();
+//    }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
-    private void createEditQuestionScreen() {
-        mainPanel.removeAll();
-        activeComponents.clear();
-
-        client.deleteQuestion();
-        Question question = new Question();
-        client.updateQuestion(question);
-
-        mainPanel.validate();
-        mainPanel.repaint();
-    }
+//    private void createEditQuestionScreen() {
+//        mainPanel.removeAll();
+//        activeComponents.clear();
+//
+//        client.deleteQuestion();
+//        Question question = new Question();
+//        client.updateQuestion(question);
+//
+//        mainPanel.validate();
+//        mainPanel.repaint();
+//    }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
@@ -652,82 +615,68 @@ public class View extends JComponent {
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
-    private void createActiveQuizScreen() {
-        mainPanel.removeAll();
-        activeComponents.clear();
-
-        ArrayList<Question> questions = client.getQuestions();
-        Quiz quiz = new Quiz(new Scanner(System.in), new Course("", new Teacher("", ""), 0));
-        Submission submission = new Submission(new Student("", ""), quiz);
-        client.submitSubmission(submission);
-
-        mainPanel.validate();
-        mainPanel.repaint();
-    }
-
-    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
-    //use that method in the actual implementation. I have described various details of the needed methods at the top of
-    //the page directly under the import statements.
-    private JPanel assembleTrueFalseQuestion() {
-        return new JPanel();
-    }
+//    private void createActiveQuizScreen() {
+//        mainPanel.removeAll();
+//        activeComponents.clear();
+//
+//        ArrayList<Question> questions = client.getQuestions();
+//        Quiz quiz = new Quiz(new Scanner(System.in), new Course("", new Teacher("", ""), 0));
+//        Submission submission = new Submission(new Student("", ""), quiz);
+//        client.submitSubmission(submission);
+//
+//        mainPanel.validate();
+//        mainPanel.repaint();
+//    }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
-    private JPanel assembleMultipleChoiceQuestion() {
-        return new JPanel();
-    }
+//    private JPanel assembleTrueFalseQuestion() {
+//        return new JPanel();
+//    }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
-    private JPanel assembleFillInTheBlankQuestion() {
-        return new JPanel();
-    }
+//    private JPanel assembleMultipleChoiceQuestion() {
+//        return new JPanel();
+//    }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
-    private void createStudentSubmissionMenu() {
-        mainPanel.removeAll();
-        activeComponents.clear();
-
-        ArrayList<Submission> submissions = client.getStudentSubmissions();
-        client.setActiveSubmission(submissionNumber);
-
-        mainPanel.validate();
-        mainPanel.repaint();
-    }
+//    private JPanel assembleFillInTheBlankQuestion() {
+//        return new JPanel();
+//    }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
-    private void createTeacherSubmissionMenu() {
-        mainPanel.removeAll();
-        activeComponents.clear();
-
-        ArrayList<Submission> submissions = client.getAllSubmissions();
-        client.setActiveSubmission(submissionNumber);
-
-        mainPanel.validate();
-        mainPanel.repaint();
-    }
+//    private void createSubmissionMenu() {
+//        mainPanel.removeAll();
+//        activeComponents.clear();
+//
+//        ArrayList<Submission> submissions = client.getSubmissions();
+//        client.setActiveSubmission(submissionNumber);
+//
+//        mainPanel.validate();
+//        mainPanel.repaint();
+//    }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
-    private void createSubmissionViewer() {
-        mainPanel.removeAll();
-        activeComponents.clear();
-
-        Quiz quiz = client.getCurrentQuiz();
-        ArrayList<Question> questions = client.getQuestions();
-        client.clearActiveSubmission();
-
-        mainPanel.validate();
-        mainPanel.repaint();
-    }
+//    private void createSubmissionViewer() {
+//        mainPanel.removeAll();
+//        activeComponents.clear();
+//
+//        Quiz quiz = client.getCurrentQuiz();
+//        ArrayList<Question> questions = client.getQuestions();
+//        client.clearActiveSubmission();
+//
+//        mainPanel.validate();
+//        mainPanel.repaint();
+//    }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
@@ -735,9 +684,9 @@ public class View extends JComponent {
     /**
      * Updates view being displayed to be consistent with new server updates
      */
-    public void update() {
-
-    }
+//    public void update() {
+//
+//    }
 
     //TODO: remove before submission
     /**
@@ -745,7 +694,7 @@ public class View extends JComponent {
      *
      * @param args
      */
-    public static void main(String[] args) {
-        View view = new View();
-    }
+//    public static void main(String[] args) {
+//        View view = new View();
+//    }
 }
