@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Client {
     Socket socket=null;
-    PrintWriter pw=null;
-    BufferedReader bfr=null;
+//    PrintWriter pw=null;
+//    BufferedReader bfr=null;
     ObjectOutputStream oos=null;
     ObjectInputStream ois=null;
     public static void main(String[] args) {
@@ -18,8 +18,8 @@ public class Client {
             int portNumber = Integer.parseInt(inputPortNumber);
             socket = new Socket(domainName, portNumber);
             if(socket.isConnected()){
-                pw=new PrintWriter(socket.getOutputStream());
-                bfr=new BufferedReader(new InputStreamReader(socket.getInputStream()));
+//                pw=new PrintWriter(socket.getOutputStream());
+//                bfr=new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 oos=new ObjectOutputStream(socket.getOutputStream());
                 ois=new ObjectInputStream(socket.getInputStream());
                 return true;
@@ -30,37 +30,55 @@ public class Client {
         return false;
     }
     public boolean createAccount(String username, String password, String typeOfAccount){
-        System.out.println("Made it here");
-        pw.println("create-account "+username+" "+ password + " "+typeOfAccount);
-        pw.flush();
+//        pw.println("create-account "+username+" "+ password + " "+typeOfAccount);
+//        pw.flush();
         try {
-            String checker = bfr.readLine();
+            ArrayList<Object> objects=new ArrayList<>();
+            objects.add("create-account");
+            objects.add(username);
+            objects.add(password);
+            objects.add(typeOfAccount);
+
+            oos.writeObject(objects);
+            oos.flush();
+            String checker =(String) ois.readObject();
             if(checker.equals("success")){
                 return true;
             }
-        } catch (IOException e){
+        } catch (Exception e){
             throw new RuntimeException();
         }
         return false;
     }
     public boolean login(String username, String password, String typeOfAccount){
-        pw.println("login "+username+" "+password+" "+ typeOfAccount);
-        pw.flush();
+//        pw.println("login "+username+" "+password+" "+ typeOfAccount);
+//        pw.flush();
         try {
-            String checker =bfr.readLine();
+            ArrayList<Object> objects=new ArrayList<>();
+            objects.add("login");
+            objects.add(username);
+            objects.add(password);
+            objects.add(typeOfAccount);
+            oos.writeObject(objects);
+            oos.flush();
+            String checker =(String)ois.readObject();
             if(checker.equals("success")){
                 return true;
             }
-        } catch (IOException e){
+        } catch (Exception e){
             throw new RuntimeException();
         }
         return false;
 
     }
     public ArrayList<Course> getAccountCourses(){
-        pw.println("get-courses");
-        pw.flush();
+//        pw.println("get-courses");
+//        pw.flush();
         try{
+            ArrayList<Object> objects=new ArrayList<>();
+            objects.add("get-courses");
+            oos.writeObject(objects);
+            oos.flush();
             ArrayList<Course> courseList=(ArrayList<Course>) ois.readObject();
             return courseList;
         } catch(Exception e){
