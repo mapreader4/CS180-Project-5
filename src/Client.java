@@ -145,27 +145,34 @@ public class Client {
         }
         return false;
     }
-    public boolean addQuestionToQuiz(Question question) {
+    public void addQuestionToQuiz(Question question) {
         try {
             ArrayList<Object> objects = new ArrayList<>();
             objects.add("add-question-to-quiz");
             objects.add(question);
             oos.writeObject(objects);
             oos.flush();
-            return true;
         } catch (Exception e) {
             throw new RuntimeException();
         }
     }
-//
+
 //    public ArrayList<Question> getQuestions() {
 //
 //    }
 //
-//    public boolean setActiveQuestion(int questionNumber) {
-//
-//    }
-//
+    public void setActiveQuestion(int questionNumber) {
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("set-active-question");
+            objects.add(questionNumber);
+            oos.writeObject(objects);
+            oos.flush();
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
+
 //    public boolean deleteQuestion() {
 //
 //    }
