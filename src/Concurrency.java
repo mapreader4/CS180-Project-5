@@ -31,13 +31,18 @@ public class Concurrency extends Thread {
                     String password = message[2];
                     String typeofAccount = message[3];
                     login(username,password,typeofAccount);
+                } else if (message[0].equalsIgnoreCase("create-account")){
+                    String username = message[1];
+                    String password = message[2];
+                    String typeofAccount = message[3];
+                    createAccount(username,password,typeofAccount);
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public boolean login(String username, String  password,String typeOfUser){
+    public void login(String username, String  password,String typeOfUser){
         if(typeOfUser.equals("teacher")){
             if(teacherList.findTeacher(username, password)==null){
                 writer.println("failure");
@@ -50,33 +55,36 @@ public class Concurrency extends Thread {
             } else {
                 writer.println("success");
             }
+        } else {
+            writer.println("failure");
         }
-        return false;
-
+        writer.flush();
     }
-    public String createAccount(String username, String password, String typeOfUser) {
-        if (typeOfUser.equalsIgnoreCase("Student")) {
-            Student student = studentList.findStudent(username, password);
-            if (student == null) { //if student is not in the list, the account is created
-                studentList.add(new Student(username, password));
+    public void createAccount(String username, String password, String typeOfUser){
+        if(typeOfUser.equalsIgnoreCase("Student")){
+            Student student = studentList.findStudent(username,password);
+            if(student == null){ //if student is not in the list, the account is created
+                studentList.add(new Student (username,password));
                 studentList.saveToFile();
                 updateLists();
-                return "success";
-            } else { //if student already exists in list
-                return "failure";
+                writer.println("success");
+            }else{ //if student already exists in list
+                writer.println("failure");
             }
-        } else if (typeOfUser.equalsIgnoreCase("Teacher")) {
-            Teacher teacher = teacherList.findTeacher(username, password);
-            if (teacher == null) {
+        } else if (typeOfUser.equalsIgnoreCase("Teacher")){
+            Teacher teacher=teacherList.findTeacher(username, password);
+            if(teacher==null){
                 teacherList.add(new Teacher(username, password));
                 teacherList.saveToFile();
                 updateLists();
-                return "success";
+                writer.println("success");
+            } else {
+                writer.println("failure");
             }
-        } else {
-            return "failure";
+        }else{
+            writer.println("failure");
         }
-        return "failure";
+        writer.flush();
     }
     public void updateLists(){
         teacherList = TeacherList.readFromFile();
