@@ -6,6 +6,8 @@ public class Client {
     Socket socket=null;
     PrintWriter pw=null;
     BufferedReader bfr=null;
+    ObjectOutputStream oos=null;
+    ObjectInputStream ois=null;
     public static void main(String[] args) {
         Client client=new Client();
         View view=new View(client);
@@ -18,6 +20,8 @@ public class Client {
             if(socket.isConnected()){
                 pw=new PrintWriter(socket.getOutputStream());
                 bfr=new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                oos=new ObjectOutputStream(socket.getOutputStream());
+                ois=new ObjectInputStream(socket.getInputStream());
                 return true;
             }
 
@@ -55,7 +59,14 @@ public class Client {
 
     }
     public ArrayList<Course> getAccountCourses(){
-        return null;
+        pw.println("get-courses");
+        pw.flush();
+        try{
+            ArrayList<Course> courseList=(ArrayList<Course>) ois.readObject();
+            return courseList;
+        } catch(Exception e){
+            throw new RuntimeException();
+        }
     }
 
     public boolean createCourse(String courseName, int courseNumber) {
