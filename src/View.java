@@ -48,9 +48,6 @@ import java.util.Scanner;
 
 //TODO: implement the rest of the menu logic
 //parts of the menu logic remaining:
-//creating courses - should allow teacher to create a course, then advance to course menu
-//adding courses - should allow student to add any course, then advance to course menu
-//course menu - should allow access to any quiz (and adding quiz if teacher), as well as exiting
 //quiz options menu - should allow choice of options for quizzes (different between teacher and student)
 //create quiz - long series of methods allowing teacher to create quiz
 //edit quiz - displays list of questions, then allows teacher to edit any particular question
@@ -139,6 +136,44 @@ public class View extends JComponent {
                     client.setActiveCourse(Integer.parseInt(courseChosen));
                     createCourseMenu();
                 }
+            } else if (actionCommand.equals("add student to course")) {
+                ButtonGroup courseList = (ButtonGroup) activeComponents.get(0);
+                String courseChosen = courseList.getSelection().getActionCommand();
+                client.addStudentToCourse(Integer.parseInt(courseChosen));
+                createCourseMenu();
+            } else if (actionCommand.equals("create course")) {
+                JTextField courseNumberTxt = (JTextField) activeComponents.get(0);
+                JTextField courseNameTxt = (JTextField) activeComponents.get(1);
+                try {
+                    int courseNumber = Integer.parseInt(courseNumberTxt.getText());
+                    String courseName = courseNameTxt.getText();
+                    if (client.createCourse(courseName, courseNumber)) {
+                        createCourseMenu();
+                    } else {
+                        JOptionPane.showMessageDialog(null,
+                                "A course with the given number already exists. " +
+                                        "Please try again.", "Unable to create course", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Please enter an integer for the " +
+                            "course number.", "Enter an integer", JOptionPane.ERROR_MESSAGE);
+                }
+            } else if (actionCommand.equals("choose quiz")) {
+                ButtonGroup quizList = (ButtonGroup) activeComponents.get(0);
+                String quizChosen = quizList.getSelection().getActionCommand();
+                if (quizChosen == "add quiz") {
+                    createCreateQuizIntroScreen();
+                } else {
+                    client.setActiveQuiz(Integer.parseInt(quizChosen));
+                    if (accountType == STUDENT_OPTION) {
+                        createStudentQuizOptionsMenu();
+                    } else if (accountType == TEACHER_OPTION) {
+                        createTeacherQuizOptionsMenu();
+                    }
+                }
+            } else if (actionCommand.equals("back to main menu")) {
+                client.clearActiveCourse();
+                createMainMenu();
             } else if (actionCommand.equals("quit")) {
                 int closeConfirmation = JOptionPane.showConfirmDialog(null,
                         "Are you sure you want to quit?", "Quit?",
@@ -328,22 +363,51 @@ public class View extends JComponent {
         mainPanel.repaint();
     }
 
-    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
-    //use that method in the actual implementation. I have described various details of the needed methods at the top of
-    //the page directly under the import statements.
+    /**
+     * Displays all available courses to student, allowing them to add any course.
+     */
     private void createAddCourseScreen() {
         mainPanel.removeAll();
         activeComponents.clear();
 
         ArrayList<Course> courseList = client.getAllCourses();
+        JPanel coursePanel = new JPanel(new GridLayout(0, 1));
+        ButtonGroup courseGroup = new ButtonGroup();
+
+        for (Course currentCourse : courseList) {
+            int courseNumber = currentCourse.getCourseNumber();
+            String courseName = currentCourse.getCourseName();
+            String displayCourse = courseNumber + ": " + courseName;
+
+            JRadioButton courseButton = new JRadioButton(displayCourse);
+            courseButton.setActionCommand(Integer.toString(courseNumber));
+            courseGroup.add(courseButton);
+            coursePanel.add(courseButton);
+        }
+
+        activeComponents.add(courseGroup);
+
+        JButton selectButton = new JButton("Select");
+        selectButton.setActionCommand("add student to course");
+        selectButton.addActionListener(actionListener);
+        JButton backButton = new JButton("Back");
+        backButton.setActionCommand("back to main menu");
+        backButton.addActionListener(actionListener);
+        JPanel selectOrBackPanel = new JPanel(new FlowLayout());
+        selectOrBackPanel.add(selectButton);
+        selectOrBackPanel.add(backButton);
+
+        JScrollPane scrollPane = new JScrollPane(coursePanel);
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
+        mainPanel.add(selectOrBackPanel, BorderLayout.SOUTH);
 
         mainPanel.validate();
         mainPanel.repaint();
     }
 
-    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
-    //use that method in the actual implementation. I have described various details of the needed methods at the top of
-    //the page directly under the import statements.
+    /**
+     * Displays text fields for course creation to teacher, allowing them to create a course.
+     */
     private void createCreateCourseScreen() {
         mainPanel.removeAll();
         activeComponents.clear();
@@ -352,21 +416,79 @@ public class View extends JComponent {
         int courseNumber = 0;
         client.createCourse(courseName, courseNumber);
 
+        JLabel courseNumberLabel = new JLabel("Course Number:");
+        JTextField courseNumberTxt = new JTextField(30);
+        activeComponents.add(courseNumberTxt);
+        JLabel courseNameLabel = new JLabel("Course Name:");
+        JTextField courseNameTxt = new JTextField(30);
+        activeComponents.add(courseNameTxt);
+
+        JButton createCourseButton = new JButton("Create Course");
+        createCourseButton.setActionCommand("create course");
+        createCourseButton.addActionListener(actionListener);
+        JButton backButton = new JButton("Back");
+        backButton.setActionCommand("back to main menu");
+        backButton.addActionListener(actionListener);
+
+        JPanel courseNumberPanel = new JPanel(new FlowLayout());
+        JPanel courseNamePanel = new JPanel(new FlowLayout());
+        JPanel createOrBackPanel = new JPanel(new FlowLayout());
+        courseNumberPanel.add(courseNumberLabel);
+        courseNumberPanel.add(courseNumberTxt);
+        courseNamePanel.add(courseNameLabel);
+        courseNamePanel.add(courseNameTxt);
+        createOrBackPanel.add(createCourseButton);
+        createOrBackPanel.add(backButton);
+        mainPanel.add(courseNumberPanel, BorderLayout.NORTH);
+        mainPanel.add(courseNamePanel, BorderLayout.CENTER);
+        mainPanel.add(createOrBackPanel, BorderLayout.SOUTH);
+
         mainPanel.validate();
         mainPanel.repaint();
     }
 
-    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
-    //use that method in the actual implementation. I have described various details of the needed methods at the top of
-    //the page directly under the import statements.
+    /**
+     * Displays the menu for a particular course, allowing the user to select which quiz they want to access, as well as
+     * create a new quiz if the user is a teacher.
+     */
     private void createCourseMenu() {
         mainPanel.removeAll();
         activeComponents.clear();
 
         ArrayList<Quiz> quizList = client.getQuizzes();
-        int quizNumber = 0;
-        client.setActiveQuiz(quizNumber);
-        client.clearActiveCourse();
+        JPanel quizPanel = new JPanel(new GridLayout(0, 1));
+        ButtonGroup quizGroup = new ButtonGroup();
+
+        for (int i = 0; i < quizList.size(); i++) {
+            String currentQuizName = quizList.get(i).getName();
+            JRadioButton currentQuizButton = new JRadioButton(currentQuizName);
+            currentQuizButton.setActionCommand(Integer.toString(i));
+            quizGroup.add(currentQuizButton);
+            quizPanel.add(currentQuizButton);
+        }
+
+        if (accountType == TEACHER_OPTION) {
+            JRadioButton addQuizButton = new JRadioButton("Add quiz", true);
+            addQuizButton.setActionCommand("add quiz");
+            quizGroup.add(addQuizButton);
+            quizPanel.add(addQuizButton);
+        }
+
+        activeComponents.add(quizGroup);
+
+        JButton selectButton = new JButton("Select");
+        selectButton.setActionCommand("choose quiz");
+        selectButton.addActionListener(actionListener);
+        JButton backButton = new JButton("Back");
+        backButton.setActionCommand("back to main menu");
+        backButton.addActionListener(actionListener);
+        JPanel selectOrBackPanel = new JPanel(new FlowLayout());
+        selectOrBackPanel.add(selectButton);
+        selectOrBackPanel.add(backButton);
+
+        JScrollPane scrollPane = new JScrollPane(quizPanel);
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
+        mainPanel.add(selectOrBackPanel);
 
         mainPanel.validate();
         mainPanel.repaint();
