@@ -210,10 +210,19 @@ public class Client {
         }
     }
 
-//    public ArrayList<Submission> getSubmissions() {
-//
-//    }
-//
+    public ArrayList<Submission> getSubmissions() {
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("get-submissions");
+            oos.writeObject(objects);
+            oos.flush();
+            ArrayList<Submission> submissionList = (ArrayList<Submission>) ois.readObject();
+            return submissionList;
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
+
     public void setActiveSubmission(int submissionNumber) {
         try {
             ArrayList<Object> objects = new ArrayList<>();
@@ -250,14 +259,32 @@ public class Client {
 //
 //    }
 //
-//    public ArrayList<Course> getAllCourses() {
-//
-//    }
-//
-//    public ArrayList<Quiz> getQuizzes() {
-//
-//    }
-//
+    public ArrayList<Course> getAllCourses() {
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("get-all-courses");
+            oos.writeObject(objects);
+            oos.flush();
+            ArrayList<Course> courseList = (ArrayList<Course>) ois.readObject();
+            return courseList;
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
+
+    public ArrayList<Quiz> getQuizzes() {
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("get-quizzes");
+            oos.writeObject(objects);
+            oos.flush();
+            ArrayList<Quiz> quizList = (ArrayList<Quiz>) ois.readObject();
+            return quizList;
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
+
     public void setActiveQuiz(int quizNumber) {
         try {
             ArrayList<Object> objects = new ArrayList<>();
