@@ -1,4 +1,5 @@
 import java.io.*;
+import java.lang.reflect.Array;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -45,25 +46,27 @@ public class Concurrency extends Thread {
             throw new RuntimeException();
         }
     }
-    public void login(String username, String  password,String typeOfUser){
+    public void login(String username, String  password,String typeOfUser) throws IOException {
+        ArrayList<Object>result = new ArrayList<>();
         if(typeOfUser.equals("teacher")){
             if(teacherList.findTeacher(username, password)==null){
-                writer.println("failure");
+                result.add("failure");
             } else {
-                writer.println("success");
+                result.add("success");
                 typeOfAccount  = "Teacher";
             }
         } else if(typeOfUser.equals("student")){
             if(studentList.findStudent(username, password)==null){
-                writer.println("failure");
+                result.add("failure");
             } else {
-                writer.println("success");
+                result.add("success");
                 typeOfAccount = "Student";
             }
         } else {
-            writer.println("failure");
+            result.add("failure");
         }
-        writer.flush();
+        outputStream.writeObject(result);
+        outputStream.flush();
     }
     public void createAccount(String username, String password, String typeOfUser) throws IOException {
         ArrayList<Object> result = new ArrayList<>();
