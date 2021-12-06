@@ -3,21 +3,21 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class Client {
-    Socket socket=null;
-    PrintWriter pw=null;
-    BufferedReader bfr=null;
+    Socket socket = null;
+    PrintWriter pw = null;
+    BufferedReader bfr = null;
     public static void main(String[] args) {
-        Client client=new Client();
-        View view=new View(client);
+        Client client = new Client();
+        View view = new View(client);
 
     }
     public boolean connectToServer(String domainName, String inputPortNumber) {
         try {
             int portNumber = Integer.parseInt(inputPortNumber);
             socket = new Socket(domainName, portNumber);
-            if(socket.isConnected()){
-                pw=new PrintWriter(socket.getOutputStream());
-                bfr=new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            if (socket.isConnected()) {
+                pw = new PrintWriter(socket.getOutputStream());
+                bfr = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 return true;
             }
 
@@ -30,7 +30,7 @@ public class Client {
         pw.println("create-account "+username+" "+ password + " "+typeOfAccount);
         try {
             String checker = bfr.readLine();
-            if(checker.equals("success")){
+            if (checker.equals("success")) {
                 return true;
             }
         } catch (IOException e){
@@ -41,8 +41,8 @@ public class Client {
     public boolean login(String username, String password, String typeOfAccount){
         pw.println("login "+username+" "+password+" "+ typeOfAccount);
         try {
-            String checker =bfr.readLine();
-            if(checker.equals("success")){
+            String checker = bfr.readLine();
+            if (checker.equals("success")) {
                 return true;
             }
         } catch (IOException e){
