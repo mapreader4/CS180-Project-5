@@ -525,7 +525,17 @@ public class View extends JComponent {
         mainPanel.removeAll();
         activeComponents.clear();
 
-        //note: this should handle or call the file import option
+        mainPanel.validate();
+        mainPanel.repaint();
+    }
+
+    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
+    //use that method in the actual implementation. I have described various details of the needed methods at the top of
+    //the page directly under the import statements.
+    private void createFileInputScreen() {
+        mainPanel.removeAll();
+        activeComponents.clear();
+
         File file = new File();
         client.addImportedQuiz(file);
 

@@ -22,4 +22,8 @@ Importing quiz from file
 c: import-quiz-file <File f>
 s: success / duplicate
 
+Adding question to quiz
+c: add-question-to-quiz <Question question>
+s: N/A
+
 
