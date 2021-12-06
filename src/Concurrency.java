@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Concurrency extends Thread {
     private final Socket socket;
@@ -23,24 +24,25 @@ public class Concurrency extends Thread {
             inputStream = new ObjectInputStream(socket.getInputStream());
             outputStream = new ObjectOutputStream(socket.getOutputStream());
             while (true) {
-                String line =  reader.readLine();
-                String [] message = line.split(" ");
-                if(message.length == 0 ){
+                ArrayList<Object> objects=(ArrayList<Object>)inputStream.readObject();
+                String line = (String)objects.get(0);
+                //String [] message = line.split(" ");
+                if(objects.size() == 0 ){
 
-                } else if (message[0].equalsIgnoreCase("login")){
-                    String username = message[1];
-                    String password = message[2];
-                    String typeofAccount = message[3];
+                } else if (line.equalsIgnoreCase("login")){
+                    String username = (String)objects.get(1);
+                    String password = (String)objects.get(2);
+                    String typeofAccount = (String)objects.get(3);
                     login(username,password,typeofAccount);
-                } else if (message[0].equalsIgnoreCase("create-account")){
-                    String username = message[1];
-                    String password = message[2];
-                    String typeofAccount = message[3];
+                } else if (line.equalsIgnoreCase("create-account")){
+                    String username = (String)objects.get(1);
+                    String password = (String)objects.get(2);
+                    String typeofAccount = (String)objects.get(3);
                     createAccount(username,password,typeofAccount);
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException();
         }
     }
     public void login(String username, String  password,String typeOfUser){
@@ -91,6 +93,7 @@ public class Concurrency extends Thread {
         }
         writer.flush();
     }
+    public void
     public void updateLists(){
         teacherList = TeacherList.readFromFile();
         studentList = StudentList.readFromFile();
