@@ -26,4 +26,12 @@ Adding question to quiz
 c: add-question-to-quiz <Question question>
 s: N/A
 
+Setting active question
+c: set-active-question <int questionNumber>
+s: N/A
+
+Update question
+c: update-question
+s: N/A
+
 
