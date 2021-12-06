@@ -254,8 +254,7 @@ public class View extends JComponent {
         ButtonGroup teacherOrStudentGroup = new ButtonGroup();
         teacherOrStudentGroup.add(studentButton);
         teacherOrStudentGroup.add(teacherButton);
-        activeComponents.add(studentButton);
-        activeComponents.add(teacherButton);
+        activeComponents.add(teacherOrStudentGroup);
 
         JPanel usernamePanel = new JPanel(new FlowLayout());
         JPanel passwordPanel = new JPanel(new FlowLayout());
