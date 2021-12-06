@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Client {
     Socket socket=null;
@@ -15,10 +16,11 @@ public class Client {
             int portNumber = Integer.parseInt(inputPortNumber);
             socket = new Socket(domainName, portNumber);
             if(socket.isConnected()){
+                pw=new PrintWriter(socket.getOutputStream());
+                bfr=new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 return true;
             }
-            pw=new PrintWriter(socket.getOutputStream());
-            bfr=new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
         } catch (Exception e) {
             return false;
         }
@@ -48,6 +50,9 @@ public class Client {
         }
         return false;
 
+    }
+    public ArrayList<Course> getAccountCourses(){
+        return null;
     }
 
 }
