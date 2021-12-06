@@ -159,7 +159,7 @@ public class View extends JComponent {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                createConnectionScreen();
+                createGUI();
             }
         });
     }
@@ -175,7 +175,7 @@ public class View extends JComponent {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                createConnectionScreen();
+                createGUI();
             }
         });
     }
