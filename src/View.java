@@ -63,7 +63,7 @@ import java.util.Scanner;
  * Listens for updates from Client, then refreshes the board as need be.
  *
  * @author Nathan Reed, lab sec L24
- * @version November 29, 2021
+ * @version December 6, 2021
  */
 public class View extends JComponent {
     private Client client;
@@ -161,7 +161,7 @@ public class View extends JComponent {
             } else if (actionCommand.equals("choose quiz")) {
                 ButtonGroup quizList = (ButtonGroup) activeComponents.get(0);
                 String quizChosen = quizList.getSelection().getActionCommand();
-                if (quizChosen == "add quiz") {
+                if (quizChosen.equals("add quiz")) {
                     createCreateQuizIntroScreen();
                 } else {
                     client.setActiveQuiz(Integer.parseInt(quizChosen));
@@ -171,6 +171,17 @@ public class View extends JComponent {
                         createTeacherQuizOptionsMenu();
                     }
                 }
+            } else if (actionCommand.equals("choose student option")) {
+                ButtonGroup optionsGroup = (ButtonGroup) activeComponents.get(0);
+                String optionChosen = optionsGroup.getSelection().getActionCommand();
+                if (optionChosen.equals("take quiz")) {
+                    createTakeQuizIntroScreen();
+                } else if (optionChosen.equals("view previous submissions from student")) {
+                    createStudentSubmissionMenu();
+                }
+            } else if (actionCommand.equals("back to course menu")) {
+                client.clearActiveQuiz();
+                createCourseMenu();
             } else if (actionCommand.equals("back to main menu")) {
                 client.clearActiveCourse();
                 createMainMenu();
@@ -494,12 +505,38 @@ public class View extends JComponent {
         mainPanel.repaint();
     }
 
-    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
-    //use that method in the actual implementation. I have described various details of the needed methods at the top of
-    //the page directly under the import statements.
+    /**
+     * Displays options for a particular quiz to a student
+     */
     private void createStudentQuizOptionsMenu() {
         mainPanel.removeAll();
         activeComponents.clear();
+
+        JRadioButton takeButton = new JRadioButton("Take quiz");
+        takeButton.setActionCommand("take quiz");
+        JRadioButton viewButton = new JRadioButton("View previous submissions");
+        viewButton.setActionCommand("view previous submissions from student");
+        ButtonGroup optionsGroup = new ButtonGroup();
+        optionsGroup.add(takeButton);
+        optionsGroup.add(viewButton);
+        activeComponents.add(optionsGroup);
+        JPanel optionsPanel = new JPanel(new GridLayout(0, 1));
+        optionsPanel.add(takeButton);
+        optionsPanel.add(viewButton);
+
+        JButton selectButton = new JButton("Select");
+        selectButton.setActionCommand("choose student option");
+        selectButton.addActionListener(actionListener);
+        JButton backButton = new JButton("Back");
+        backButton.setActionCommand("back to course menu");
+        backButton.addActionListener(actionListener);
+        JPanel selectOrBackPanel = new JPanel(new FlowLayout());
+        selectOrBackPanel.add(selectButton);
+        selectOrBackPanel.add(backButton);
+
+        JScrollPane scrollPane = new JScrollPane(optionsPanel);
+        mainPanel.add(optionsPanel, BorderLayout.CENTER);
+        mainPanel.add(selectOrBackPanel, BorderLayout.SOUTH);
 
         mainPanel.validate();
         mainPanel.repaint();
@@ -652,11 +689,25 @@ public class View extends JComponent {
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
-    private void createSubmissionMenu() {
+    private void createStudentSubmissionMenu() {
         mainPanel.removeAll();
         activeComponents.clear();
 
-        ArrayList<Submission> submissions = client.getSubmissions();
+        ArrayList<Submission> submissions = client.getStudentSubmissions();
+        client.setActiveSubmission(submissionNumber);
+
+        mainPanel.validate();
+        mainPanel.repaint();
+    }
+
+    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
+    //use that method in the actual implementation. I have described various details of the needed methods at the top of
+    //the page directly under the import statements.
+    private void createTeacherSubmissionMenu() {
+        mainPanel.removeAll();
+        activeComponents.clear();
+
+        ArrayList<Submission> submissions = client.getAllSubmissions();
         client.setActiveSubmission(submissionNumber);
 
         mainPanel.validate();
