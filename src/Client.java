@@ -41,7 +41,7 @@ public class Client {
 
             oos.writeObject(objects);
             oos.flush();
-            String checker =(String) ois.readObject();
+            String checker =(String)((ArrayList<Object>) ois.readObject()).get(0);
             if(checker.equals("success")){
                 return true;
             }
@@ -61,7 +61,7 @@ public class Client {
             objects.add(typeOfAccount);
             oos.writeObject(objects);
             oos.flush();
-            String checker =(String)ois.readObject();
+            String checker =(String)((ArrayList<Object>) ois.readObject()).get(0);
             if(checker.equals("success")){
                 return true;
             }
