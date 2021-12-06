@@ -3,8 +3,8 @@ import java.net.Socket;
 
 public class Concurrency extends Thread {
     private final Socket socket;
-    BufferedReader reader=null;
-    PrintWriter writer=null;
+    ObjectInputStream inputStream=null;
+    ObjectOutputStream outputStream=null;
     TeacherList teacherList = TeacherList.readFromFile();
     StudentList studentList = StudentList.readFromFile();
     CourseList courseList = CourseList.readFromFile();
@@ -20,8 +20,8 @@ public class Concurrency extends Thread {
         //Reader is used to get data from the server, Writer is used to send data to the server if you need to.
         try {
 
-            reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            writer = new PrintWriter(socket.getOutputStream());
+            inputStream = new ObjectInputStream(socket.getInputStream());
+            outputStream = new ObjectOutputStream(socket.getOutputStream());
             while (true) {
                 String line =  reader.readLine();
                 String [] message = line.split(" ");

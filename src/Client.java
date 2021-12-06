@@ -24,7 +24,6 @@ public class Client {
                 ois=new ObjectInputStream(socket.getInputStream());
                 return true;
             }
-
         } catch (Exception e) {
             return false;
         }
