@@ -26,6 +26,7 @@ public class Client {
         }
         return false;
     }
+
     public boolean createAccount(String username, String password, String typeOfAccount){
         pw.println("create-account "+username+" "+ password + " "+typeOfAccount);
         try {
@@ -38,6 +39,7 @@ public class Client {
         }
         return false;
     }
+
     public boolean login(String username, String password, String typeOfAccount){
         pw.println("login "+username+" "+password+" "+ typeOfAccount);
         try {
@@ -51,8 +53,41 @@ public class Client {
         return false;
 
     }
+
     public ArrayList<Course> getAccountCourses(){
         return null;
+    }
+
+    public boolean createCourse(String courseName, int courseNumber) {
+
+    }
+
+    public boolean deleteQuiz() {
+
+    }
+
+    public boolean addImportedQuiz(File f) {
+
+    }
+
+    public boolean createQuiz(Quiz quiz) {
+
+    }
+
+    public boolean addQuestionToQuiz(Question question) {
+
+    }
+
+    public ArrayList<Question> getQuestions() {
+
+    }
+
+    public boolean setActiveQuestion(int questionNumber) {
+
+    }
+
+    public boolean deleteQuiz() {
+
     }
 
 }
