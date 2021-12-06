@@ -1,4 +1,5 @@
 import java.io.*;
+import java.lang.reflect.Array;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -45,37 +46,40 @@ public class Concurrency extends Thread {
             throw new RuntimeException();
         }
     }
-    public void login(String username, String  password,String typeOfUser){
+    public void login(String username, String  password,String typeOfUser) throws IOException {
+        ArrayList<Object>result = new ArrayList<>();
         if(typeOfUser.equals("teacher")){
             if(teacherList.findTeacher(username, password)==null){
-                writer.println("failure");
+                result.add("failure");
             } else {
-                writer.println("success");
+                result.add("success");
                 typeOfAccount  = "Teacher";
             }
         } else if(typeOfUser.equals("student")){
             if(studentList.findStudent(username, password)==null){
-                writer.println("failure");
+                result.add("failure");
             } else {
-                writer.println("success");
+                result.add("success");
                 typeOfAccount = "Student";
             }
         } else {
-            writer.println("failure");
+            result.add("failure");
         }
-        writer.flush();
+        outputStream.writeObject(result);
+        outputStream.flush();
     }
-    public void createAccount(String username, String password, String typeOfUser){
+    public void createAccount(String username, String password, String typeOfUser) throws IOException {
+        ArrayList<Object> result = new ArrayList<>();
         if(typeOfUser.equalsIgnoreCase("Student")){
             Student student = studentList.findStudent(username,password);
             if(student == null){ //if student is not in the list, the account is created
                 studentList.add(new Student (username,password));
                 studentList.saveToFile();
                 updateLists();
-                writer.println("success");
+                result.add("success");
                 typeOfAccount  = "Student";
             }else{ //if student already exists in list
-                writer.println("failure");
+                result.add("failure");
             }
         } else if (typeOfUser.equalsIgnoreCase("Teacher")){
             Teacher teacher=teacherList.findTeacher(username, password);
@@ -83,17 +87,17 @@ public class Concurrency extends Thread {
                 teacherList.add(new Teacher(username, password));
                 teacherList.saveToFile();
                 updateLists();
-                writer.println("success");
+                result.add("success");
                 typeOfAccount = "Teacher";
             } else {
-                writer.println("failure");
+                result.add("failure");
             }
         }else{
-            writer.println("failure");
+            result.add("failure");
         }
-        writer.flush();
+        outputStream.writeObject(result);
     }
-    public void
+
     public void updateLists(){
         teacherList = TeacherList.readFromFile();
         studentList = StudentList.readFromFile();
