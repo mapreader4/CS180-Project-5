@@ -26,6 +26,8 @@ import java.util.Scanner;
 //(Implementation details can be different from this; I just need the Client to know what to access at any given time.)
 //Any getter methods should take the program location into account and get only the lists from that particular location.
 //(eg if a particular quiz is active, the Client should get the questions from that particular quiz.)
+//Getter methods use numbers because I can't transfer objects from the screen creator to the action listener.
+//If absolutely necessary, I can try to determine how to do this, but it will likely take several hours of work.
 //*
 //*
 //*
@@ -419,6 +421,9 @@ public class View extends JComponent {
     //the page directly under the import statements.
     private void createActiveQuizScreen() {
         ArrayList<Question> questions = client.getQuestions();
+        Quiz quiz = new Quiz(new Scanner(System.in), new Course("", new Teacher("", ""), 0));
+        Submission submission = new Submission(new Student("", ""), quiz);
+        client.submitSubmission(submission);
     }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
