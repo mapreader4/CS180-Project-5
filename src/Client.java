@@ -47,7 +47,7 @@ public class Client {
             if (checker.equals("success")) {
                 return true;
             }
-        } catch (IOException e){
+        } catch (IOException e) {
             throw new RuntimeException();
         }
         return false;
@@ -59,7 +59,17 @@ public class Client {
     }
 
     public boolean createCourse(String courseName, int courseNumber) {
+        pw.println("create-course"+courseName+" "+courseNumber);
+        try {
+            String checker = bfr.readLine();
+            if (checker.equals("success")) {
+                return true;
+            }
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
 
+        return false;
     }
 
     public boolean deleteQuiz() {

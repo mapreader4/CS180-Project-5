@@ -6,4 +6,8 @@ Creating account
 c: create-account <Username> <Password> <typeOfAccount>
 s: success / duplicate
 
+Creating course
+c: create-course <Course-name> <Course-Number>
+s: success / duplicate
+
 
