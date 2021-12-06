@@ -31,7 +31,15 @@ c: set-active-question <int questionNumber>
 s: N/A
 
 Update question
-c: update-question
+c: update-question <Question question>
+s: N/A
+
+Submit submission
+c: submit-submission <Submission submission>
+s: N/A
+
+Set active submission
+c: set-active-submission <int submissionNumber>
 s: N/A
 
 

@@ -189,17 +189,33 @@ public class Client {
         }
     }
 
-//    public boolean submitSubmission(Submission submission) {
-//
-//    }
-//
+    public void submitSubmission(Submission submission) {
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("submit-submission");
+            objects.add(submission);
+            oos.writeObject(objects);
+            oos.flush();
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
+
 //    public ArrayList<Submission> getSubmissions() {
 //
 //    }
 //
-//    public void setActiveSubmission(int submissionNumber) {
-//
-//    }
+    public void setActiveSubmission(int submissionNumber) {
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("set-active-submission");
+            objects.add(submissionNumber);
+            oos.writeObject(objects);
+            oos.flush();
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
 //
 //    public Quiz getCurrentQuiz() {
 //
