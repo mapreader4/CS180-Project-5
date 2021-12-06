@@ -179,6 +179,22 @@ public class View extends JComponent {
                 } else if (optionChosen.equals("view previous submissions from student")) {
                     createStudentSubmissionMenu();
                 }
+            } else if (actionCommand.equals("choose teacher option")) {
+                ButtonGroup optionsGroup = (ButtonGroup) activeComponents.get(0);
+                String optionChosen = optionsGroup.getSelection().getActionCommand();
+                if (optionChosen.equals("edit quiz")) {
+                    createEditQuizMenu();
+                } else if (optionChosen.equals("view all previous submissions")) {
+                    createTeacherSubmissionMenu();
+                } else if (optionChosen.equals("delete quiz")) {
+                    int deleteChoice = JOptionPane.showConfirmDialog(null,
+                            "Are you sure you want to delete this quiz?", "Delete quiz?",
+                            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    if (deleteChoice == JOptionPane.YES_OPTION) {
+                        client.deleteQuiz();
+                        createCourseMenu();
+                    }
+                }
             } else if (actionCommand.equals("back to course menu")) {
                 client.clearActiveQuiz();
                 createCourseMenu();
@@ -506,7 +522,7 @@ public class View extends JComponent {
     }
 
     /**
-     * Displays options for a particular quiz to a student
+     * Displays options for a particular quiz (take quiz or view submissions) to a student
      */
     private void createStudentQuizOptionsMenu() {
         mainPanel.removeAll();
@@ -542,14 +558,45 @@ public class View extends JComponent {
         mainPanel.repaint();
     }
 
-    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
-    //use that method in the actual implementation. I have described various details of the needed methods at the top of
-    //the page directly under the import statements.
+    /**
+     * Displays options for a particular quiz (edit quiz, view submissions, or delete quiz) to teacher
+     */
     private void createTeacherQuizOptionsMenu() {
         mainPanel.removeAll();
         activeComponents.clear();
 
-        client.deleteQuiz();
+        JRadioButton editButton = new JRadioButton("Edit quiz");
+        editButton.setActionCommand("edit quiz");
+        editButton.addActionListener(actionListener);
+        JRadioButton viewButton = new JRadioButton("View submissions");
+        viewButton.setActionCommand("view all previous submissions");
+        viewButton.addActionListener(actionListener);
+        JRadioButton deleteButton = new JRadioButton("Delete quiz");
+        deleteButton.setActionCommand("delete quiz");
+        deleteButton.addActionListener(actionListener);
+        ButtonGroup optionsGroup = new ButtonGroup();
+        optionsGroup.add(editButton);
+        optionsGroup.add(viewButton);
+        optionsGroup.add(deleteButton);
+        activeComponents.add(optionsGroup);
+        JPanel optionsPanel = new JPanel(new GridLayout(0, 1));
+        optionsPanel.add(editButton);
+        optionsPanel.add(viewButton);
+        optionsPanel.add(deleteButton);
+
+        JButton selectButton = new JButton("Select");
+        selectButton.setActionCommand("choose teacher option");
+        selectButton.addActionListener(actionListener);
+        JButton backButton = new JButton("Back");
+        backButton.setActionCommand("back to course menu");
+        backButton.addActionListener(actionListener);
+        JPanel selectOrBackPanel = new JPanel(new FlowLayout());
+        selectOrBackPanel.add(selectButton);
+        selectOrBackPanel.add(backButton);
+
+        JScrollPane scrollPane = new JScrollPane(optionsPanel);
+        mainPanel.add(optionsPanel, BorderLayout.CENTER);
+        mainPanel.add(selectOrBackPanel, BorderLayout.SOUTH);
 
         mainPanel.validate();
         mainPanel.repaint();
