@@ -48,7 +48,6 @@ import java.util.Scanner;
 
 //TODO: implement the rest of the menu logic
 //parts of the menu logic remaining:
-//quiz options menu - should allow choice of options for quizzes (different between teacher and student)
 //create quiz - long series of methods allowing teacher to create quiz
 //edit quiz - displays list of questions, then allows teacher to edit any particular question
 //take quiz - long series of methods allowing student to take quiz
@@ -194,6 +193,14 @@ public class View extends JComponent {
                         client.deleteQuiz();
                         createCourseMenu();
                     }
+                }
+            } else if (actionCommand.equals("choose quiz input option")) {
+                ButtonGroup optionsGroup = (ButtonGroup) activeComponents.get(0);
+                String optionChosen = optionsGroup.getSelection().getActionCommand();
+                if (optionChosen.equals("import from file")) {
+                    createFileInputScreen();
+                } else if (optionChosen.equals("enter manually")) {
+                    createCreateQuizTitleScreen();
                 }
             } else if (actionCommand.equals("back to course menu")) {
                 client.clearActiveQuiz();
@@ -567,13 +574,10 @@ public class View extends JComponent {
 
         JRadioButton editButton = new JRadioButton("Edit quiz");
         editButton.setActionCommand("edit quiz");
-        editButton.addActionListener(actionListener);
         JRadioButton viewButton = new JRadioButton("View submissions");
         viewButton.setActionCommand("view all previous submissions");
-        viewButton.addActionListener(actionListener);
         JRadioButton deleteButton = new JRadioButton("Delete quiz");
         deleteButton.setActionCommand("delete quiz");
-        deleteButton.addActionListener(actionListener);
         ButtonGroup optionsGroup = new ButtonGroup();
         optionsGroup.add(editButton);
         optionsGroup.add(viewButton);
@@ -602,12 +606,42 @@ public class View extends JComponent {
         mainPanel.repaint();
     }
 
-    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
-    //use that method in the actual implementation. I have described various details of the needed methods at the top of
-    //the page directly under the import statements.
+    /**
+     * Displays choice of quiz input method to teacher
+     */
     private void createCreateQuizIntroScreen() {
         mainPanel.removeAll();
         activeComponents.clear();
+
+        JLabel creationMethodLabel = new JLabel("Would you like to import the quiz as a file, or " +
+                "enter it manually?");
+
+        JRadioButton importButton = new JRadioButton("Import as file");
+        importButton.setActionCommand("import from file");
+        JRadioButton enterButton = new JRadioButton("Enter manually");
+        enterButton.setActionCommand("enter manually");
+        ButtonGroup optionsGroup = new ButtonGroup();
+        optionsGroup.add(importButton);
+        optionsGroup.add(enterButton);
+        activeComponents.add(optionsGroup);
+        JPanel optionsPanel = new JPanel(new GridLayout(0, 1));
+        optionsPanel.add(importButton);
+        optionsPanel.add(enterButton);
+
+        JButton selectButton = new JButton("Select");
+        selectButton.setActionCommand("choose quiz input option");
+        selectButton.addActionListener(actionListener);
+        JButton backButton = new JButton("Back");
+        backButton.setActionCommand("back to course menu");
+        backButton.addActionListener(actionListener);
+        JPanel selectOrBackPanel = new JPanel(new FlowLayout());
+        selectOrBackPanel.add(selectButton);
+        selectOrBackPanel.add(backButton);
+
+        mainPanel.add(creationMethodLabel, BorderLayout.NORTH);
+        JScrollPane scrollPane = new JScrollPane(optionsPanel);
+        mainPanel.add(optionsPanel, BorderLayout.CENTER);
+        mainPanel.add(selectOrBackPanel, BorderLayout.SOUTH);
 
         mainPanel.validate();
         mainPanel.repaint();
