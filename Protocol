@@ -14,4 +14,8 @@ Accessing account courses
 c: get-courses
 s: <Course Object>
 
+Creating quiz
+c: create-quiz <Quiz quiz>
+s: success / duplicate
+
 

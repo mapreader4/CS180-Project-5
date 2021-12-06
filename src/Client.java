@@ -87,14 +87,20 @@ public class Client {
     }
 
     public boolean createCourse(String courseName, int courseNumber) {
-        pw.println("create-course "+courseName+" "+courseNumber);
-        pw.flush();
+//        pw.println("create-course "+courseName+" "+courseNumber);
+//        pw.flush();
         try {
-            String checker = bfr.readLine();
-            if (checker.equals("success")) {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("create-course");
+            objects.add(courseName);
+            objects.add(courseNumber);
+            oos.writeObject(objects);
+            oos.flush();
+            String checker =(String)ois.readObject();
+            if(checker.equals("success")){
                 return true;
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new RuntimeException();
         }
 
@@ -105,13 +111,26 @@ public class Client {
 //
 //    }
 //
-//    public void addImportedQuiz(File f) {
+//    public boolean addImportedQuiz(File f) {
 //
 //    }
 //
-//    public boolean createQuiz(Quiz quiz) {
-//
-//    }
+    public boolean createQuiz(Quiz quiz) {
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("create-quiz");
+            objects.add(quiz);
+            oos.writeObject(objects);
+            oos.flush();
+            String checker =(String)ois.readObject();
+            if(checker.equals("success")){
+                return true;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+        return false;
+    }
 //
 //    public boolean addQuestionToQuiz(Question question) {
 //
