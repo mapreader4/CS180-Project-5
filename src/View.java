@@ -159,7 +159,7 @@ public class View extends JComponent {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                createConnectionScreen();
+                createGUI();
             }
         });
     }
@@ -175,7 +175,7 @@ public class View extends JComponent {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                createConnectionScreen();
+                createGUI();
             }
         });
     }
@@ -254,8 +254,7 @@ public class View extends JComponent {
         ButtonGroup teacherOrStudentGroup = new ButtonGroup();
         teacherOrStudentGroup.add(studentButton);
         teacherOrStudentGroup.add(teacherButton);
-        activeComponents.add(studentButton);
-        activeComponents.add(teacherButton);
+        activeComponents.add(teacherOrStudentGroup);
 
         JPanel usernamePanel = new JPanel(new FlowLayout());
         JPanel passwordPanel = new JPanel(new FlowLayout());
@@ -324,6 +323,9 @@ public class View extends JComponent {
         JScrollPane scrollPane = new JScrollPane(coursePanel);
         mainPanel.add(scrollPane, BorderLayout.CENTER);
         mainPanel.add(selectOrQuitPanel, BorderLayout.SOUTH);
+
+        mainPanel.validate();
+        mainPanel.repaint();
     }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to

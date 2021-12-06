@@ -122,5 +122,35 @@ public class Client {
 
     }
 
+    public void setActiveCourse(int courseChosen) {
+
+    }
+
+    public void close() {
+
+    }
+
+    public ArrayList<Course> getAllCourses() {
+
+    }
+
+    public ArrayList<Quiz> getQuizzes() {
+
+    }
+
+    public void setActiveQuiz(int quizNumber) {
+
+    }
+
+    public void clearActiveCourse() {
+
+    }
+
+    public void clearActiveSubmission() {
+
+    }
+
+
+
 
 }
