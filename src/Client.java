@@ -122,6 +122,8 @@ public class Client {
         try {
             ArrayList<Object> objects = new ArrayList<>();
             objects.add("get-current-quiz");
+            objects.add(courseNumber);
+            objects.add(quizNumber);
             oos.writeObject(objects);
             oos.flush();
             Quiz currentQuiz = (Quiz) ois.readObject();
@@ -134,6 +136,8 @@ public class Client {
         try {
             ArrayList<Object> objects = new ArrayList<>();
             objects.add("get-questions");
+            objects.add(courseNumber);
+            objects.add(quizNumber);
             oos.writeObject(objects);
             oos.flush();
             ArrayList<Question> questionList = (ArrayList<Question>) ois.readObject();
@@ -142,10 +146,24 @@ public class Client {
             throw new RuntimeException();
         }
     }
+    public ArrayList<Submission> getStudentSubmissions(){
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("get-student-submissions");
+            oos.writeObject(objects);
+            oos.flush();
+            ArrayList<Submission> submissionList = (ArrayList<Submission>) ois.readObject();
+            return submissionList;
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
     public ArrayList<Submission> getAllSubmissions() {
         try {
             ArrayList<Object> objects = new ArrayList<>();
             objects.add("get-all-submissions");
+            objects.add(courseNumber);
+            objects.add(quizNumber);
             oos.writeObject(objects);
             oos.flush();
             ArrayList<Submission> submissionList = (ArrayList<Submission>) ois.readObject();
@@ -174,22 +192,29 @@ public class Client {
 
         return false;
     }
-    public boolean createQuiz(Quiz quiz) {
-        try {
-            ArrayList<Object> objects = new ArrayList<>();
-            objects.add("create-quiz");
-            objects.add(quiz);
-            oos.writeObject(objects);
-            oos.flush();
-            String checker =(String)ois.readObject();
-            if(checker.equals("success")){
-                return true;
-            }
-        } catch (Exception e) {
-            throw new RuntimeException();
-        }
-        return false;
-    }
+//    public boolean createQuiz(String quizName, boolean randomize) {
+//        try {
+//            ArrayList<Object> objects = new ArrayList<>();
+//            objects.add("create-quiz");
+//            objects.add(courseNumber);
+//            objects.add(quizName);
+//            if(randomize) {
+//                objects.add("true");
+//            } else {
+//                objects.add("false");
+//            }
+//            oos.writeObject(objects);
+//            oos.flush();
+//            String checker =(String)ois.readObject();
+//            if(checker.equals("success")){
+//                this.quizNumber=;
+//                return true;
+//            }
+//        } catch (Exception e) {
+//            throw new RuntimeException();
+//        }
+//        return false;
+//    }
 
     public void addStudentToCourse(int courseNumber){
         try {
@@ -197,72 +222,89 @@ public class Client {
             objects.add("add-student-to-course");
             objects.add(courseNumber);
             oos.writeObject(objects);
-        } catch (Exception e) {
-            throw new RuntimeException();
-        }
-    }
-
-//    public void deleteQuiz() {
-//
-//    }
-//
-    public boolean addImportedQuiz(File f) {
-        try {
-            ArrayList<Object> objects = new ArrayList<>();
-            objects.add("import-quiz-file");
-            objects.add(f);
-            oos.writeObject(objects);
-            oos.flush();
-            String checker = (String) ois.readObject();
-            if(checker.equals("success")){
-                return true;
-            }
-        } catch (Exception e) {
-            throw new RuntimeException();
-        }
-
-        return false;
-    }
-
-    public void addQuestionToQuiz(Question question) {
-        try {
-            ArrayList<Object> objects = new ArrayList<>();
-            objects.add("add-question-to-quiz");
-            objects.add(question);
-            oos.writeObject(objects);
             oos.flush();
         } catch (Exception e) {
             throw new RuntimeException();
         }
     }
 
+    public void deleteQuiz() {
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("delete-quiz");
+            objects.add(courseNumber);
+            objects.add(quizNumber);
+            oos.writeObject(objects);
+            oos.flush();
+            clearActiveQuiz();
+        } catch (Exception e){
+            throw new RuntimeException();
+        }
+    }
 //    public boolean deleteQuestion() {
+//        try {
 //
+//        }
 //    }
 //
-    public void updateQuestion(Question question) {
-        try {
-            ArrayList<Object> objects = new ArrayList<>();
-            objects.add("update-question");
-            objects.add(question);
-            oos.writeObject(objects);
-            oos.flush();
-        } catch (Exception e) {
-            throw new RuntimeException();
-        }
-    }
+//    public boolean addImportedQuiz(File f) {
+//        try {
+//            ArrayList<Object> objects = new ArrayList<>();
+//            objects.add("import-quiz-file");
+//            objects.add(f);
+//            oos.writeObject(objects);
+//            oos.flush();
+//            String checker = (String) ois.readObject();
+//            if(checker.equals("success")){
+//                return true;
+//            }
+//        } catch (Exception e) {
+//            throw new RuntimeException();
+//        }
+//
+//        return false;
+//    }
 
-    public void submitSubmission(Submission submission) {
-        try {
-            ArrayList<Object> objects = new ArrayList<>();
-            objects.add("submit-submission");
-            objects.add(submission);
-            oos.writeObject(objects);
-            oos.flush();
-        } catch (Exception e) {
-            throw new RuntimeException();
-        }
-    }
+//    public void addQuestionToQuiz(Question question) {
+//        try {
+//            ArrayList<Object> objects = new ArrayList<>();
+//            objects.add("add-question-to-quiz");
+//            objects.add(question);
+//            oos.writeObject(objects);
+//            oos.flush();
+//        } catch (Exception e) {
+//            throw new RuntimeException();
+//        }
+//    }
+//    public boolean addImportedQuiz(){
+//
+//    }
+
+
+//
+//    public void updateQuestion(Question question) {
+//        try {
+//            ArrayList<Object> objects = new ArrayList<>();
+//            objects.add("update-question");
+//            objects.add(question);
+//            oos.writeObject(objects);
+//            oos.flush();
+//        } catch (Exception e) {
+//            throw new RuntimeException();
+//        }
+//    }
+
+//    public void submitSubmission(Submission submission) {
+//        try {
+//            ArrayList<Object> objects = new ArrayList<>();
+//            objects.add("submit-submission");
+//            objects.add(submission);
+//            oos.writeObject(objects);
+//            oos.flush();
+//        } catch (Exception e) {
+//            throw new RuntimeException();
+//        }
+//    }
 
 //
 //    public void close() {

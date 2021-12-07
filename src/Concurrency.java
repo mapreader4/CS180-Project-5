@@ -42,20 +42,45 @@ public class Concurrency extends Thread {
                     createAccount(username,password,typeofAccount);
                 } else if(line.equals("get-account-courses")){
                     getAccountCourses();
-                } else if(line.equalsIgnoreCase("create-course")) {
-                    String courseName=(String)objects.get(1);
-                    int courseNumber=(Integer)objects.get(2);
-                    createCourse(courseName,courseNumber);
+                } else if(line.equals("get-all-courses")){
+                    getAllCourses();
                 } else if(line.equalsIgnoreCase("get-quizzes")){
                     int courseNumber=(Integer)objects.get(1);
                     getQuizzes(courseNumber);
-                } else if(line.equalsIgnoreCase("add-student-to-course")){
+                } else if(line.equals("get-current-quiz")){
+                    int courseNumber=(Integer)objects.get(1);
+                    int quizNumber=(Integer)objects.get(2);
+                    getCurrentQuiz(courseNumber,quizNumber);
+                } else if(line.equals("get-questions")){
+                    int courseNumber=(Integer)objects.get(1);
+                    int quizNumber=(Integer)objects.get(2);
+                    getQuestions(courseNumber,quizNumber);
+                } else if(line.equals("get-student-submissions")) {
+                    getStudentSubmissions();
+                }
+                else if(line.equals("get-all-submissions")) {
+                    int courseNumber=(Integer)objects.get(1);
+                    int quizNumber=(Integer)objects.get(2);
+                    getAllSubmissions(courseNumber,quizNumber);
+                }
+                else if(line.equalsIgnoreCase("create-course")) {
+                    String courseName=(String)objects.get(1);
+                    int courseNumber=(Integer)objects.get(2);
+                    createCourse(courseName,courseNumber);
+                } //else if(line.equalsIgnoreCase("create-quiz")) {
+//                    int courseNumber=(Integer)objects.get(1);
+//                    String courseName=(String)objects.get(2);
+//                    String randomize=(String)objects.get(3);
+//                    createQuiz(courseNumber,courseName,randomize);
+//                }
+                else if(line.equalsIgnoreCase("add-student-to-course")){
                     int courseNumber=(Integer)objects.get(1);
                     addStudentToCourse(courseNumber);
-                } //else if(line.equalsIgnoreCase("set-active-course")){
-//                    int courseNumber=(Integer)objects.get(1);
-//                    setActiveCourse(courseNumber);
-//                }
+                } else if(line.equalsIgnoreCase("delete-quiz")) {
+                    int courseNumber=(Integer)objects.get(1);
+                    int quizNumber=(Integer)objects.get(2);
+                    deleteQuiz(courseNumber,quizNumber);
+                }
             }
         } catch (Exception e) {
             throw new RuntimeException();
@@ -108,12 +133,64 @@ public class Concurrency extends Thread {
             throw new RuntimeException();
         }
     }
+    // looks good
+    public void getAllCourses() {
+        try {
+            outputStream.writeObject(courseList.getCourses());
+            outputStream.flush();
+        } catch (Exception e) {
+            throw new RuntimeException("getAllCourses not working");
+        }
+    }
+    //looks good
     public void getQuizzes(int courseNumber) {
         try {
             Course course=courseList.getCourse(courseNumber);
             outputStream.writeObject(course.getQuizzes());
+            outputStream.flush();
         } catch (IOException e) {
             throw new RuntimeException("getQuizzes not working");
+        }
+    }
+    public void getCurrentQuiz(int courseNumber, int quizNumber){
+        try {
+            Course course=courseList.getCourse(courseNumber);
+            Quiz quiz=course.getQuizzes().get(quizNumber);
+            outputStream.writeObject(quiz);
+            outputStream.flush();
+        } catch (Exception e) {
+            throw new RuntimeException("getCurrentQuiz not working");
+        }
+    }
+    public void getQuestions(int courseNumber, int quizNumber){
+        try {
+            Course course = courseList.getCourse(courseNumber);
+            Quiz quiz = course.getQuizzes().get(quizNumber);
+            ArrayList<Question> questions = quiz.getQuiz();
+            outputStream.writeObject(questions);
+            outputStream.flush();
+        } catch (Exception e){
+            throw new RuntimeException("getQuestions not working");
+        }
+    }
+    public void getStudentSubmissions() {
+        try {
+            ArrayList<Submission> submissions=((Student)user).getSubmissions();
+            outputStream.writeObject(submissions);
+            outputStream.flush();
+        } catch (Exception e) {
+            throw new RuntimeException("getStudentSubmission not working");
+        }
+    }
+    public void getAllSubmissions(int courseNumber, int quizNumber) {
+        try {
+            Course course = courseList.getCourse(courseNumber);
+            Quiz quiz = course.getQuizzes().get(quizNumber);
+            ArrayList<Submission> submissions=quiz.getSubmission();
+            outputStream.writeObject(submissions);
+            outputStream.flush();
+        } catch (Exception e){
+            throw new RuntimeException("getAllSubmissions not working");
         }
     }
     //looks good
@@ -171,11 +248,19 @@ public class Concurrency extends Thread {
             throw new RuntimeException("createCourse not working");
         }
     }
-
+//    public void createQuiz(int courseNumber,String quizName, String randomize){
+//        Course course=courseList.getCourse(courseNumber);
+//
+//    }
     public void addStudentToCourse(int courseNumber){
         Course course=courseList.getCourse(courseNumber);
         ((Student)user).addToCourse(course);
         course.addStudent((Student) user);
+    }
+    public void deleteQuiz(int courseNumber,int quizNumber){
+        Course course=courseList.getCourse(courseNumber);
+        Quiz quiz=course.getQuizzes().get(quizNumber);
+        course.removeQuiz(quiz);
     }
     //No need of this
 //    public void setActiveCourse(int courseNumber){
