@@ -1,5 +1,4 @@
 import java.io.*;
-import java.lang.reflect.Array;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -24,13 +23,11 @@ public class Concurrency extends Thread {
     public void run() {
         //Reader is used to get data from the server, Writer is used to send data to the server if you need to.
         try {
-
             inputStream = new ObjectInputStream(socket.getInputStream());
             outputStream = new ObjectOutputStream(socket.getOutputStream());
             while (true) {
                 ArrayList<Object> objects=(ArrayList<Object>)inputStream.readObject();
                 String line = (String)objects.get(0);
-                //String [] message = line.split(" ");
                 if(objects.size() == 0 ){
 
                 } else if (line.equalsIgnoreCase("login")){
@@ -50,19 +47,21 @@ public class Concurrency extends Thread {
                     int courseNumber=(Integer)objects.get(2);
                     createCourse(courseName,courseNumber);
                 } else if(line.equalsIgnoreCase("get-quizzes")){
-                    //getQuizzes();
+                    int courseNumber=(Integer)objects.get(1);
+                    getQuizzes(courseNumber);
                 } else if(line.equalsIgnoreCase("add-student-to-course")){
                     int courseNumber=(Integer)objects.get(1);
                     addStudentToCourse(courseNumber);
-                } else if(line.equalsIgnoreCase("set-active-course")){
-                    int courseNumber=(Integer)objects.get(1);
-                    setActiveCourse(courseNumber);
-                }
+                } //else if(line.equalsIgnoreCase("set-active-course")){
+//                    int courseNumber=(Integer)objects.get(1);
+//                    setActiveCourse(courseNumber);
+//                }
             }
         } catch (Exception e) {
             throw new RuntimeException();
         }
     }
+    //looks good
     public void login(String username, String  password,String typeOfUser) {
         try {
             ArrayList<Object> result = new ArrayList<>();
@@ -95,7 +94,30 @@ public class Concurrency extends Thread {
             throw new RuntimeException("login not created");
         }
     }
-    public void createAccount(String username, String password, String typeOfUser) throws IOException {
+    //looks good
+    public void getAccountCourses() {
+        try {
+            if (typeOfAccount.equalsIgnoreCase("teacher")) {
+                outputStream.writeObject(((Teacher) user).getCourses());
+                outputStream.flush();
+            } else if (typeOfAccount.equalsIgnoreCase("student")) {
+                outputStream.writeObject(((Student) user).getCourses());
+                outputStream.flush();
+            }
+        } catch (Exception e){
+            throw new RuntimeException();
+        }
+    }
+    public void getQuizzes(int courseNumber) {
+        try {
+            Course course=courseList.getCourse(courseNumber);
+            outputStream.writeObject(course.getQuizzes());
+        } catch (IOException e) {
+            throw new RuntimeException("getQuizzes not working");
+        }
+    }
+    //looks good
+    public void createAccount(String username, String password, String typeOfUser) {
         try {
             ArrayList<Object> result = new ArrayList<>();
             if (typeOfUser.equalsIgnoreCase("Student")) {
@@ -130,15 +152,8 @@ public class Concurrency extends Thread {
             throw new RuntimeException("createAccount not created");
         }
     }
-    public void getAccountCourses() throws IOException{
-        if(typeOfAccount.equalsIgnoreCase("teacher")){
-            outputStream.writeObject(((Teacher)user).getCourses());
-            outputStream.flush();
-        } else if(typeOfAccount.equalsIgnoreCase("student")){
-            outputStream.writeObject(((Student)user).getCourses());
-            outputStream.flush();
-        }
-    }
+
+    //looks good
     public void createCourse(String courseName, int courseNumber) {
         ArrayList<Object> result = new ArrayList<>();
         try {
@@ -156,27 +171,21 @@ public class Concurrency extends Thread {
             throw new RuntimeException("createCourse not working");
         }
     }
-      //     OLD ONE
-//    public void getQuizzes() {
-//        try {
-//            outputStream.writeObject(course.getQuizzes());
-//        } catch (IOException e) {
-//            throw new RuntimeException("getQuizzes not working");
-//        }
-//    }
+
     public void addStudentToCourse(int courseNumber){
         Course course=courseList.getCourse(courseNumber);
         ((Student)user).addToCourse(course);
         course.addStudent((Student) user);
     }
-    public void setActiveCourse(int courseNumber){
-        try {
-            Course course = courseList.getCourse(courseNumber);
-            outputStream.writeObject(course);
-        } catch(IOException e) {
-            throw new RuntimeException("setActiveCourse not working");
-        }
-    }
+    //No need of this
+//    public void setActiveCourse(int courseNumber){
+//        try {
+//            Course course = courseList.getCourse(courseNumber);
+//            outputStream.writeObject(course);
+//        } catch(IOException e) {
+//            throw new RuntimeException("setActiveCourse not working");
+//        }
+//    }
 
 //    public void updateLists(){
 //        teacherList = TeacherList.readFromFile();
