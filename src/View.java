@@ -727,8 +727,58 @@ public class View extends JComponent {
         mainPanel.removeAll();
         activeComponents.clear();
 
-        Question question = new Question();
-        client.addQuestionToQuiz(question);
+        mainPanel.validate();
+        mainPanel.repaint();
+    }
+
+    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
+    //use that method in the actual implementation. I have described various details of the needed methods at the top of
+    //the page directly under the import statements.
+    private void createCreateTrueFalseQuestion() {
+        String questionName = "";
+        int pointValue = 0;
+
+        boolean trueOrFalse = false;
+        client.createTrueFalseQuestion(questionName, pointValue, trueOrFalse);
+
+        mainPanel.validate();
+        mainPanel.repaint();
+    }
+
+    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
+    //use that method in the actual implementation. I have described various details of the needed methods at the top of
+    //the page directly under the import statements.
+    private void createSelectNumAnswerChoices() {
+        mainPanel.validate();
+        mainPanel.repaint();
+    }
+
+    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
+    //use that method in the actual implementation. I have described various details of the needed methods at the top of
+    //the page directly under the import statements.
+    private void createCreateMultipleChoiceQuestion() {
+        String questionName = "";
+        int pointValue = 0;
+
+        int numAnswerChoices = 0;
+        String[] answerChoices = new String[numAnswerChoices];
+        int correctAnswerIndex = 0;
+        client.createMultipleChoiceQuestion(questionName, pointValue, numAnswerChoices, answerChoices,
+                correctAnswerIndex);
+
+        mainPanel.validate();
+        mainPanel.repaint();
+    }
+
+    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
+    //use that method in the actual implementation. I have described various details of the needed methods at the top of
+    //the page directly under the import statements.
+    private void createCreateFillInTheBlankQuestion() {
+        String questionName = "";
+        int pointValue = 0;
+
+        String answer = "";
+        client.createFillInTheBlankQuestion(questionName, pointValue, answer);
 
         mainPanel.validate();
         mainPanel.repaint();
