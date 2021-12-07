@@ -227,6 +227,15 @@ public class View extends JComponent {
                     client.createQuiz(quizName, false);
                 }
                 createCreateQuestionScreen();
+            } else if (actionCommand.equals("true or false")) {
+                createCreateTrueFalseQuestion();
+            } else if (actionCommand.equals("multiple choice")) {
+                createSelectNumAnswerChoices();
+            } else if (actionCommand.equals("fill in the blank")) {
+                createCreateFillInTheBlankQuestion();
+            } else if (actionCommand.equals("done with adding questions")) {
+                client.lastQuestionAdded(); //this method just tells Client that there are no more questions
+                createCourseMenu();
             } else if (actionCommand.equals("back to teacher quiz options menu")) {
                 createTeacherQuizOptionsMenu();
             } else if (actionCommand.equals("back to course menu")) {
@@ -720,12 +729,64 @@ public class View extends JComponent {
         mainPanel.repaint();
     }
 
-    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
-    //use that method in the actual implementation. I have described various details of the needed methods at the top of
-    //the page directly under the import statements.
+    /**
+     * Displays generic fields for question creation and allows the user to select whether the question should be
+     * true or false, multiple choice, or fill in the blank
+     */
     private void createCreateQuestionScreen() {
         mainPanel.removeAll();
         activeComponents.clear();
+
+        JPanel preSpecificPanel = new JPanel(new BorderLayout());
+        activeComponents.add(preSpecificPanel);
+        JPanel addDoneFinishPanel = new JPanel(new FlowLayout());
+        activeComponents.add(addDoneFinishPanel);
+
+        JLabel questionNameLabel = new JLabel("Question:");
+        JTextField questionNameTxt = new JTextField(30);
+        activeComponents.add(questionNameTxt);
+        JPanel questionNamePanel = new JPanel(new FlowLayout());
+        questionNamePanel.add(questionNameLabel);
+        questionNamePanel.add(questionNameTxt);
+        JLabel pointValueLabel = new JLabel("Point Value:");
+        JTextField pointValueTxt = new JTextField(30);
+        activeComponents.add(pointValueTxt);
+        JPanel pointValuePanel = new JPanel(new FlowLayout());
+        pointValuePanel.add(pointValueLabel);
+        pointValuePanel.add(pointValueTxt);
+        JPanel genericFieldsPanel = new JPanel(new BorderLayout());
+        genericFieldsPanel.add(questionNamePanel, BorderLayout.NORTH);
+        genericFieldsPanel.add(pointValuePanel, BorderLayout.CENTER);
+        preSpecificPanel.add(genericFieldsPanel, BorderLayout.NORTH);
+
+        JLabel questionTypeLabel = new JLabel("Question Type:");
+        JRadioButton trueOrFalseButton = new JRadioButton("True or false");
+        trueOrFalseButton.setActionCommand("true or false");
+        trueOrFalseButton.addActionListener(actionListener);
+        JRadioButton multipleChoiceButton = new JRadioButton("Multiple choice");
+        multipleChoiceButton.setActionCommand("multiple choice");
+        multipleChoiceButton.addActionListener(actionListener);
+        JRadioButton fillInTheBlankButton = new JRadioButton("Fill in the blank");
+        fillInTheBlankButton.setActionCommand("fill in the blank");
+        fillInTheBlankButton.addActionListener(actionListener);
+        ButtonGroup questionTypeGroup = new ButtonGroup();
+        questionTypeGroup.add(trueOrFalseButton);
+        questionTypeGroup.add(multipleChoiceButton);
+        questionTypeGroup.add(fillInTheBlankButton);
+        JPanel questionTypePanel = new JPanel(new FlowLayout());
+        questionTypePanel.add(questionTypeLabel);
+        questionTypePanel.add(trueOrFalseButton);
+        questionTypePanel.add(multipleChoiceButton);
+        questionTypePanel.add(fillInTheBlankButton);
+        preSpecificPanel.add(questionTypePanel, BorderLayout.CENTER);
+
+        JButton doneButton = new JButton("Done");
+        doneButton.setActionCommand("done with adding questions");
+        doneButton.addActionListener(actionListener);
+        addDoneFinishPanel.add(doneButton);
+
+        mainPanel.add(preSpecificPanel, BorderLayout.NORTH);
+        mainPanel.add(addDoneFinishPanel, BorderLayout.SOUTH);
 
         mainPanel.validate();
         mainPanel.repaint();
