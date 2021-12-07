@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -198,7 +199,20 @@ public class View extends JComponent {
                 ButtonGroup optionsGroup = (ButtonGroup) activeComponents.get(0);
                 String optionChosen = optionsGroup.getSelection().getActionCommand();
                 if (optionChosen.equals("import from file")) {
-                    createFileInputScreen();
+                    JFileChooser fileChooser = new JFileChooser();
+                    fileChooser.setDialogTitle("Choose Quiz");
+                    int selectOrCancel = fileChooser.showOpenDialog(null);
+                    if (selectOrCancel == JFileChooser.APPROVE_OPTION) {
+                        File selectedFile = fileChooser.getSelectedFile();
+                        if (client.addImportedQuiz(selectedFile)) {
+                            JOptionPane.showMessageDialog(null, "Quiz imported successfully!",
+                                    "Success!", JOptionPane.INFORMATION_MESSAGE);
+                            createCourseMenu();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Quiz import unsuccessful. " +
+                                    "Please try again.", "Error importing quiz", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
                 } else if (optionChosen.equals("enter manually")) {
                     createCreateQuizTitleScreen();
                 }
@@ -642,20 +656,6 @@ public class View extends JComponent {
         JScrollPane scrollPane = new JScrollPane(optionsPanel);
         mainPanel.add(optionsPanel, BorderLayout.CENTER);
         mainPanel.add(selectOrBackPanel, BorderLayout.SOUTH);
-
-        mainPanel.validate();
-        mainPanel.repaint();
-    }
-
-    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
-    //use that method in the actual implementation. I have described various details of the needed methods at the top of
-    //the page directly under the import statements.
-    private void createFileInputScreen() {
-        mainPanel.removeAll();
-        activeComponents.clear();
-
-        File file = new File();
-        client.addImportedQuiz(file);
 
         mainPanel.validate();
         mainPanel.repaint();
