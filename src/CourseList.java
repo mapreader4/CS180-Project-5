@@ -26,11 +26,11 @@ public class CourseList implements Serializable {
         throw new RuntimeException();
     }
 
-    public ArrayList<Course> getCourses() {
+    public synchronized ArrayList<Course> getCourses() {
         return courses;
     }
 
-    public Course getCourse(int i) {
+    public synchronized Course getCourse(int i) {
         for (Course c : courses) {
             if (c.getCourseNumber() == i) {
                 return c;
@@ -39,11 +39,11 @@ public class CourseList implements Serializable {
         return null;
     }
 
-    public boolean exists(Course course) {
+    public synchronized boolean exists(Course course) {
         return courses.contains(course);
     }
 
-    public boolean add(Course course) {
+    public synchronized boolean add(Course course) {
         if (courses.contains(course)) {
             return false; //already contains this
         }
@@ -51,7 +51,7 @@ public class CourseList implements Serializable {
         return true;
     }
 
-    public boolean update(Course course) {
+    public synchronized boolean update(Course course) {
         if (!exists(course)) {
             return false;
         }
