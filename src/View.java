@@ -216,6 +216,19 @@ public class View extends JComponent {
                 } else if (optionChosen.equals("enter manually")) {
                     createCreateQuizTitleScreen();
                 }
+            } else if (actionCommand.equals("create quiz")) {
+                JTextField quizNameTxt = (JTextField) activeComponents.get(0);
+                ButtonGroup randomizeGroup = (ButtonGroup) activeComponents.get(1);
+                String quizName = quizNameTxt.getText();
+                String randomizeChoice = randomizeGroup.getSelection().getActionCommand();
+                if (randomizeChoice.equals("yes")) {
+                    client.createQuiz(quizName, true);
+                } else if (randomizeChoice.equals("no")) {
+                    client.createQuiz(quizName, false);
+                }
+                createCreateQuestionScreen();
+            } else if (actionCommand.equals("back to teacher quiz options menu")) {
+                createTeacherQuizOptionsMenu();
             } else if (actionCommand.equals("back to course menu")) {
                 client.clearActiveQuiz();
                 createCourseMenu();
@@ -606,7 +619,7 @@ public class View extends JComponent {
         selectButton.setActionCommand("choose teacher option");
         selectButton.addActionListener(actionListener);
         JButton backButton = new JButton("Back");
-        backButton.setActionCommand("back to course menu");
+        backButton.setActionCommand("back to teacher quiz options menu");
         backButton.addActionListener(actionListener);
         JPanel selectOrBackPanel = new JPanel(new FlowLayout());
         selectOrBackPanel.add(selectButton);
@@ -661,16 +674,47 @@ public class View extends JComponent {
         mainPanel.repaint();
     }
 
-    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
-    //use that method in the actual implementation. I have described various details of the needed methods at the top of
-    //the page directly under the import statements.
+    /**
+     * Displays screen to set quiz title and randomization
+     */
     private void createCreateQuizTitleScreen() {
         mainPanel.removeAll();
         activeComponents.clear();
 
-        String quizName = "";
-        boolean shouldRandomize = false;
-        client.createQuiz(quizName, shouldRandomize);
+        JLabel quizNameLabel = new JLabel("Quiz Name:");
+        JTextField quizNameTxt = new JTextField(30);
+        activeComponents.add(quizNameTxt);
+        JPanel quizNamePanel = new JPanel(new FlowLayout());
+        quizNamePanel.add(quizNameLabel);
+        quizNamePanel.add(quizNameTxt);
+
+        JLabel randomizeLabel = new JLabel("Randomize?");
+        JRadioButton yesButton = new JRadioButton("Yes");
+        yesButton.setActionCommand("yes");
+        JRadioButton noButton = new JRadioButton("No");
+        noButton.setActionCommand("no");
+        ButtonGroup randomizeGroup = new ButtonGroup();
+        randomizeGroup.add(yesButton);
+        randomizeGroup.add(noButton);
+        activeComponents.add(randomizeGroup);
+        JPanel randomizePanel = new JPanel(new FlowLayout());
+        randomizePanel.add(randomizeLabel);
+        randomizePanel.add(yesButton);
+        randomizePanel.add(noButton);
+
+        JButton createQuizButton = new JButton("Create Quiz");
+        createQuizButton.setActionCommand("create quiz");
+        createQuizButton.addActionListener(actionListener);
+        JButton backButton = new JButton("Back");
+        backButton.setActionCommand("back to teacher quiz options menu");
+        backButton.addActionListener(actionListener);
+        JPanel createOrBackPanel = new JPanel(new FlowLayout());
+        createOrBackPanel.add(createQuizButton);
+        createOrBackPanel.add(backButton);
+
+        mainPanel.add(quizNamePanel, BorderLayout.NORTH);
+        mainPanel.add(randomizePanel, BorderLayout.CENTER);
+        mainPanel.add(createOrBackPanel, BorderLayout.SOUTH);
 
         mainPanel.validate();
         mainPanel.repaint();
