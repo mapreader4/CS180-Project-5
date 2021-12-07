@@ -668,8 +668,9 @@ public class View extends JComponent {
         mainPanel.removeAll();
         activeComponents.clear();
 
-        Quiz quiz = new Quiz(new Scanner(System.in), new Course("", new Teacher("", ""), 0));
-        client.createQuiz(quiz);
+        String quizName = "";
+        boolean shouldRandomize = false;
+        client.createQuiz(quizName, shouldRandomize);
 
         mainPanel.validate();
         mainPanel.repaint();
