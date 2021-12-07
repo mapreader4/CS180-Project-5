@@ -244,14 +244,22 @@ public class Quiz implements Serializable {
                 System.out.println("Quiz name updated!");
             }
             if (selection == 2) {
-                System.out.println("Select the Question: ");
-                for (int i = 0; i < quiz.size(); i++) {
-                    System.out.println(i + ": " + quiz.get(i).getQuestion());
+                while(true) {
+                    System.out.println("Select the Question: ");
+                    for (int i = 0; i < quiz.size(); i++) {
+                        System.out.println(i + ": " + quiz.get(i).getQuestion());
+                    }
                     int questionNumber = scanner.nextInt();
                     scanner.nextLine();
-                    getQuiz().get(i).editQuestion(scanner);
+                    getQuiz().get(questionNumber).editQuestion(scanner);
+                    System.out.println("Do you want to edit another(yes/no)");
+                    String choice=scanner.nextLine();
+                    if(choice.equalsIgnoreCase("yes")){
+                        continue;
+                    } else {
+                        break;
+                    }
                 }
-            }
             if (selection == 3) {
                 done = false;
             }
