@@ -1,18 +1,24 @@
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
-
+/** So, we need to update the course anytime a quiz is added as the quiz is being taken from the active course, maybe
+ just send a thread with the course object, and if the course number matches the active course, change the active course
+ */
 public class Client {
     Socket socket=null;
-//    PrintWriter pw=null;
-//    BufferedReader bfr=null;
+    Course course;
+    Quiz quiz;
+    User user;
+    Question question;
+    Submission submission;
     ObjectOutputStream oos=null;
     ObjectInputStream ois=null;
     public static void main(String[] args) {
         Client client=new Client();
-        View view=new View(client);
+        TestView view=new TestView(client);
 
     }
+    //tested
     public boolean connectToServer(String domainName, String inputPortNumber) {
         try {
             int portNumber = Integer.parseInt(inputPortNumber);
@@ -29,6 +35,7 @@ public class Client {
         }
         return false;
     }
+    //tested
     public boolean createAccount(String username, String password, String typeOfAccount){
 //        pw.println("create-account "+username+" "+ password + " "+typeOfAccount);
 //        pw.flush();
@@ -41,8 +48,10 @@ public class Client {
 
             oos.writeObject(objects);
             oos.flush();
-            String checker =(String)((ArrayList<Object>) ois.readObject()).get(0);
+            ArrayList<Object> result=(ArrayList<Object>)ois.readObject();
+            String checker =(String)(result.get(0));
             if(checker.equals("success")){
+                user=(User)(result.get(1));
                 return true;
             }
         } catch (Exception e){
@@ -50,19 +59,23 @@ public class Client {
         }
         return false;
     }
+    //tested
     public boolean login(String username, String password, String typeOfAccount){
 //        pw.println("login "+username+" "+password+" "+ typeOfAccount);
 //        pw.flush();
         try {
             ArrayList<Object> objects=new ArrayList<>();
+
             objects.add("login");
             objects.add(username);
             objects.add(password);
             objects.add(typeOfAccount);
             oos.writeObject(objects);
             oos.flush();
-            String checker =(String)((ArrayList<Object>) ois.readObject()).get(0);
+            ArrayList<Object> result=(ArrayList<Object>)ois.readObject();
+            String checker =(String)(result.get(0));
             if(checker.equals("success")){
+                user=(User)(result.get(1));
                 return true;
             }
         } catch (Exception e){
@@ -76,7 +89,7 @@ public class Client {
 //        pw.flush();
         try{
             ArrayList<Object> objects=new ArrayList<>();
-            objects.add("get-courses");
+            objects.add("get-account-courses");
             oos.writeObject(objects);
             oos.flush();
             ArrayList<Course> courseList=(ArrayList<Course>) ois.readObject();
@@ -96,7 +109,7 @@ public class Client {
             objects.add(courseNumber);
             oos.writeObject(objects);
             oos.flush();
-            String checker =(String)ois.readObject();
+            String checker =(String)(((ArrayList<Object>) ois.readObject()).get(0));
             if(checker.equals("success")){
                 return true;
             }
@@ -105,6 +118,16 @@ public class Client {
         }
 
         return false;
+    }
+    public void addStudentToCourse(int courseNumber){
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("add-student-to-course");
+            objects.add(courseNumber);
+            oos.writeObject(objects);
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
     }
 
 //    public void deleteQuiz() {
@@ -169,17 +192,21 @@ public class Client {
             throw new RuntimeException();
         }
     }
-
-    public void setActiveQuestion(int questionNumber) {
-        try {
-            ArrayList<Object> objects = new ArrayList<>();
-            objects.add("set-active-question");
-            objects.add(questionNumber);
-            oos.writeObject(objects);
-            oos.flush();
-        } catch (Exception e) {
-            throw new RuntimeException();
-        }
+           //     OLD ONE
+//    public void setActiveQuestion(int questionNumber) {
+//        try {
+//            ArrayList<Object> objects = new ArrayList<>();
+//            objects.add("set-active-question");
+//            objects.add(questionNumber);
+//            oos.writeObject(objects);
+//            oos.flush();
+//        } catch (Exception e) {
+//            throw new RuntimeException();
+//        }
+//    }
+    public void setActiveQuestion(int questionNumber){
+        ArrayList<Question> questions=new ArrayList<>();
+        question=questions.get(questionNumber);
     }
 
 //    public boolean deleteQuestion() {
@@ -222,19 +249,21 @@ public class Client {
             throw new RuntimeException();
         }
     }
+      // OLD ONE
+//    public void setActiveSubmission(int submissionNumber) {
+//        try {
+//            ArrayList<Object> objects = new ArrayList<>();
+//            objects.add("set-active-submission");
+//            objects.add(submissionNumber);
+//            oos.writeObject(objects);
+//            oos.flush();
+//        } catch (Exception e) {
+//            throw new RuntimeException();
+//        }
+//    }
+    public void setActiveSubmission(int submissionNumber){
 
-    public void setActiveSubmission(int submissionNumber) {
-        try {
-            ArrayList<Object> objects = new ArrayList<>();
-            objects.add("set-active-submission");
-            objects.add(submissionNumber);
-            oos.writeObject(objects);
-            oos.flush();
-        } catch (Exception e) {
-            throw new RuntimeException();
-        }
     }
-//
     public Quiz getCurrentQuiz() {
         try {
             ArrayList<Object> objects = new ArrayList<>();
@@ -259,6 +288,7 @@ public class Client {
             objects.add(courseChosen);
             oos.writeObject(objects);
             oos.flush();
+            course=(Course)ois.readObject();
         } catch (Exception e) {
             throw new RuntimeException();
         }
@@ -280,32 +310,43 @@ public class Client {
             throw new RuntimeException();
         }
     }
-
-    public ArrayList<Quiz> getQuizzes() {
-        try {
-            ArrayList<Object> objects = new ArrayList<>();
-            objects.add("get-quizzes");
-            oos.writeObject(objects);
-            oos.flush();
-            ArrayList<Quiz> quizList = (ArrayList<Quiz>) ois.readObject();
-            return quizList;
-        } catch (Exception e) {
-            throw new RuntimeException();
-        }
+//            OLD ONE
+//    public ArrayList<Quiz> getQuizzes() {
+//        try {
+//            ArrayList<Object> objects = new ArrayList<>();
+//            objects.add("get-quizzes");
+//            oos.writeObject(objects);
+//            oos.flush();
+//            ArrayList<Quiz> quizList = (ArrayList<Quiz>) ois.readObject();
+//            return quizList;
+//        } catch (Exception e) {
+//            throw new RuntimeException();
+//        }
+//    }
+    public ArrayList<Quiz> getQuizzes(){
+        ArrayList<Quiz> quizzes = course.getQuizzes();
+        return quizzes;
     }
-
-    public void setActiveQuiz(int quizNumber) {
-        try {
-            ArrayList<Object> objects = new ArrayList<>();
-            objects.add("set-active-quiz");
-            objects.add(quizNumber);
-            oos.writeObject(objects);
-            oos.flush();
-        } catch (Exception e) {
-            throw new RuntimeException();
-        }
+    public void setActiveQuiz(int quizNumber){
+        ArrayList<Quiz> quizzes = course.getQuizzes();
+        quiz=quizzes.get(quizNumber);
     }
-//
+    //         OLD ONE
+//    public void setActiveQuiz(int quizNumber) {
+//        try {
+//            ArrayList<Object> objects = new ArrayList<>();
+//            objects.add("set-active-quiz");
+//            objects.add(quizNumber);
+//            oos.writeObject(objects);
+//            oos.flush();
+//            quiz=(Quiz)ois.readObject();
+//        } catch (Exception e) {
+//            throw new RuntimeException();
+//        }
+//    }
+    public void setActiveUser(){
+
+    }
 //    public void clearActiveCourse() {
 //
 //    }

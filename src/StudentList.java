@@ -28,11 +28,11 @@ public class StudentList implements Serializable {
         throw new RuntimeException();
     }
 
-    public synchronized boolean exists(Student student) {
+    public boolean exists(Student student) {
         return students.contains(student);
     }
 
-    public synchronized boolean add(Student student) {
+    public boolean add(Student student) {
         if (students.contains(student)) {
             return false; //already contains this
         }
@@ -40,7 +40,7 @@ public class StudentList implements Serializable {
         return true;
     }
 
-    public synchronized boolean removes(Student student) {
+    public boolean removes(Student student) {
         if (students.contains(student)) {
             students.remove(student);
             return true;
@@ -62,7 +62,7 @@ public class StudentList implements Serializable {
         }
     }
 
-    public synchronized Student findStudent(String username, String password) {
+    public Student findStudent(String username, String password) {
         for (int i = 0; i < students.size(); i++) {
             if (students.get(i).getUsername().equals(username) && students.get(i).getPassword().equals(password)) {
                 return students.get(i);
