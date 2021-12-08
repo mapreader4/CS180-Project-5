@@ -17,6 +17,14 @@ public class MultipleChoice extends Question {
         return answerChoices;
     }
 
+    public void setNumChoices(int numChoices) {
+        this.numChoices = numChoices;
+    }
+
+    public void setCorrectAnswerIndex(int correctAnswerIndex) {
+        this.correctAnswerIndex = correctAnswerIndex;
+    }
+
     private ArrayList<String> answerChoices;
 
     public int getCorrectAnswerIndex() {
@@ -109,6 +117,10 @@ public class MultipleChoice extends Question {
                 this.pointValue = points;
             }
         } while (selection != 5);
+    }
+
+    public void setAnswerChoices(ArrayList<String> answerChoices) {
+        this.answerChoices = answerChoices;
     }
 }
 

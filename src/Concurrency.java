@@ -1,4 +1,5 @@
 import java.io.*;
+import java.lang.reflect.Array;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -81,8 +82,8 @@ public class Concurrency extends Thread {
                     int quizNumber = (int)objects.get(2);
                     String questionName = (String)objects.get(3);
                     int pointValue = (int) objects.get(4);
-                    String trueFalse = (String)objects.get(5);
-                    createTrueFalseQuestion(courseNumber,quizNumber,questionName,pointValue,trueFalse);
+                    String answer = (String)objects.get(5);
+                    createTrueFalseQuestion(courseNumber,quizNumber,questionName,pointValue,answer);
                 } else if(line.equalsIgnoreCase("create-multiple-choice")){
                     int courseNumber = (int) objects.get(1);
                     int quizNumber = (int) objects.get(2);
@@ -99,6 +100,32 @@ public class Concurrency extends Thread {
                     int pointValue = (int) objects.get(4);
                     String answer = (String)objects.get(5);
                     createFillInTheBlankQuestion(courseNumber,quizNumber,questionName,pointValue,answer);
+                }else if(line.equalsIgnoreCase("update-true-false")){
+                    int courseNumber = (int) objects.get(1);
+                    int quizNumber = (int) objects.get(2);
+                    int questionNumber = (int)objects.get(3);
+                    String questionName = (String)objects.get(4);
+                    int pointValue = (int)objects.get(5);
+                    String answer = (String)objects.get(6);
+                    updateTrueFalseQuestion(courseNumber,quizNumber,questionNumber,questionName,pointValue,answer);
+                } else if(line.equalsIgnoreCase("update-multiple-choice")){ //9 parameters
+                    int courseNumber = (int) objects.get(1);
+                    int quizNumber = (int) objects.get(2);
+                    int questionNumber = (int)objects.get(3);
+                    String questionName = (String)objects.get(4);
+                    int pointValue = (int)objects.get(5);
+                    int numChoices = (int)objects.get(6);
+                    ArrayList<String> answerChoices= (ArrayList<String>) objects.get(7);
+                    int correctAnswerIndex = (int)objects.get(8);
+                    updateMultipleChoiceQuestion(courseNumber,quizNumber,questionNumber,questionName,pointValue,numChoices,answerChoices,correctAnswerIndex);
+                } else if(line.equalsIgnoreCase("update-fill-in-the-blank")){
+                    int courseNumber = (int) objects.get(1);
+                    int quizNumber = (int) objects.get(2);
+                    int questionNumber = (int)objects.get(3);
+                    String questionName = (String)objects.get(4);
+                    int pointValue = (int)objects.get(5);
+                    String answer = (String)objects.get(6);
+                    updateFillInTheBlank(courseNumber,quizNumber,questionNumber,questionName,pointValue,answer);
                 }
                 else if(line.equalsIgnoreCase("create-quiz")) {
                     int courseNumber=(Integer)objects.get(1);
@@ -381,6 +408,17 @@ public class Concurrency extends Thread {
         TrueFalse question = new TrueFalse(questionName,trueFalse,pointValue);
         q.addQuestion(question);
     }
+
+    public void updateTrueFalseQuestion(int courseNumber, int quizNumber,int questionNumber,String question, int pointValue,String answer){
+        Course c =courseList.getCourse(courseNumber);
+        ArrayList<Quiz>quizzes = c.getQuizzes();
+        Quiz q =quizzes.get(quizNumber);
+        TrueFalse question1 =(TrueFalse) q.getQuestion(questionNumber);
+        question1.setPointValue(pointValue);
+        question1.setQuestion(question);
+        question1.setAnswer(answer);
+    }
+
     //createMultipleChoiceQuestion(courseNumber,quizNumber,questionName,pointValue,numChoices,answerChoices,correctAnswerIndex);
     public void createMultipleChoiceQuestion(int courseNumber, int quizNumber, String questionName,int pointValue,int numChoices,ArrayList<String>answerChoices,int correctAnswerIndex){
         Course c = courseList.getCourse(courseNumber);
@@ -389,12 +427,35 @@ public class Concurrency extends Thread {
         MultipleChoice question  = new MultipleChoice(questionName,numChoices,answerChoices,correctAnswerIndex,pointValue);
         q.addQuestion(question);
     }
+    private void updateMultipleChoiceQuestion(int courseNumber, int quizNumber, int questionNumber, String questionName, int pointValue, int numChoices, ArrayList<String> answerChoices, int correctAnswerIndex) {
+        Course c = courseList.getCourse(courseNumber);
+        ArrayList<Quiz>quizzes = c.getQuizzes();
+        Quiz q = quizzes.get(quizNumber);
+        MultipleChoice question1 =(MultipleChoice) q.getQuestion(questionNumber);
+        question1.setQuestion(questionName);
+        question1.setPointValue(pointValue);
+        question1.setAnswerChoices(answerChoices);
+        question1.setNumChoices(numChoices);
+        question1.setCorrectAnswerIndex(correctAnswerIndex);
+    }
+
     private void createFillInTheBlankQuestion(int courseNumber, int quizNumber, String questionName, int pointValue, String answer) {
         Course c = courseList.getCourse(courseNumber);
         ArrayList<Quiz>quizzes = c.getQuizzes();
         Quiz q = quizzes.get(quizNumber);
         FillInTheBlank question = new FillInTheBlank(questionName,answer,pointValue);
         q.addQuestion(question);
+    }
+    private void updateFillInTheBlank(int courseNumber,int quizNumber,int questionNumber,
+                                      String questionName,int pointValue, String answer){
+        Course c = courseList.getCourse(courseNumber);
+        ArrayList<Quiz>quizzes = c.getQuizzes();
+        Quiz q = quizzes.get(quizNumber);
+        FillInTheBlank question1 =(FillInTheBlank) q.getQuestion(questionNumber);
+        question1.setQuestion(questionName);
+        question1.setPointValue(pointValue);
+        question1.setAnswer(answer);
+
     }
 
 }

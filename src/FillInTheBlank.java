@@ -21,6 +21,10 @@ public class FillInTheBlank extends Question {
         return this.answer;
     }
 
+    public void setAnswer(String answer){
+        this.answer = answer;
+    }
+
     public void displayQuestion() {
         System.out.println(question);
     }
