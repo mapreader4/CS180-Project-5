@@ -297,6 +297,22 @@ public class Client {
             throw new RuntimeException("client: createMultipleChoice not working");
         }
     }
+
+    public void createFillInTheBlankQuestion(String questionName, int pointValue, String answer) {
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("create-fill-in-the-blank");
+            objects.add(courseNumber);
+            objects.add(quizNumber);
+            objects.add(questionName);
+            objects.add(pointValue);
+            objects.add(answer);
+            oos.writeObject(objects);
+            oos.flush();
+        } catch (Exception e) {
+            throw new RuntimeException("client: createFillInTheBlank not working");
+        }
+    }
 //    public boolean deleteQuestion() {
 //        try {
 //
