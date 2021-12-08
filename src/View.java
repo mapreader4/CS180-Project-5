@@ -361,6 +361,24 @@ public class View extends JComponent {
             } else if (actionCommand.equals("done with adding questions")) {
                 client.lastQuestionAdded(); //this method just tells Client that there are no more questions
                 createCourseMenu();
+            } else if (actionCommand.equals("edit question")) {
+                ButtonGroup questionsGroup = (ButtonGroup) activeComponents.get(0);
+                String questionChoice = questionsGroup.getSelection().getActionCommand();
+                if (questionChoice.equals("add questions")) {
+                    createCreateQuestionScreen();
+                } else {
+                    int questionNumber = Integer.parseInt(questionChoice);
+                    client.setActiveQuestion(questionNumber);
+                    createEditQuestionScreen();
+                }
+            } else if (actionCommand.equals("delete question")) {
+                ButtonGroup questionsGroup = (ButtonGroup) activeComponents.get(0);
+                String questionChoice = questionsGroup.getSelection().getActionCommand();
+                if (!questionChoice.equals("add questions")) {
+                    int questionNumber = Integer.parseInt(questionChoice);
+                    client.deleteQuestion(questionNumber);
+                    createEditQuizMenu();
+                }
             } else if (actionCommand.equals("back to teacher quiz options menu")) {
                 createTeacherQuizOptionsMenu();
             } else if (actionCommand.equals("back to course menu")) {
@@ -606,10 +624,6 @@ public class View extends JComponent {
     private void createCreateCourseScreen() {
         mainPanel.removeAll();
         activeComponents.clear();
-
-        String courseName = "";
-        int courseNumber = 0;
-        client.createCourse(courseName, courseNumber);
 
         JLabel courseNumberLabel = new JLabel("Course Number:");
         JTextField courseNumberTxt = new JTextField(30);
@@ -1114,16 +1128,49 @@ public class View extends JComponent {
         mainPanel.repaint();
     }
 
-    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
-    //use that method in the actual implementation. I have described various details of the needed methods at the top of
-    //the page directly under the import statements.
+    /**
+     * Displays a list of questions that the teacher can choose to edit
+     */
     private void createEditQuizMenu() {
         mainPanel.removeAll();
         activeComponents.clear();
 
         ArrayList<Question> questions = client.getQuestions();
-        int questionNumber = 0;
-        client.setActiveQuestion(questionNumber);
+        JPanel questionsPanel = new JPanel(new GridLayout(0, 1));
+        ButtonGroup questionsGroup = new ButtonGroup();
+
+        for (int i = 0; i < questions.size(); i++) {
+            String questionName = questions.get(i).getQuestion();
+            JRadioButton questionButton = new JRadioButton(questionName);
+            questionButton.setActionCommand(Integer.toString(i));
+            questionsGroup.add(questionButton);
+            questionsPanel.add(questionButton);
+        }
+
+        JRadioButton addQuestionsButton = new JRadioButton("Add questions");
+        addQuestionsButton.setActionCommand("add questions");
+        questionsGroup.add(addQuestionsButton);
+        questionsPanel.add(addQuestionsButton);
+
+        activeComponents.add(questionsGroup);
+
+        JButton editButton = new JButton("Edit");
+        editButton.setActionCommand("edit question");
+        editButton.addActionListener(actionListener);
+        JButton deleteButton = new JButton("Delete");
+        deleteButton.setActionCommand("delete question");
+        deleteButton.addActionListener(actionListener);
+        JButton backButton = new JButton("Back");
+        backButton.setActionCommand("back to teacher quiz options menu");
+        backButton.addActionListener(actionListener);
+        JPanel editDeleteOrBackPanel = new JPanel(new FlowLayout());
+        editDeleteOrBackPanel.add(editButton);
+        editDeleteOrBackPanel.add(deleteButton);
+        editDeleteOrBackPanel.add(backButton);
+
+        JScrollPane scrollPane = new JScrollPane(questionsPanel);
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
+        mainPanel.add(editDeleteOrBackPanel, BorderLayout.SOUTH);
 
         mainPanel.validate();
         mainPanel.repaint();
@@ -1136,7 +1183,6 @@ public class View extends JComponent {
         mainPanel.removeAll();
         activeComponents.clear();
 
-        client.deleteQuestion();
         Question question = new Question();
         client.updateQuestion(question);
 
