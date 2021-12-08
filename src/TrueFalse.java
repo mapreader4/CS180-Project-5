@@ -25,6 +25,9 @@ public class TrueFalse extends Question {
         System.out.println("True");
         System.out.println("False");
     }
+    public void setAnswer(String answer){
+        this.answer = answer;
+    }
 
     public void editQuestion(Scanner scanner) {
         int selection;
