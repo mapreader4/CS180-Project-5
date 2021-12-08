@@ -336,18 +336,61 @@ public class Client {
 
 
 
-//
-//    public void updateQuestion(Question question) {
-//        try {
-//            ArrayList<Object> objects = new ArrayList<>();
-//            objects.add("update-question");
-//            objects.add(question);
-//            oos.writeObject(objects);
-//            oos.flush();
-//        } catch (Exception e) {
-//            throw new RuntimeException();
-//        }
-//    }
+
+    public void updateTrueFalseQuestion(String questionName, int pointValue, boolean trueOrFalse) {
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("update-true-false");
+            objects.add(courseNumber);
+            objects.add(quizNumber);
+            objects.add(questionName);
+            objects.add(pointValue);
+            if (trueOrFalse) {
+                objects.add("true");
+            } else {
+                objects.add("false");
+            }
+            oos.writeObject(objects);
+            oos.flush();
+        } catch (Exception e) {
+            throw new RuntimeException("client: updateTrueFalseQuestion not working");
+        }
+    }
+
+    public void updateMultipleChoiceQuestion(String questionName, int pointValue, int numChoices, ArrayList<String>
+            answerChoices, int correctAnswerIndex) {
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("update-multiple-choice");
+            objects.add(courseNumber);
+            objects.add(quizNumber);
+            objects.add(questionName);
+            objects.add(pointValue);
+            objects.add(numChoices);
+            objects.add(answerChoices);
+            objects.add(correctAnswerIndex);
+            oos.writeObject(objects);
+            oos.flush();
+        } catch (Exception e) {
+            throw new RuntimeException("client: updateMultipleChoice not working");
+        }
+    }
+
+    public void updateFillInTheBlankQuestion(String questionName, int pointValue, String answer) {
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("update-fill-in-the-blank");
+            objects.add(courseNumber);
+            objects.add(quizNumber);
+            objects.add(questionName);
+            objects.add(pointValue);
+            objects.add(answer);
+            oos.writeObject(objects);
+            oos.flush();
+        } catch (Exception e) {
+            throw new RuntimeException("client: updateFillInTheBlank not working");
+        }
+    }
 
     public void submitSubmission(ArrayList<String> answers) {
         try {
