@@ -71,7 +71,13 @@ public class Concurrency extends Thread {
                     int courseNumber=(Integer)objects.get(1);
                     File file=(File)objects.get(2);
                     addImportedQuiz(courseNumber,file);
-
+                }else if(line.equalsIgnoreCase("create-true-false-question")){
+                    int courseNumber = (int) objects.get(1);
+                    int quizNumber = (int)objects.get(2);
+                    String questionName = (String)objects.get(3);
+                    int pointValue = (int) objects.get(4);
+                    String trueFalse = (String)objects.get(5);
+                    createTrueFalseQuestion(courseNumber,quizNumber,questionName,pointValue,trueFalse);
                 }
                 //else if(line.equalsIgnoreCase("create-quiz")) {
 //                    int courseNumber=(Integer)objects.get(1);
@@ -313,6 +319,15 @@ public class Concurrency extends Thread {
         teacherList.saveToFile();
         courseList.saveToFile();
         studentList.saveToFile();
+    }
+    public void createTrueFalseQuestion(int courseNumber,int quizNumber, String questionName, int pointValue,
+                                        String trueFalse){
+        Course c =courseList.getCourse(courseNumber);
+        ArrayList<Quiz>quizzes = c.getQuizzes();
+        Quiz q =quizzes.get(quizNumber);
+        TrueFalse question = new TrueFalse(questionName,trueFalse,pointValue);
+        courseList.getCourse(courseNumber).getQuizzes().get(quizNumber).addQuestion(question);
+
     }
 
 
