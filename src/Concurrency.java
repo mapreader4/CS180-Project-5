@@ -78,13 +78,22 @@ public class Concurrency extends Thread {
                     int pointValue = (int) objects.get(4);
                     String trueFalse = (String)objects.get(5);
                     createTrueFalseQuestion(courseNumber,quizNumber,questionName,pointValue,trueFalse);
+                } else if(line.equalsIgnoreCase("create-multiple-choice")){
+                    int courseNumber = (int) objects.get(1);
+                    int quizNumber = (int) objects.get(2);
+                    String questionName = (String) objects.get(3);
+                    int pointValue = (int) objects.get(4);
+                    int numChoices = (int) objects.get(5);
+                    ArrayList<String> answerChoices = (ArrayList<String>) objects.get(6);
+                    int correctAnswerIndex = (int)objects.get(7);
+                    createMultipleChoiceQuestion(courseNumber,quizNumber,questionName,pointValue,numChoices,answerChoices,correctAnswerIndex);
                 }
-                //else if(line.equalsIgnoreCase("create-quiz")) {
-//                    int courseNumber=(Integer)objects.get(1);
-//                    String courseName=(String)objects.get(2);
-//                    String randomize=(String)objects.get(3);
-//                    createQuiz(courseNumber,courseName,randomize);
-//                }
+                else if(line.equalsIgnoreCase("create-quiz")) {
+                    int courseNumber=(Integer)objects.get(1);
+                    String courseName=(String)objects.get(2);
+                    String randomize=(String)objects.get(3);
+                    createQuiz(courseNumber,courseName,randomize);
+                }
                 else if(line.equalsIgnoreCase("add-student-to-course")){
                     int courseNumber=(Integer)objects.get(1);
                     addStudentToCourse(courseNumber);
@@ -327,8 +336,13 @@ public class Concurrency extends Thread {
         Quiz q =quizzes.get(quizNumber);
         TrueFalse question = new TrueFalse(questionName,trueFalse,pointValue);
         q.addQuestion(question);
-
     }
-
-
+    //createMultipleChoiceQuestion(courseNumber,quizNumber,questionName,pointValue,numChoices,answerChoices,correctAnswerIndex);
+    public void createMultipleChoiceQuestion(int courseNumber, int quizNumber, String questionName,int pointValue,int numChoices,ArrayList<String>answerChoices,int correctAnswerIndex){
+        Course c = courseList.getCourse(courseNumber);
+        ArrayList<Quiz>quizzes = c.getQuizzes();
+        Quiz q = quizzes.get(quizNumber);
+        MultipleChoice question  = new MultipleChoice(questionName,numChoices,answerChoices,correctAnswerIndex,pointValue);
+        q.addQuestion(question);
+    }
 }

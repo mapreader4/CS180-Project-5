@@ -180,6 +180,30 @@ public class View extends JComponent {
                 }
             } else if (actionCommand.equals("confirm take quiz")) {
                 createActiveQuizScreen();
+            } else if (actionCommand.equals("submit quiz")) {
+                int confirmSubmit = JOptionPane.showConfirmDialog(null,
+                        "Are you sure you want to submit? You cannot change your answers after you submit.",
+                        "Submit?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (confirmSubmit == JOptionPane.YES_OPTION) {
+                    ArrayList<String> answers = new ArrayList<String>();
+                    for (int i = 0; i < activeComponents.size(); i++) {
+                        Object currentAnswerCollector = activeComponents.get(i);
+                        if (currentAnswerCollector instanceof ButtonGroup) {
+                            ButtonGroup answerGroup = (ButtonGroup) currentAnswerCollector;
+                            ButtonModel buttonSelected = answerGroup.getSelection();
+                            if (buttonSelected == null) {
+                                answers.add("");
+                            } else {
+                                answers.add(buttonSelected.getActionCommand());
+                            }
+                        } else if (currentAnswerCollector instanceof JTextField) {
+                            JTextField answerTxt = (JTextField) currentAnswerCollector;
+                            answers.add(answerTxt.getText());
+                        }
+                    }
+                    client.submitSubmission(answers);
+                    createCourseMenu();
+                }
             } else if (actionCommand.equals("choose teacher option")) {
                 ButtonGroup optionsGroup = (ButtonGroup) activeComponents.get(0);
                 String optionChosen = optionsGroup.getSelection().getActionCommand();
@@ -432,6 +456,13 @@ public class View extends JComponent {
                 }
             } else if (actionCommand.equals("back to teacher quiz options menu")) {
                 createTeacherQuizOptionsMenu();
+            } else if (actionCommand.equals("back out of quiz")) {
+                int confirmBack = JOptionPane.showConfirmDialog(null,
+                        "Are you sure you want to go back? All your work will be lost.",
+                        "Back?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (confirmBack == JOptionPane.YES_OPTION) {
+                    createStudentQuizOptionsMenu();
+                }
             } else if (actionCommand.equals("back to student quiz options menu")) {
                 createStudentQuizOptionsMenu();
             } else if (actionCommand.equals("back to course menu")) {
@@ -1441,16 +1472,44 @@ public class View extends JComponent {
         mainPanel.repaint();
     }
 
-    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
-    //use that method in the actual implementation. I have described various details of the needed methods at the top of
-    //the page directly under the import statements.
+    /**
+     * Displays quiz to student
+     */
     private void createActiveQuizScreen() {
         mainPanel.removeAll();
         activeComponents.clear();
 
         ArrayList<Question> questions = client.getQuestions();
-        ArrayList<String> answers = new ArrayList<String>();
-        client.submitSubmission(answers);
+        JPanel questionsPanel = new JPanel(new GridLayout(0, 1));
+        for (int i = 0; i < questions.size(); i++) {
+            Question currentQuestion = questions.get(i);
+            JPanel currentQuestionPanel = null;
+            if (currentQuestion instanceof TrueFalse) {
+                TrueFalse trueFalse = (TrueFalse) currentQuestion;
+                currentQuestionPanel = assembleTrueFalseQuestion(trueFalse, i+1);
+            } else if (currentQuestion instanceof MultipleChoice) {
+                MultipleChoice multipleChoice = (MultipleChoice) currentQuestion;
+                currentQuestionPanel = assembleMultipleChoiceQuestion(multipleChoice, i+1);
+            } else if (currentQuestion instanceof FillInTheBlank) {
+                FillInTheBlank fillInTheBlank = (FillInTheBlank) currentQuestion;
+                currentQuestionPanel = assembleFillInTheBlankQuestion(fillInTheBlank, i+1);
+            }
+            questionsPanel.add(currentQuestionPanel);
+        }
+
+        JButton submitButton = new JButton("Submit");
+        submitButton.setActionCommand("submit quiz");
+        submitButton.addActionListener(actionListener);
+        JButton backButton = new JButton("Back");
+        backButton.setActionCommand("back out of quiz");
+        backButton.addActionListener(actionListener);
+        JPanel submitOrBackPanel = new JPanel(new FlowLayout());
+        submitOrBackPanel.add(submitButton);
+        submitOrBackPanel.add(backButton);
+
+        JScrollPane scrollPane = new JScrollPane(questionsPanel);
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
+        mainPanel.add(submitOrBackPanel, BorderLayout.SOUTH);
 
         mainPanel.validate();
         mainPanel.repaint();
@@ -1459,21 +1518,21 @@ public class View extends JComponent {
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
-    private JPanel assembleTrueFalseQuestion() {
+    private JPanel assembleTrueFalseQuestion(TrueFalse trueFalse, int index) {
         return new JPanel();
     }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
-    private JPanel assembleMultipleChoiceQuestion() {
+    private JPanel assembleMultipleChoiceQuestion(MultipleChoice multipleChoice, int index) {
         return new JPanel();
     }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
-    private JPanel assembleFillInTheBlankQuestion() {
+    private JPanel assembleFillInTheBlankQuestion(FillInTheBlank fillInTheBlank, int index) {
         return new JPanel();
     }
 
