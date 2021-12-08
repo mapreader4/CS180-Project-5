@@ -408,6 +408,20 @@ public class View extends JComponent {
                     JOptionPane.showMessageDialog(null, "Please enter an integer for point " +
                             "value.", "Enter an integer", JOptionPane.ERROR_MESSAGE);
                 }
+            } else if (actionCommand.equals("update fill in the blank question")) {
+                JTextField questionNameTxt = (JTextField) activeComponents.get(0);
+                JTextField pointValueTxt = (JTextField) activeComponents.get(1);
+                JTextField answerTxt = (JTextField) activeComponents.get(2);
+                try {
+                    String questionName = questionNameTxt.getText();
+                    int pointValue = Integer.parseInt(pointValueTxt.getText());
+                    String answer = answerTxt.getText();
+                    client.updateFillInTheBlankQuestion(questionName, pointValue, answer);
+                    createEditQuizMenu();
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Please enter an integer for point " +
+                            "value.", "Enter an integer", JOptionPane.ERROR_MESSAGE);
+                }
             } else if (actionCommand.equals("delete question")) {
                 ButtonGroup questionsGroup = (ButtonGroup) activeComponents.get(0);
                 String questionChoice = questionsGroup.getSelection().getActionCommand();
@@ -1356,11 +1370,47 @@ public class View extends JComponent {
         mainPanel.add(updateButton, BorderLayout.SOUTH);
     }
 
-    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
-    //use that method in the actual implementation. I have described various details of the needed methods at the top of
-    //the page directly under the import statements.
+    /**
+     * Displays fields of fill in the blank question for editing
+     *
+     * @param fillInTheBlank the question to be displayed
+     */
     private void createEditFillInTheBlankScreen(FillInTheBlank fillInTheBlank) {
+        JLabel questionNameLabel = new JLabel("Question:");
+        JTextField questionNameTxt = new JTextField(30);
+        questionNameTxt.setText(fillInTheBlank.getQuestion());
+        activeComponents.add(questionNameTxt);
+        JPanel questionNamePanel = new JPanel(new FlowLayout());
+        questionNamePanel.add(questionNameLabel);
+        questionNamePanel.add(questionNameTxt);
 
+        JLabel pointValueLabel = new JLabel("Point Value:");
+        JTextField pointValueTxt = new JTextField(5);
+        pointValueTxt.setText(Integer.toString(fillInTheBlank.getPointValue()));
+        activeComponents.add(pointValueTxt);
+        JPanel pointValuePanel = new JPanel(new FlowLayout());
+        pointValuePanel.add(pointValueLabel);
+        pointValuePanel.add(pointValueTxt);
+
+        JPanel genericFieldsPanel = new JPanel(new BorderLayout());
+        genericFieldsPanel.add(questionNamePanel, BorderLayout.NORTH);
+        genericFieldsPanel.add(pointValuePanel, BorderLayout.CENTER);
+
+        JLabel answerLabel = new JLabel("Answer:");
+        JTextField answerTxt = new JTextField(30);
+        answerTxt.setText(fillInTheBlank.getAnswer());
+        activeComponents.add(answerTxt);
+        JPanel answerPanel = new JPanel(new FlowLayout());
+        answerPanel.add(answerLabel);
+        answerPanel.add(answerTxt);
+
+        JButton updateButton = new JButton("Update");
+        updateButton.setActionCommand("update fill in the blank question");
+        updateButton.addActionListener(actionListener);
+
+        mainPanel.add(genericFieldsPanel, BorderLayout.NORTH);
+        mainPanel.add(answerPanel, BorderLayout.CENTER);
+        mainPanel.add(updateButton, BorderLayout.SOUTH);
     }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
