@@ -288,6 +288,20 @@ public class View extends JComponent {
                 }
             } else if (actionCommand.equals("fill in the blank")) {
                 createCreateFillInTheBlankQuestion();
+            } else if (actionCommand.equals("add fill in the blank question")) {
+                JTextField questionNameTxt = (JTextField) activeComponents.get(2);
+                JTextField pointValueTxt = (JTextField) activeComponents.get(3);
+                JTextField answerTxt = (JTextField) activeComponents.get(4);
+                try {
+                    String questionName = questionNameTxt.getText();
+                    int pointValue = Integer.parseInt(pointValueTxt.getText());
+                    String answer = answerTxt.getText();
+                    client.createFillInTheBlankQuestion(questionName, pointValue, answer);
+                    createCreateQuestionScreen();
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Please enter an integer for point " +
+                            "value.", "Enter an integer", JOptionPane.ERROR_MESSAGE);
+                }
             } else if (actionCommand.equals("finish with true or false question")) {
                 JTextField questionNameTxt = (JTextField) activeComponents.get(2);
                 JTextField pointValueTxt = (JTextField) activeComponents.get(3);
@@ -323,6 +337,21 @@ public class View extends JComponent {
                     int correctAnswerIndex = Integer.parseInt(correctAnswerIndGroup.getSelection().getActionCommand());
                     client.createMultipleChoiceQuestion(questionName, pointValue, numAnswerChoices, answerChoices,
                             correctAnswerIndex);
+                    client.lastQuestionAdded();
+                    createCourseMenu();
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Please enter an integer for point " +
+                            "value.", "Enter an integer", JOptionPane.ERROR_MESSAGE);
+                }
+            } else if (actionCommand.equals("finish with fill in the blank question")) {
+                JTextField questionNameTxt = (JTextField) activeComponents.get(2);
+                JTextField pointValueTxt = (JTextField) activeComponents.get(3);
+                JTextField answerTxt = (JTextField) activeComponents.get(4);
+                try {
+                    String questionName = questionNameTxt.getText();
+                    int pointValue = Integer.parseInt(pointValueTxt.getText());
+                    String answer = answerTxt.getText();
+                    client.createFillInTheBlankQuestion(questionName, pointValue, answer);
                     client.lastQuestionAdded();
                     createCourseMenu();
                 } catch (NumberFormatException ex) {
@@ -1041,9 +1070,9 @@ public class View extends JComponent {
         mainPanel.repaint();
     }
 
-    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
-    //use that method in the actual implementation. I have described various details of the needed methods at the top of
-    //the page directly under the import statements.
+    /**
+     * Displays text field for teacher to specify answer to fill in the blank question
+     */
     private void createCreateFillInTheBlankQuestion() {
         JPanel preSpecificPanel = (JPanel) activeComponents.get(0);
         if (activeComponents.size() > 4) {
@@ -1063,20 +1092,23 @@ public class View extends JComponent {
             addDoneFinishPanel.removeAll();
 
             JButton addButton = new JButton("Add another question");
-            addButton.setActionCommand("add another question");
+            addButton.setActionCommand("add fill in the blank question");
             addButton.addActionListener(actionListener);
             JButton finishButton = new JButton("Finish");
-            finishButton.setActionCommand("finish adding questions");
+            finishButton.setActionCommand("finish with fill in the blank question");
             finishButton.addActionListener(actionListener);
             addDoneFinishPanel.add(addButton);
             addDoneFinishPanel.add(finishButton);
         }
 
-        String questionName = "";
-        int pointValue = 0;
+        JLabel answerLabel = new JLabel("Answer:");
+        JTextField answerTxt = new JTextField(30);
+        activeComponents.add(answerTxt);
+        JPanel answerPanel = new JPanel(new FlowLayout());
+        answerPanel.add(answerLabel);
+        answerPanel.add(answerTxt);
 
-        String answer = "";
-        client.createFillInTheBlankQuestion(questionName, pointValue, answer);
+        mainPanel.add(answerPanel, BorderLayout.CENTER);
 
         mainPanel.validate();
         mainPanel.repaint();
