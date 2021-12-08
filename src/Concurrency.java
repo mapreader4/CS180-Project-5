@@ -324,8 +324,9 @@ public class Concurrency extends Thread {
                                         String trueFalse){
         Course c =courseList.getCourse(courseNumber);
         ArrayList<Quiz>quizzes = c.getQuizzes();
+        Quiz q =quizzes.get(quizNumber);
         TrueFalse question = new TrueFalse(questionName,trueFalse,pointValue);
-        courseList.getCourse(courseNumber).getQuizzes().get(quizNumber).addQuestion(question);
+        q.addQuestion(question);
 
     }
 
