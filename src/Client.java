@@ -467,6 +467,16 @@ public class Client {
             throw new RuntimeException("client: getActiveQuestion not working");
         }
     }
+    public void close() {
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("close");
+            oos.writeObject(objects);
+            oos.flush();
+        } catch (Exception e) {
+            throw new RuntimeException("client: close not working");
+        }
+    }
     //            OLD ONE
 
     //    public ArrayList<Quiz> getQuizzes(){
