@@ -392,6 +392,18 @@ public class Client {
         }
     }
 
+    public void deleteQuestion(int questionNumber) {
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("delete-question");
+            objects.add(questionNumber);
+            oos.writeObject(objects);
+            oos.flush();
+        } catch (Exception e) {
+            throw new RuntimeException("client: deleteQuestion not working");
+        }
+    }
+
     public void submitSubmission(ArrayList<String> answers) {
         try {
             ArrayList<Object> objects = new ArrayList<>();
