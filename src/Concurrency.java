@@ -83,6 +83,7 @@ public class Concurrency extends Thread {
                 }
             }
         } catch (Exception e) {
+            storeLists();
             throw new RuntimeException();
         }
     }
@@ -277,5 +278,11 @@ public class Concurrency extends Thread {
 //        studentList = StudentList.readFromFile();
 //        courseList = CourseList.readFromFile();
 //    }
+    public void storeLists(){
+        teacherList.saveToFile();
+        courseList.saveToFile();
+        studentList.saveToFile();
+    }
+
 
 }
