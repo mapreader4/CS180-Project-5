@@ -327,7 +327,7 @@ public class Concurrency extends Thread {
 //        }
 //    }
 
-//    public void updateLists(){
+    //    public void updateLists(){
 //        teacherList = TeacherList.readFromFile();
 //        studentList = StudentList.readFromFile();
 //        courseList = CourseList.readFromFile();
