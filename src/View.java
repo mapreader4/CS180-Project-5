@@ -5,13 +5,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-//TODO: a quick note to future me:
-//sorry about any confusion you may have on the question creation methods
-//don't forget to make sure your active components aren't tracking multiple question types at once
-//also don't forget to have every question type change the buttons at the bottom to add and finish
-//but if you don't get it right the first time, that's fine
-//we can always fix this at the debug meeting on Wednesday
-
+//TODO: remove these line comments before submission
 //Explanations for Client methods:
 //I probably haven't explained this well. Please ask me if you need clarification on anything, or if something in this
 //plan needs to be edited because it won't work with the rest of the program.
@@ -56,7 +50,6 @@ import java.util.Scanner;
 
 //TODO: implement the rest of the menu logic
 //parts of the menu logic remaining:
-//edit quiz - displays list of questions, then allows teacher to edit any particular question
 //take quiz - long series of methods allowing student to take quiz
 //view submission - displays submissions to quiz, then allows viewing of any submission
 //TODO: make sure client gets notified when view closes! (might be better implemented in client)
@@ -185,6 +178,8 @@ public class View extends JComponent {
                 } else if (optionChosen.equals("view previous submissions from student")) {
                     createStudentSubmissionMenu();
                 }
+            } else if (actionCommand.equals("confirm take quiz")) {
+                createActiveQuizScreen();
             } else if (actionCommand.equals("choose teacher option")) {
                 ButtonGroup optionsGroup = (ButtonGroup) activeComponents.get(0);
                 String optionChosen = optionsGroup.getSelection().getActionCommand();
@@ -437,6 +432,8 @@ public class View extends JComponent {
                 }
             } else if (actionCommand.equals("back to teacher quiz options menu")) {
                 createTeacherQuizOptionsMenu();
+            } else if (actionCommand.equals("back to student quiz options menu")) {
+                createStudentQuizOptionsMenu();
             } else if (actionCommand.equals("back to course menu")) {
                 client.clearActiveQuiz();
                 createCourseMenu();
@@ -1413,12 +1410,32 @@ public class View extends JComponent {
         mainPanel.add(updateButton, BorderLayout.SOUTH);
     }
 
-    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
-    //use that method in the actual implementation. I have described various details of the needed methods at the top of
-    //the page directly under the import statements.
+    /**
+     * Displays a confirmation message to make sure the student is taking the right quiz
+     */
     private void createTakeQuizIntroScreen() {
         mainPanel.removeAll();
         activeComponents.clear();
+
+        Quiz quiz = client.getCurrentQuiz();
+        String quizName = quiz.getName();
+        int numQuestions = quiz.getQuiz().size();
+
+        JLabel takeLabel = new JLabel("You are about to take the quiz " + quizName +
+                " with " + numQuestions + " questions. Are you sure you want to proceed?");
+
+        JButton takeButton = new JButton("Take");
+        takeButton.setActionCommand("confirm take quiz");
+        takeButton.addActionListener(actionListener);
+        JButton backButton = new JButton("Back");
+        backButton.setActionCommand("back to student quiz options menu");
+        backButton.addActionListener(actionListener);
+        JPanel takeOrBackPanel = new JPanel(new FlowLayout());
+        takeOrBackPanel.add(takeButton);
+        takeOrBackPanel.add(backButton);
+
+        mainPanel.add(takeLabel, BorderLayout.CENTER);
+        mainPanel.add(takeOrBackPanel, BorderLayout.SOUTH);
 
         mainPanel.validate();
         mainPanel.repaint();
