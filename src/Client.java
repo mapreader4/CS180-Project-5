@@ -422,6 +422,7 @@ public class Client {
 
     public void lastQuestionAdded() {
         this.clearActiveQuiz();
+        this.clearActiveQuestion();
     }
 
 //
@@ -450,6 +451,9 @@ public class Client {
     }
     public void clearActiveQuiz(){
         this.quizNumber=-1;
+    }
+    public void clearActiveQuestion() {
+        this.questionNumber = -1;
     }
     public Question getActiveQuestion() {
         try {
