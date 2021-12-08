@@ -301,6 +301,10 @@ public class Quiz implements Serializable {
         quiz = temp2;
 
     }
+    public void addQuestion(Question question){
+        quiz.add(question);
+    }
+
 
 
 }
