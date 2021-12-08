@@ -385,6 +385,29 @@ public class View extends JComponent {
                     JOptionPane.showMessageDialog(null, "Please enter an integer for point " +
                             "value.", "Enter an integer", JOptionPane.ERROR_MESSAGE);
                 }
+            } else if (actionCommand.equals("update multiple choice question")) {
+                JTextField questionNameTxt = (JTextField) activeComponents.get(0);
+                JTextField pointValueTxt = (JTextField) activeComponents.get(1);
+                ButtonGroup correctAnswerIndGroup = (ButtonGroup) activeComponents.get(2);
+
+                ArrayList<String> answerChoices = new ArrayList<String>();
+                for (int i = 3; i < activeComponents.size(); i++) {
+                    JTextField choiceTxt = (JTextField) activeComponents.get(i);
+                    answerChoices.add(choiceTxt.getText());
+                }
+
+                try {
+                    String questionName = questionNameTxt.getText();
+                    int pointValue = Integer.parseInt(pointValueTxt.getText());
+                    int numAnswerChoices = answerChoices.size();
+                    int correctAnswerIndex = Integer.parseInt(correctAnswerIndGroup.getSelection().getActionCommand());
+                    client.updateMultipleChoiceQuestion(questionName, pointValue, numAnswerChoices, answerChoices,
+                            correctAnswerIndex);
+                    createEditQuizMenu();
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Please enter an integer for point " +
+                            "value.", "Enter an integer", JOptionPane.ERROR_MESSAGE);
+                }
             } else if (actionCommand.equals("delete question")) {
                 ButtonGroup questionsGroup = (ButtonGroup) activeComponents.get(0);
                 String questionChoice = questionsGroup.getSelection().getActionCommand();
@@ -1275,11 +1298,62 @@ public class View extends JComponent {
         mainPanel.add(updateButton, BorderLayout.SOUTH);
     }
 
-    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
-    //use that method in the actual implementation. I have described various details of the needed methods at the top of
-    //the page directly under the import statements.
+    /**
+     * Displays fields of multiple choice question for editing
+     *
+     * @param multipleChoice the question to be displayed
+     */
     private void createEditMultipleChoiceScreen(MultipleChoice multipleChoice) {
+        JLabel questionNameLabel = new JLabel("Question:");
+        JTextField questionNameTxt = new JTextField(30);
+        questionNameTxt.setText(multipleChoice.getQuestion());
+        activeComponents.add(questionNameTxt);
+        JPanel questionNamePanel = new JPanel(new FlowLayout());
+        questionNamePanel.add(questionNameLabel);
+        questionNamePanel.add(questionNameTxt);
 
+        JLabel pointValueLabel = new JLabel("Point Value:");
+        JTextField pointValueTxt = new JTextField(5);
+        pointValueTxt.setText(Integer.toString(multipleChoice.getPointValue()));
+        activeComponents.add(pointValueTxt);
+        JPanel pointValuePanel = new JPanel(new FlowLayout());
+        pointValuePanel.add(pointValueLabel);
+        pointValuePanel.add(pointValueTxt);
+
+        JPanel genericFieldsPanel = new JPanel(new BorderLayout());
+        genericFieldsPanel.add(questionNamePanel, BorderLayout.NORTH);
+        genericFieldsPanel.add(pointValuePanel, BorderLayout.CENTER);
+
+        ArrayList<String> answerChoices = multipleChoice.getAnswerChoices();
+        ButtonGroup answerChoicesGroup = new ButtonGroup();
+        activeComponents.add(answerChoicesGroup);
+        JPanel answerChoicesPanel = new JPanel(new GridLayout(0, 1));
+
+        for (int i = 0; i < answerChoices.size(); i++) {
+            JRadioButton choiceButton;
+            if (multipleChoice.getCorrectAnswerIndex() == i) {
+                choiceButton = new JRadioButton("Choice " + (i + 1) + ":", true);
+            } else {
+                choiceButton = new JRadioButton("Choice " + (i + 1) + ":", false);
+            }
+            choiceButton.setActionCommand(Integer.toString(i));
+            answerChoicesGroup.add(choiceButton);
+            JTextField choiceTxt = new JTextField(30);
+            choiceTxt.setText(answerChoices.get(i));
+            activeComponents.add(choiceTxt);
+            JPanel choicePanel = new JPanel(new FlowLayout());
+            choicePanel.add(choiceButton);
+            choicePanel.add(choiceTxt);
+            answerChoicesPanel.add(choicePanel);
+        }
+
+        JButton updateButton = new JButton("Update");
+        updateButton.setActionCommand("update multiple choice question");
+        updateButton.addActionListener(actionListener);
+
+        mainPanel.add(genericFieldsPanel, BorderLayout.NORTH);
+        mainPanel.add(answerChoicesPanel, BorderLayout.CENTER);
+        mainPanel.add(updateButton, BorderLayout.SOUTH);
     }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
