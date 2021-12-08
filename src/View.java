@@ -253,8 +253,82 @@ public class View extends JComponent {
                 }
             } else if (actionCommand.equals("multiple choice")) {
                 createSelectNumAnswerChoices();
+            } else if (actionCommand.equals("set num answer choices")) {
+                try {
+                    JTextField numAnswerChoicesTxt = (JTextField) activeComponents.get(4);
+                    int numAnswerChoices = Integer.parseInt(numAnswerChoicesTxt.getText());
+                    createCreateMultipleChoiceQuestion(numAnswerChoices);
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Please enter an integer for number of " +
+                            "answer choices.", "Enter an integer", JOptionPane.ERROR_MESSAGE);
+                }
+            } else if (actionCommand.equals("add multiple choice question")) {
+                JTextField questionNameTxt = (JTextField) activeComponents.get(2);
+                JTextField pointValueTxt = (JTextField) activeComponents.get(3);
+                JTextField numAnswerChoicesTxt = (JTextField) activeComponents.get(4);
+                ButtonGroup correctAnswerIndGroup = (ButtonGroup) activeComponents.get(5);
+
+                ArrayList<String> answerChoices = new ArrayList<String>();
+                for (int i = 6; i < activeComponents.size(); i++) {
+                    JTextField choiceTxt = (JTextField) activeComponents.get(i);
+                    answerChoices.add(choiceTxt.getText());
+                }
+
+                try {
+                    String questionName = questionNameTxt.getText();
+                    int pointValue = Integer.parseInt(pointValueTxt.getText());
+                    int numAnswerChoices = Integer.parseInt(numAnswerChoicesTxt.getText());
+                    int correctAnswerIndex = Integer.parseInt(correctAnswerIndGroup.getSelection().getActionCommand());
+                    client.createMultipleChoiceQuestion(questionName, pointValue, numAnswerChoices, answerChoices,
+                            correctAnswerIndex);
+                    createCreateQuestionScreen();
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Please enter an integer for point " +
+                            "value.", "Enter an integer", JOptionPane.ERROR_MESSAGE);
+                }
             } else if (actionCommand.equals("fill in the blank")) {
                 createCreateFillInTheBlankQuestion();
+            } else if (actionCommand.equals("finish with true or false question")) {
+                JTextField questionNameTxt = (JTextField) activeComponents.get(2);
+                JTextField pointValueTxt = (JTextField) activeComponents.get(3);
+                ButtonGroup trueOrFalseGroup = (ButtonGroup) activeComponents.get(4);
+                String trueOrFalseChoice = trueOrFalseGroup.getSelection().getActionCommand();
+                try {
+                    String questionName = questionNameTxt.getText();
+                    int pointValue = Integer.parseInt(pointValueTxt.getText());
+                    boolean trueOrFalse = trueOrFalseChoice.equals("true");
+                    client.createTrueFalseQuestion(questionName, pointValue, trueOrFalse);
+                    client.lastQuestionAdded();
+                    createCourseMenu();
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Please enter an integer for point " +
+                            "value.", "Enter an integer", JOptionPane.ERROR_MESSAGE);
+                }
+            } else if (actionCommand.equals("finish with multiple choice question")) {
+                JTextField questionNameTxt = (JTextField) activeComponents.get(2);
+                JTextField pointValueTxt = (JTextField) activeComponents.get(3);
+                JTextField numAnswerChoicesTxt = (JTextField) activeComponents.get(4);
+                ButtonGroup correctAnswerIndGroup = (ButtonGroup) activeComponents.get(5);
+
+                ArrayList<String> answerChoices = new ArrayList<String>();
+                for (int i = 6; i < activeComponents.size(); i++) {
+                    JTextField choiceTxt = (JTextField) activeComponents.get(i);
+                    answerChoices.add(choiceTxt.getText());
+                }
+
+                try {
+                    String questionName = questionNameTxt.getText();
+                    int pointValue = Integer.parseInt(pointValueTxt.getText());
+                    int numAnswerChoices = Integer.parseInt(numAnswerChoicesTxt.getText());
+                    int correctAnswerIndex = Integer.parseInt(correctAnswerIndGroup.getSelection().getActionCommand());
+                    client.createMultipleChoiceQuestion(questionName, pointValue, numAnswerChoices, answerChoices,
+                            correctAnswerIndex);
+                    client.lastQuestionAdded();
+                    createCourseMenu();
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Please enter an integer for point " +
+                            "value.", "Enter an integer", JOptionPane.ERROR_MESSAGE);
+                }
             } else if (actionCommand.equals("done with adding questions")) {
                 client.lastQuestionAdded(); //this method just tells Client that there are no more questions
                 createCourseMenu();
@@ -814,9 +888,9 @@ public class View extends JComponent {
         mainPanel.repaint();
     }
 
-    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
-    //use that method in the actual implementation. I have described various details of the needed methods at the top of
-    //the page directly under the import statements.
+    /**
+     * Displays possible answer options for true or false questions, allows teacher to choose which should be correct
+     */
     private void createCreateTrueFalseQuestion() {
         JPanel preSpecificPanel = (JPanel) activeComponents.get(0);
         if (activeComponents.size() > 4) {
@@ -870,9 +944,9 @@ public class View extends JComponent {
         mainPanel.repaint();
     }
 
-    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
-    //use that method in the actual implementation. I have described various details of the needed methods at the top of
-    //the page directly under the import statements.
+    /**
+     * Displays a field that allows the teacher to set the number of answer choices
+     */
     private void createSelectNumAnswerChoices() {
         JPanel preSpecificPanel = (JPanel) activeComponents.get(0);
         if (activeComponents.size() > 4) {
@@ -891,24 +965,35 @@ public class View extends JComponent {
         if (addDoneFinishPanel.getComponentCount() != 1) {
             addDoneFinishPanel.removeAll();
 
-            JButton addButton = new JButton("Add another question");
-            addButton.setActionCommand("add another question");
-            addButton.addActionListener(actionListener);
-            JButton finishButton = new JButton("Finish");
-            finishButton.setActionCommand("finish adding questions");
-            finishButton.addActionListener(actionListener);
-            addDoneFinishPanel.add(addButton);
-            addDoneFinishPanel.add(finishButton);
+            JButton doneButton = new JButton("Done");
+            doneButton.setActionCommand("done with adding questions");
+            doneButton.addActionListener(actionListener);
+            addDoneFinishPanel.add(doneButton);
         }
+
+        JLabel numAnswerChoicesLabel = new JLabel("Number of answer choices");
+        JTextField numAnswerChoicesTxt = new JTextField(5);
+        activeComponents.add(numAnswerChoicesTxt);
+        JButton numAnswerChoicesButton = new JButton("Set");
+        numAnswerChoicesButton.setActionCommand("set num answer choices");
+        numAnswerChoicesButton.addActionListener(actionListener);
+        JPanel numAnswerChoicesPanel = new JPanel(new FlowLayout());
+        numAnswerChoicesPanel.add(numAnswerChoicesLabel);
+        numAnswerChoicesPanel.add(numAnswerChoicesTxt);
+        numAnswerChoicesPanel.add(numAnswerChoicesButton);
+
+        preSpecificPanel.add(numAnswerChoicesPanel, BorderLayout.SOUTH);
 
         mainPanel.validate();
         mainPanel.repaint();
     }
 
-    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
-    //use that method in the actual implementation. I have described various details of the needed methods at the top of
-    //the page directly under the import statements.
-    private void createCreateMultipleChoiceQuestion() {
+    /**
+     * Displays text fields for teacher to specify answer choices
+     *
+     * @param numAnswerChoices the number of answer choices to display
+     */
+    private void createCreateMultipleChoiceQuestion(int numAnswerChoices) {
         JPanel preSpecificPanel = (JPanel) activeComponents.get(0);
         if (activeComponents.size() > 5) {
             for (int i = 5; i < activeComponents.size(); i++) {
@@ -919,14 +1004,38 @@ public class View extends JComponent {
             mainPanel.remove(mainPanelLayout.getLayoutComponent(BorderLayout.CENTER));
         }
 
-        String questionName = "";
-        int pointValue = 0;
+        JPanel addDoneFinishPanel = (JPanel) activeComponents.get(1);
+        if (addDoneFinishPanel.getComponentCount() != 2) {
+            addDoneFinishPanel.removeAll();
 
-        int numAnswerChoices = 0;
-        String[] answerChoices = new String[numAnswerChoices];
-        int correctAnswerIndex = 0;
-        client.createMultipleChoiceQuestion(questionName, pointValue, numAnswerChoices, answerChoices,
-                correctAnswerIndex);
+            JButton addButton = new JButton("Add another question");
+            addButton.setActionCommand("add multiple choice question");
+            addButton.addActionListener(actionListener);
+            JButton finishButton = new JButton("Finish");
+            finishButton.setActionCommand("finish with multiple choice question");
+            finishButton.addActionListener(actionListener);
+            addDoneFinishPanel.add(addButton);
+            addDoneFinishPanel.add(finishButton);
+        }
+
+        JPanel answerChoicesPanel = new JPanel(new GridLayout(0, 1));
+        ButtonGroup answerChoicesGroup = new ButtonGroup();
+        activeComponents.add(answerChoicesGroup);
+
+        for (int i = 0; i < numAnswerChoices; i++) {
+            JRadioButton choiceButton = new JRadioButton("Choice " + (i + 1) + ":");
+            choiceButton.setActionCommand(Integer.toString(i));
+            answerChoicesGroup.add(choiceButton);
+            JTextField choiceTxt = new JTextField(30);
+            activeComponents.add(choiceTxt);
+            JPanel choicePanel = new JPanel(new FlowLayout());
+            choicePanel.add(choiceButton);
+            choicePanel.add(choiceTxt);
+            answerChoicesPanel.add(choicePanel);
+        }
+
+        JScrollPane scrollPane = new JScrollPane(answerChoicesPanel);
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
 
         mainPanel.validate();
         mainPanel.repaint();
