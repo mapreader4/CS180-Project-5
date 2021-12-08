@@ -343,6 +343,7 @@ public class Client {
             objects.add("update-true-false");
             objects.add(courseNumber);
             objects.add(quizNumber);
+            objects.add(questionNumber);
             objects.add(questionName);
             objects.add(pointValue);
             if (trueOrFalse) {
@@ -364,6 +365,7 @@ public class Client {
             objects.add("update-multiple-choice");
             objects.add(courseNumber);
             objects.add(quizNumber);
+            objects.add(questionNumber);
             objects.add(questionName);
             objects.add(pointValue);
             objects.add(numChoices);
@@ -382,6 +384,7 @@ public class Client {
             objects.add("update-fill-in-the-blank");
             objects.add(courseNumber);
             objects.add(quizNumber);
+            objects.add(questionNumber);
             objects.add(questionName);
             objects.add(pointValue);
             objects.add(answer);
