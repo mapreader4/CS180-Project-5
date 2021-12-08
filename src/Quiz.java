@@ -44,8 +44,8 @@ public class Quiz implements Serializable {
         }
     }
 
-    public Quiz(int courseNumber, String name, String randomized) {
-        this.courseNumber = courseNumber;
+    public Quiz( Course course, String name, String randomized) {
+        this.course = course;
         this.name = name;
         if (randomized.equals("true")) {
             this.randomized = true;
