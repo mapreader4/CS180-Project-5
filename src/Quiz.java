@@ -21,6 +21,8 @@ public class Quiz implements Serializable {
     private Course course;
     private ArrayList<Submission> submissions = new ArrayList<>();
     private boolean randomized;
+    private int courseNumber;
+
 
 
     public Quiz(Scanner scanner, Course course) { //create Quiz within the Quiz Class
@@ -36,6 +38,20 @@ public class Quiz implements Serializable {
         ArrayList<String> questionList = FileImports.readFile(fileName);
         createQuizFromFile(questionList, scanner);
         this.course = course;
+    }
+
+    public Quiz(int courseNumber, String name, String randomized) {
+        this.courseNumber = courseNumber;
+        this.name = name;
+        if (randomized.equals("true")) {
+            this.randomized = true;
+        } else {
+            this.randomized = false;
+        }
+    }
+
+    public int getCourseNumber() {
+        return courseNumber;
     }
 
     public boolean isRandomized() {

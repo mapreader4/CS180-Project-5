@@ -56,7 +56,6 @@ import java.util.Scanner;
 
 //TODO: implement the rest of the menu logic
 //parts of the menu logic remaining:
-//create quiz - long series of methods allowing teacher to create quiz
 //edit quiz - displays list of questions, then allows teacher to edit any particular question
 //take quiz - long series of methods allowing student to take quiz
 //view submission - displays submissions to quiz, then allows viewing of any submission
@@ -371,13 +370,33 @@ public class View extends JComponent {
                     client.setActiveQuestion(questionNumber);
                     createEditQuestionScreen();
                 }
+            } else if (actionCommand.equals("update true or false question")) {
+                JTextField questionNameTxt = (JTextField) activeComponents.get(0);
+                JTextField pointValueTxt = (JTextField) activeComponents.get(1);
+                ButtonGroup trueOrFalseGroup = (ButtonGroup) activeComponents.get(2);
+                String trueOrFalseChoice = trueOrFalseGroup.getSelection().getActionCommand();
+                try {
+                    String questionName = questionNameTxt.getText();
+                    int pointValue = Integer.parseInt(pointValueTxt.getText());
+                    boolean trueOrFalse = trueOrFalseChoice.equals("true");
+                    client.updateTrueFalseQuestion(questionName, pointValue, trueOrFalse);
+                    createEditQuizMenu();
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Please enter an integer for point " +
+                            "value.", "Enter an integer", JOptionPane.ERROR_MESSAGE);
+                }
             } else if (actionCommand.equals("delete question")) {
                 ButtonGroup questionsGroup = (ButtonGroup) activeComponents.get(0);
                 String questionChoice = questionsGroup.getSelection().getActionCommand();
                 if (!questionChoice.equals("add questions")) {
-                    int questionNumber = Integer.parseInt(questionChoice);
-                    client.deleteQuestion(questionNumber);
-                    createEditQuizMenu();
+                    int checkDeletion = JOptionPane.showConfirmDialog(null,
+                            "Are you sure you want to delete this question?", "Delete question?",
+                            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    if (checkDeletion == JOptionPane.YES_OPTION) {
+                        int questionNumber = Integer.parseInt(questionChoice);
+                        client.deleteQuestion(questionNumber);
+                        createEditQuizMenu();
+                    }
                 }
             } else if (actionCommand.equals("back to teacher quiz options menu")) {
                 createTeacherQuizOptionsMenu();
@@ -888,7 +907,7 @@ public class View extends JComponent {
         questionNamePanel.add(questionNameLabel);
         questionNamePanel.add(questionNameTxt);
         JLabel pointValueLabel = new JLabel("Point Value:");
-        JTextField pointValueTxt = new JTextField(30);
+        JTextField pointValueTxt = new JTextField(5);
         activeComponents.add(pointValueTxt);
         JPanel pointValuePanel = new JPanel(new FlowLayout());
         pointValuePanel.add(pointValueLabel);
@@ -1176,18 +1195,98 @@ public class View extends JComponent {
         mainPanel.repaint();
     }
 
-    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
-    //use that method in the actual implementation. I have described various details of the needed methods at the top of
-    //the page directly under the import statements.
+    /**
+     * Determines type of question to be edited, then calls relevant edit screen creation method
+     */
     private void createEditQuestionScreen() {
         mainPanel.removeAll();
         activeComponents.clear();
 
-        Question question = new Question();
-        client.updateQuestion(question);
+        Question question = client.getActiveQuestion();
+        if (question instanceof TrueFalse) {
+            TrueFalse trueFalse = (TrueFalse) question;
+            createEditTrueFalseScreen(trueFalse);
+        } else if (question instanceof MultipleChoice) {
+            MultipleChoice multipleChoice = (MultipleChoice) question;
+            createEditMultipleChoiceScreen(multipleChoice);
+        } else if (question instanceof FillInTheBlank) {
+            FillInTheBlank fillInTheBlank = (FillInTheBlank) question;
+            createEditFillInTheBlankScreen(fillInTheBlank);
+        }
 
         mainPanel.validate();
         mainPanel.repaint();
+    }
+
+    /**
+     * Displays fields of true or false question for editing
+     *
+     * @param trueFalse the question to be displayed
+     */
+    private void createEditTrueFalseScreen(TrueFalse trueFalse) {
+        JLabel questionNameLabel = new JLabel("Question:");
+        JTextField questionNameTxt = new JTextField(30);
+        questionNameTxt.setText(trueFalse.getQuestion());
+        activeComponents.add(questionNameTxt);
+        JPanel questionNamePanel = new JPanel(new FlowLayout());
+        questionNamePanel.add(questionNameLabel);
+        questionNamePanel.add(questionNameTxt);
+
+        JLabel pointValueLabel = new JLabel("Point Value:");
+        JTextField pointValueTxt = new JTextField(5);
+        pointValueTxt.setText(Integer.toString(trueFalse.getPointValue()));
+        activeComponents.add(pointValueTxt);
+        JPanel pointValuePanel = new JPanel(new FlowLayout());
+        pointValuePanel.add(pointValueLabel);
+        pointValuePanel.add(pointValueTxt);
+
+        JPanel genericFieldsPanel = new JPanel(new BorderLayout());
+        genericFieldsPanel.add(questionNamePanel, BorderLayout.NORTH);
+        genericFieldsPanel.add(pointValuePanel, BorderLayout.CENTER);
+
+        JLabel trueOrFalseLabel = new JLabel("Is the correct answer 'true' or 'false'?");
+        JRadioButton trueButton;
+        JRadioButton falseButton;
+        boolean answer = trueFalse.getAnswer().equalsIgnoreCase("true");
+        if (answer) {
+            trueButton = new JRadioButton("True", true);
+            falseButton = new JRadioButton("False");
+        } else {
+            trueButton = new JRadioButton("True");
+            falseButton = new JRadioButton("False", true);
+        }
+        trueButton.setActionCommand("true");
+        falseButton.setActionCommand("false");
+        ButtonGroup trueOrFalseGroup = new ButtonGroup();
+        trueOrFalseGroup.add(trueButton);
+        trueOrFalseGroup.add(falseButton);
+        activeComponents.add(trueOrFalseGroup);
+        JPanel trueOrFalsePanel = new JPanel(new BorderLayout());
+        trueOrFalsePanel.add(trueOrFalseLabel, BorderLayout.NORTH);
+        trueOrFalsePanel.add(trueButton, BorderLayout.CENTER);
+        trueOrFalsePanel.add(falseButton, BorderLayout.SOUTH);
+
+        JButton updateButton = new JButton("Update");
+        updateButton.setActionCommand("update true or false question");
+        updateButton.addActionListener(actionListener);
+
+        mainPanel.add(genericFieldsPanel, BorderLayout.NORTH);
+        mainPanel.add(trueOrFalsePanel, BorderLayout.CENTER);
+        mainPanel.add(updateButton, BorderLayout.SOUTH);
+    }
+
+    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
+    //use that method in the actual implementation. I have described various details of the needed methods at the top of
+    //the page directly under the import statements.
+    private void createEditMultipleChoiceScreen(MultipleChoice multipleChoice) {
+
+    }
+
+    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
+    //use that method in the actual implementation. I have described various details of the needed methods at the top of
+    //the page directly under the import statements.
+    private void createEditFillInTheBlankScreen(FillInTheBlank fillInTheBlank) {
+
     }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to

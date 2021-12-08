@@ -192,29 +192,25 @@ public class Client {
 
         return false;
     }
-//    public boolean createQuiz(String quizName, boolean randomize) {
-//        try {
-//            ArrayList<Object> objects = new ArrayList<>();
-//            objects.add("create-quiz");
-//            objects.add(courseNumber);
-//            objects.add(quizName);
-//            if(randomize) {
-//                objects.add("true");
-//            } else {
-//                objects.add("false");
-//            }
-//            oos.writeObject(objects);
-//            oos.flush();
-//            String checker =(String)ois.readObject();
-//            if(checker.equals("success")){
-//                this.quizNumber=;
-//                return true;
-//            }
-//        } catch (Exception e) {
-//            throw new RuntimeException();
-//        }
-//        return false;
-//    }
+    public void createQuiz(String quizName, boolean randomize) {
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("create-quiz");
+            objects.add(courseNumber);
+            objects.add(quizName);
+            if(randomize) {
+                objects.add("true");
+            } else {
+                objects.add("false");
+            }
+            oos.writeObject(objects);
+            oos.flush();
+            int thisQuizNumber =(int)ois.readObject();
+            this.quizNumber = thisQuizNumber;
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
 
     public void addStudentToCourse(int courseNumber){
         try {
