@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -38,6 +35,13 @@ public class Quiz implements Serializable {
         ArrayList<String> questionList = FileImports.readFile(fileName);
         createQuizFromFile(questionList, scanner);
         this.course = course;
+    }
+    public Quiz(Course course, File f){
+        try(BufferedReader bfr=new BufferedReader(new FileReader(f))){
+
+        } catch (Exception e) {
+
+        }
     }
 
     public Quiz(int courseNumber, String name, String randomized) {

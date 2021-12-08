@@ -192,6 +192,26 @@ public class Client {
 
         return false;
     }
+    public boolean addImportedQuiz(File f) {
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("create-imported-quiz-file");
+            objects.add(courseNumber);
+            objects.add(f);
+            oos.writeObject(objects);
+            oos.flush();
+            ArrayList<Object> result=(ArrayList<Object>)ois.readObject();
+            String checker = (String) (result.get(0));
+            if(checker.equals("success")){
+                this.quizNumber=(Integer)(result.get(1));
+                return true;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+
+        return false;
+    }
     public void createQuiz(String quizName, boolean randomize) {
         try {
             ArrayList<Object> objects = new ArrayList<>();
@@ -243,21 +263,6 @@ public class Client {
 //        }
 //    }
 //
-//    public boolean addImportedQuiz(File f) {
-//        try {
-//            ArrayList<Object> objects = new ArrayList<>();
-//            objects.add("import-quiz-file");
-//            objects.add(f);
-//            oos.writeObject(objects);
-//            oos.flush();
-//            String checker = (String) ois.readObject();
-//            if(checker.equals("success")){
-//                return true;
-//            }
-//        } catch (Exception e) {
-//            throw new RuntimeException();
-//        }
-//
 //        return false;
 //    }
 
@@ -272,9 +277,7 @@ public class Client {
 //            throw new RuntimeException();
 //        }
 //    }
-//    public boolean addImportedQuiz(){
-//
-//    }
+
 
 
 //

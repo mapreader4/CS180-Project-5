@@ -67,7 +67,13 @@ public class Concurrency extends Thread {
                     String courseName=(String)objects.get(1);
                     int courseNumber=(Integer)objects.get(2);
                     createCourse(courseName,courseNumber);
-                } //else if(line.equalsIgnoreCase("create-quiz")) {
+                } else if(line.equalsIgnoreCase("create-imported-quiz-file")){
+                    int courseNumber=(Integer)objects.get(1);
+                    File file=(File)objects.get(2);
+                    addImportedQuiz(courseNumber,file);
+
+                }
+                //else if(line.equalsIgnoreCase("create-quiz")) {
 //                    int courseNumber=(Integer)objects.get(1);
 //                    String courseName=(String)objects.get(2);
 //                    String randomize=(String)objects.get(3);
@@ -248,6 +254,22 @@ public class Concurrency extends Thread {
         } catch(Exception e) {
             throw new RuntimeException("createCourse not working");
         }
+    }
+    public void addImportedQuiz(int courseNumber, File file){
+        ArrayList<Object> result = new ArrayList<>();
+        try {
+            Course course = courseList.getCourse(courseNumber);
+            Quiz quiz = new Quiz(course, file);
+            course.addQuiz(quiz);
+            int quizNumber = course.getQuizzes().indexOf(quiz);
+            result.add("success");
+            result.add(quizNumber);
+            outputStream.writeObject(result);
+            outputStream.flush();
+        } catch (Exception e){
+            throw new RuntimeException("createImportedQuiz not working");
+        }
+
     }
     public void createQuiz(int courseNumber,String quizName, String randomize){
         Course course=courseList.getCourse(courseNumber);
