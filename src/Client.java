@@ -210,7 +210,6 @@ public class Client {
         } catch (Exception e) {
             throw new RuntimeException();
         }
-
         return false;
     }
     public void createQuiz(String quizName, boolean randomize) {
