@@ -304,6 +304,9 @@ public class Quiz implements Serializable {
     public void addQuestion(Question question){
         quiz.add(question);
     }
+    public Question getQuestion(int i){
+        return quiz.get(i);
+    }
 
 
 
