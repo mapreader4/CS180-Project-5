@@ -1449,9 +1449,8 @@ public class View extends JComponent {
         activeComponents.clear();
 
         ArrayList<Question> questions = client.getQuestions();
-        Quiz quiz = new Quiz(new Scanner(System.in), new Course("", new Teacher("", ""), 0));
-        Submission submission = new Submission(new Student("", ""), quiz);
-        client.submitSubmission(submission);
+        ArrayList<String> answers = new ArrayList<String>();
+        client.submitSubmission(answers);
 
         mainPanel.validate();
         mainPanel.repaint();
