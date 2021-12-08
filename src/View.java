@@ -375,9 +375,14 @@ public class View extends JComponent {
                 ButtonGroup questionsGroup = (ButtonGroup) activeComponents.get(0);
                 String questionChoice = questionsGroup.getSelection().getActionCommand();
                 if (!questionChoice.equals("add questions")) {
-                    int questionNumber = Integer.parseInt(questionChoice);
-                    client.deleteQuestion(questionNumber);
-                    createEditQuizMenu();
+                    int checkDeletion = JOptionPane.showConfirmDialog(null,
+                            "Are you sure you want to delete this question?", "Delete question?",
+                            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    if (checkDeletion == JOptionPane.YES_OPTION) {
+                        int questionNumber = Integer.parseInt(questionChoice);
+                        client.deleteQuestion(questionNumber);
+                        createEditQuizMenu();
+                    }
                 }
             } else if (actionCommand.equals("back to teacher quiz options menu")) {
                 createTeacherQuizOptionsMenu();
