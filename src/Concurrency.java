@@ -87,6 +87,13 @@ public class Concurrency extends Thread {
                     ArrayList<String> answerChoices = (ArrayList<String>) objects.get(6);
                     int correctAnswerIndex = (int)objects.get(7);
                     createMultipleChoiceQuestion(courseNumber,quizNumber,questionName,pointValue,numChoices,answerChoices,correctAnswerIndex);
+                } else if(line.equalsIgnoreCase("create-fill-in-the-blank")){
+                    int courseNumber = (int) objects.get(1);
+                    int quizNumber = (int) objects.get(2);
+                    String questionName = (String) objects.get(3);
+                    int pointValue = (int) objects.get(4);
+                    String answer = (String)objects.get(5);
+                    createFillInTheBlankQuestion(courseNumber,quizNumber,questionName,pointValue,answer);
                 }
                 else if(line.equalsIgnoreCase("create-quiz")) {
                     int courseNumber=(Integer)objects.get(1);
@@ -108,6 +115,7 @@ public class Concurrency extends Thread {
             throw new RuntimeException();
         }
     }
+
     //looks good
     public void login(String username, String  password,String typeOfUser) {
         try {
@@ -345,4 +353,12 @@ public class Concurrency extends Thread {
         MultipleChoice question  = new MultipleChoice(questionName,numChoices,answerChoices,correctAnswerIndex,pointValue);
         q.addQuestion(question);
     }
+    private void createFillInTheBlankQuestion(int courseNumber, int quizNumber, String questionName, int pointValue, String answer) {
+        Course c = courseList.getCourse(courseNumber);
+        ArrayList<Quiz>quizzes = c.getQuizzes();
+        Quiz q = quizzes.get(quizNumber);
+        FillInTheBlank question = new FillInTheBlank(questionName,answer,pointValue);
+        q.addQuestion(question);
+    }
+
 }
