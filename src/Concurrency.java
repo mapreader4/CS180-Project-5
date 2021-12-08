@@ -249,10 +249,19 @@ public class Concurrency extends Thread {
             throw new RuntimeException("createCourse not working");
         }
     }
-//    public void createQuiz(int courseNumber,String quizName, String randomize){
-//        Course course=courseList.getCourse(courseNumber);
-//
-//    }
+    public void createQuiz(int courseNumber,String quizName, String randomize){
+        Course course=courseList.getCourse(courseNumber);
+        course.addQuiz(new Quiz(courseNumber, quizName, randomize));
+        ArrayList<Object> result = new ArrayList<>();
+        result.add(course.getQuizzes().size() - 1);
+        try {
+            outputStream.writeObject(result);
+            outputStream.flush();
+        } catch (Exception e) {
+            throw new RuntimeException("createQuiz not working");
+        }
+    }
+
     public void addStudentToCourse(int courseNumber){
         Course course=courseList.getCourse(courseNumber);
         ((Student)user).addToCourse(course);
