@@ -346,9 +346,10 @@ public class Concurrency extends Thread {
     }
     public void createQuiz(int courseNumber,String quizName, String randomize){
         Course course=courseList.getCourse(courseNumber);
-        course.addQuiz(new Quiz(course, quizName, randomize));
+        Quiz quiz=new Quiz(course, quizName, randomize);
+        course.addQuiz(quiz);
         ArrayList<Object> result = new ArrayList<>();
-        result.add(course.getQuizzes().size() - 1);
+        result.add(course.getQuizzes().indexOf(quiz));
         try {
             outputStream.writeObject(result);
             outputStream.flush();
