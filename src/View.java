@@ -380,7 +380,7 @@ public class View extends JComponent {
                     int pointValue = Integer.parseInt(pointValueTxt.getText());
                     boolean trueOrFalse = trueOrFalseChoice.equals("true");
                     client.updateTrueFalseQuestion(questionName, pointValue, trueOrFalse);
-                    createCreateQuestionScreen();
+                    createEditQuestionScreen();
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Please enter an integer for point " +
                             "value.", "Enter an integer", JOptionPane.ERROR_MESSAGE);
