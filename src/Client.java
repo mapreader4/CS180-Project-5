@@ -257,6 +257,26 @@ public class Client {
             throw new RuntimeException();
         }
     }
+
+    public void createTrueFalseQuestion(String questionName, int pointValue, boolean trueOrFalse) {
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("create-true-false");
+            objects.add(courseNumber);
+            objects.add(quizNumber);
+            objects.add(questionName);
+            objects.add(pointValue);
+            if (trueOrFalse) {
+                objects.add("true");
+            } else {
+                objects.add("false");
+            }
+            oos.writeObject(objects);
+            oos.flush();
+        } catch (Exception e) {
+            throw new RuntimeException("createTrueFalseQuestion not working");
+        }
+    }
 //    public boolean deleteQuestion() {
 //        try {
 //
