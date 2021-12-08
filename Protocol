@@ -71,3 +71,12 @@ c: get-current-quiz
 s: Quiz currentQuiz
 
 
+
+
+
+//this is structure of quiz file
+<Name of Quiz>  <randomized or not>
+<Type of Question>
+<Question> <Answer> <pointValue>
+<Type of Question>
+<Question> <Answer> <pointValue>  //so on
