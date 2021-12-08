@@ -481,11 +481,6 @@ public class TestView extends JComponent {
     private void createCreateCourseScreen() {
         mainPanel.removeAll();
         activeComponents.clear();
-
-        String courseName = "";
-        int courseNumber = 0;
-        client.createCourse(courseName, courseNumber);
-
         JLabel courseNumberLabel = new JLabel("Course Number:");
         JTextField courseNumberTxt = new JTextField(30);
         activeComponents.add(courseNumberTxt);
