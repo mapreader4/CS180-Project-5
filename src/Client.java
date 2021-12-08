@@ -1,4 +1,5 @@
 import java.io.*;
+import java.lang.reflect.Array;
 import java.net.Socket;
 import java.util.ArrayList;
 /** So, we need to update the course anytime a quiz is added as the quiz is being taken from the active course, maybe
@@ -274,7 +275,26 @@ public class Client {
             oos.writeObject(objects);
             oos.flush();
         } catch (Exception e) {
-            throw new RuntimeException("createTrueFalseQuestion not working");
+            throw new RuntimeException("client: createTrueFalseQuestion not working");
+        }
+    }
+
+    public void createMultipleChoiceQuestion(String questionName, int pointValue, int numChoices, ArrayList<String>
+                                     answerChoices, int correctAnswerIndex) {
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("create-multiple-choice");
+            objects.add(courseNumber);
+            objects.add(quizNumber);
+            objects.add(questionName);
+            objects.add(pointValue);
+            objects.add(numChoices);
+            objects.add(answerChoices);
+            objects.add(correctAnswerIndex);
+            oos.writeObject(objects);
+            oos.flush();
+        } catch (Exception e) {
+            throw new RuntimeException("client: createMultipleChoice not working");
         }
     }
 //    public boolean deleteQuestion() {
