@@ -71,7 +71,12 @@ public class Concurrency extends Thread {
                 } else if(line.equalsIgnoreCase("create-imported-quiz-file")){
                     int courseNumber=(Integer)objects.get(1);
                     File file=(File)objects.get(2);
-                    addImportedQuiz(courseNumber,file);
+                    if(!addImportedQuiz(courseNumber,file)){
+                        ArrayList<Object> result = new ArrayList<>();
+                        result.add("failure");
+                        outputStream.writeObject(result);
+                        outputStream.flush();
+                    }
                 }else if(line.equalsIgnoreCase("create-true-false-question")){
                     int courseNumber = (int) objects.get(1);
                     int quizNumber = (int)objects.get(2);
@@ -305,21 +310,66 @@ public class Concurrency extends Thread {
             throw new RuntimeException("createCourse not working");
         }
     }
-    public void addImportedQuiz(int courseNumber, File file){
+
+    public boolean addImportedQuiz(int courseNumber, File file){
         ArrayList<Object> result = new ArrayList<>();
+        Course course=courseList.getCourse(courseNumber);
+        Quiz quiz;
         try {
-            Course course = courseList.getCourse(courseNumber);
-            Quiz quiz = new Quiz(course, file);
+            File f=file;
+            try (BufferedReader bfr=new BufferedReader(new FileReader(f))){
+                String line=bfr.readLine();
+                String[] temp=line.split(" ");
+                quiz=new Quiz(course,temp[0],temp[1]);
+                while(line!=null){
+                    line=bfr.readLine();
+                    if(line.equals("True False")){
+                        line= bfr.readLine();
+                        String[] temp2=line.split(" ");
+                        String questionString=temp2[0];
+                        String answer=temp2[1];
+                        int pointValue=Integer.parseInt(temp2[2]);
+                        TrueFalse question=new TrueFalse(questionString,answer,pointValue);
+                        quiz.addQuestion(question);
+                    } else if(line.equals("Fill in the Blank")){
+                        line= bfr.readLine();
+                        String[] temp2=line.split(" ");
+                        String questionString=temp2[0];
+                        String answer=temp2[1];
+                        int pointValue=Integer.parseInt(temp2[2]);
+                        FillInTheBlank question=new FillInTheBlank(questionString,answer,pointValue);
+                        quiz.addQuestion(question);
+                    } else if(line.equals("Multiple Choice")){
+                        line= bfr.readLine();
+                        String[] temp2=line.split(" ");
+                        String questionString=temp2[0];
+                        int pointValue=Integer.parseInt(temp2[2]);
+                        int numChoices=Integer.parseInt(temp2[3]);
+                        ArrayList<String> answerChoices=new ArrayList<>();
+                        answerChoices.add(temp2[4]);
+                        answerChoices.add(temp2[5]);
+                        answerChoices.add(temp2[6]);
+                        answerChoices.add(temp2[7]);
+                        int correctAnswerIndex=Integer.parseInt(temp2[8]);
+                        MultipleChoice question=new MultipleChoice(questionString,numChoices,answerChoices,correctAnswerIndex,pointValue);
+                        quiz.addQuestion(question);
+                    } else {
+                        return false;
+                    }
+                }
+            } catch (Exception e) {
+                return false;
+            }
             course.addQuiz(quiz);
             int quizNumber = course.getQuizzes().indexOf(quiz);
             result.add("success");
             result.add(quizNumber);
             outputStream.writeObject(result);
             outputStream.flush();
+            return true;
         } catch (Exception e){
-            throw new RuntimeException("createImportedQuiz not working");
+            throw new RuntimeException("addImportedQuiz not working");
         }
-
     }
     public void createQuiz(int courseNumber,String quizName, String randomize){
         Course course=courseList.getCourse(courseNumber);
@@ -344,21 +394,6 @@ public class Concurrency extends Thread {
         Quiz quiz=course.getQuizzes().get(quizNumber);
         course.removeQuiz(quiz);
     }
-    //No need of this
-//    public void setActiveCourse(int courseNumber){
-//        try {
-//            Course course = courseList.getCourse(courseNumber);
-//            outputStream.writeObject(course);
-//        } catch(IOException e) {
-//            throw new RuntimeException("setActiveCourse not working");
-//        }
-//    }
-
-    //    public void updateLists(){
-//        teacherList = TeacherList.readFromFile();
-//        studentList = StudentList.readFromFile();
-//        courseList = CourseList.readFromFile();
-//    }
     public void storeLists(){
         teacherList.saveToFile();
         courseList.saveToFile();

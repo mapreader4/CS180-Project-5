@@ -210,7 +210,6 @@ public class Client {
         } catch (Exception e) {
             throw new RuntimeException();
         }
-
         return false;
     }
     public void createQuiz(String quizName, boolean randomize) {
@@ -421,6 +420,10 @@ public class Client {
         }
     }
 
+    public void lastQuestionAdded() {
+        this.clearActiveQuiz();
+    }
+
 //
 //    public void close() {
 //
@@ -447,6 +450,31 @@ public class Client {
     }
     public void clearActiveQuiz(){
         this.quizNumber=-1;
+    }
+    public Question getActiveQuestion() {
+        try {
+           ArrayList<Object> objects = new ArrayList<>();
+           objects.add("get-active-question");
+           objects.add(courseNumber);
+           objects.add(quizNumber);
+           objects.add(questionNumber);
+           oos.writeObject(objects);
+           oos.flush();
+           Question question = (Question) ois.readObject();
+           return question;
+        } catch (Exception e) {
+            throw new RuntimeException("client: getActiveQuestion not working");
+        }
+    }
+    public void close() {
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("close");
+            oos.writeObject(objects);
+            oos.flush();
+        } catch (Exception e) {
+            throw new RuntimeException("client: close not working");
+        }
     }
     //            OLD ONE
 

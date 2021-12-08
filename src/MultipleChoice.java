@@ -34,7 +34,7 @@ public class MultipleChoice extends Question {
     private int correctAnswerIndex;
 
 
-    public MultipleChoice(String question, int numChoices,ArrayList answerChoices, int answerIndex, int pointValue) {
+    public MultipleChoice(String question, int numChoices,ArrayList<String> answerChoices, int answerIndex, int pointValue) {
         super(question, pointValue);
         this.numChoices = numChoices;
         this.answerChoices = answerChoices;

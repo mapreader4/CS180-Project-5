@@ -73,10 +73,13 @@ s: Quiz currentQuiz
 
 
 
-
 //this is structure of quiz file
 <Name of Quiz>  <randomized or not>
-<Type of Question>
+<True False>
 <Question> <Answer> <pointValue>
-<Type of Question>
-<Question> <Answer> <pointValue>  //so on
+<Multiple Choice>
+<Question> <pointValue> <numChoices> <answerChoice1> <answerChoice2> <answerChoice3> <answerChoice4> <correctAnswerIndex>
+ <Fill in the Blank>
+ <Question> <Answer> <pointValue>
+ //so on
+
