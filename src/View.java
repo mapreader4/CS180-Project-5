@@ -5,6 +5,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+//TODO: a quick note to future me:
+//sorry about any confusion you may have on the question creation methods
+//don't forget to make sure your active components aren't tracking multiple question types at once
+//also don't forget to have every question type change the buttons at the bottom to add and finish
+//but if you don't get it right the first time, that's fine
+//we can always fix this at the debug meeting on Wednesday
+
 //Explanations for Client methods:
 //I probably haven't explained this well. Please ask me if you need clarification on anything, or if something in this
 //plan needs to be edited because it won't work with the rest of the program.
@@ -229,6 +236,21 @@ public class View extends JComponent {
                 createCreateQuestionScreen();
             } else if (actionCommand.equals("true or false")) {
                 createCreateTrueFalseQuestion();
+            } else if (actionCommand.equals("add true or false question")) {
+                JTextField questionNameTxt = (JTextField) activeComponents.get(2);
+                JTextField pointValueTxt = (JTextField) activeComponents.get(3);
+                ButtonGroup trueOrFalseGroup = (ButtonGroup) activeComponents.get(4);
+                String trueOrFalseChoice = trueOrFalseGroup.getSelection().getActionCommand();
+                try {
+                    String questionName = questionNameTxt.getText();
+                    int pointValue = Integer.parseInt(pointValueTxt.getText());
+                    boolean trueOrFalse = trueOrFalseChoice.equals("true");
+                    client.createTrueFalseQuestion(questionName, pointValue, trueOrFalse);
+                    createCreateQuestionScreen();
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Please enter an integer for point " +
+                            "value.", "Enter an integer", JOptionPane.ERROR_MESSAGE);
+                }
             } else if (actionCommand.equals("multiple choice")) {
                 createSelectNumAnswerChoices();
             } else if (actionCommand.equals("fill in the blank")) {
@@ -796,11 +818,53 @@ public class View extends JComponent {
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
     private void createCreateTrueFalseQuestion() {
-        String questionName = "";
-        int pointValue = 0;
+        JPanel preSpecificPanel = (JPanel) activeComponents.get(0);
+        if (activeComponents.size() > 4) {
+            for (int i = 4; i < activeComponents.size(); i++) {
+                activeComponents.remove(i);
+            }
 
-        boolean trueOrFalse = false;
-        client.createTrueFalseQuestion(questionName, pointValue, trueOrFalse);
+            BorderLayout mainPanelLayout = (BorderLayout) mainPanel.getLayout();
+            mainPanel.remove(mainPanelLayout.getLayoutComponent(BorderLayout.CENTER));
+
+            BorderLayout preSpecificLayout = (BorderLayout) preSpecificPanel.getLayout();
+            preSpecificPanel.remove(preSpecificLayout.getLayoutComponent(BorderLayout.SOUTH));
+        }
+
+        JPanel addDoneFinishPanel = (JPanel) activeComponents.get(1);
+        if (addDoneFinishPanel.getComponentCount() != 2) {
+            addDoneFinishPanel.removeAll();
+
+            JButton addButton = new JButton("Add another question");
+            addButton.setActionCommand("add true or false question");
+            addButton.addActionListener(actionListener);
+            JButton finishButton = new JButton("Finish");
+            finishButton.setActionCommand("finish with true or false question");
+            finishButton.addActionListener(actionListener);
+            addDoneFinishPanel.add(addButton);
+            addDoneFinishPanel.add(finishButton);
+        } else {
+            JButton addButton = (JButton) addDoneFinishPanel.getComponent(0);
+            addButton.setActionCommand("add true or false question");
+            JButton finishButton = (JButton) addDoneFinishPanel.getComponent(1);
+            finishButton.setActionCommand("finish with true or false question");
+        }
+
+        JLabel trueOrFalseLabel = new JLabel("Is the correct answer 'true' or 'false'?");
+        JRadioButton trueButton = new JRadioButton("True");
+        trueButton.setActionCommand("true");
+        JRadioButton falseButton = new JRadioButton("False");
+        falseButton.setActionCommand("false");
+        ButtonGroup trueOrFalseGroup = new ButtonGroup();
+        trueOrFalseGroup.add(trueButton);
+        trueOrFalseGroup.add(falseButton);
+        activeComponents.add(trueOrFalseGroup);
+        JPanel trueOrFalsePanel = new JPanel(new BorderLayout());
+        trueOrFalsePanel.add(trueOrFalseLabel, BorderLayout.NORTH);
+        trueOrFalsePanel.add(trueButton, BorderLayout.CENTER);
+        trueOrFalsePanel.add(falseButton, BorderLayout.SOUTH);
+
+        mainPanel.add(trueOrFalsePanel, BorderLayout.SOUTH);
 
         mainPanel.validate();
         mainPanel.repaint();
@@ -810,6 +874,33 @@ public class View extends JComponent {
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
     private void createSelectNumAnswerChoices() {
+        JPanel preSpecificPanel = (JPanel) activeComponents.get(0);
+        if (activeComponents.size() > 4) {
+            for (int i = 4; i < activeComponents.size(); i++) {
+                activeComponents.remove(i);
+            }
+
+            BorderLayout mainPanelLayout = (BorderLayout) mainPanel.getLayout();
+            mainPanel.remove(mainPanelLayout.getLayoutComponent(BorderLayout.CENTER));
+
+            BorderLayout preSpecificLayout = (BorderLayout) preSpecificPanel.getLayout();
+            preSpecificPanel.remove(preSpecificLayout.getLayoutComponent(BorderLayout.SOUTH));
+        }
+
+        JPanel addDoneFinishPanel = (JPanel) activeComponents.get(1);
+        if (addDoneFinishPanel.getComponentCount() != 1) {
+            addDoneFinishPanel.removeAll();
+
+            JButton addButton = new JButton("Add another question");
+            addButton.setActionCommand("add another question");
+            addButton.addActionListener(actionListener);
+            JButton finishButton = new JButton("Finish");
+            finishButton.setActionCommand("finish adding questions");
+            finishButton.addActionListener(actionListener);
+            addDoneFinishPanel.add(addButton);
+            addDoneFinishPanel.add(finishButton);
+        }
+
         mainPanel.validate();
         mainPanel.repaint();
     }
@@ -818,6 +909,16 @@ public class View extends JComponent {
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
     private void createCreateMultipleChoiceQuestion() {
+        JPanel preSpecificPanel = (JPanel) activeComponents.get(0);
+        if (activeComponents.size() > 5) {
+            for (int i = 5; i < activeComponents.size(); i++) {
+                activeComponents.remove(i);
+            }
+
+            BorderLayout mainPanelLayout = (BorderLayout) mainPanel.getLayout();
+            mainPanel.remove(mainPanelLayout.getLayoutComponent(BorderLayout.CENTER));
+        }
+
         String questionName = "";
         int pointValue = 0;
 
@@ -835,6 +936,33 @@ public class View extends JComponent {
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
     private void createCreateFillInTheBlankQuestion() {
+        JPanel preSpecificPanel = (JPanel) activeComponents.get(0);
+        if (activeComponents.size() > 4) {
+            for (int i = 4; i < activeComponents.size(); i++) {
+                activeComponents.remove(i);
+            }
+
+            BorderLayout mainPanelLayout = (BorderLayout) mainPanel.getLayout();
+            mainPanel.remove(mainPanelLayout.getLayoutComponent(BorderLayout.CENTER));
+
+            BorderLayout preSpecificLayout = (BorderLayout) preSpecificPanel.getLayout();
+            preSpecificPanel.remove(preSpecificLayout.getLayoutComponent(BorderLayout.SOUTH));
+        }
+
+        JPanel addDoneFinishPanel = (JPanel) activeComponents.get(1);
+        if (addDoneFinishPanel.getComponentCount() != 1) {
+            addDoneFinishPanel.removeAll();
+
+            JButton addButton = new JButton("Add another question");
+            addButton.setActionCommand("add another question");
+            addButton.addActionListener(actionListener);
+            JButton finishButton = new JButton("Finish");
+            finishButton.setActionCommand("finish adding questions");
+            finishButton.addActionListener(actionListener);
+            addDoneFinishPanel.add(addButton);
+            addDoneFinishPanel.add(finishButton);
+        }
+
         String questionName = "";
         int pointValue = 0;
 
