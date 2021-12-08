@@ -349,17 +349,19 @@ public class Client {
 //        }
 //    }
 
-//    public void submitSubmission(Submission submission) {
-//        try {
-//            ArrayList<Object> objects = new ArrayList<>();
-//            objects.add("submit-submission");
-//            objects.add(submission);
-//            oos.writeObject(objects);
-//            oos.flush();
-//        } catch (Exception e) {
-//            throw new RuntimeException();
-//        }
-//    }
+    public void submitSubmission(ArrayList<String> answers) {
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("submit-submission");
+            objects.add(courseNumber);
+            objects.add(quizNumber);
+            objects.add(answers);
+            oos.writeObject(objects);
+            oos.flush();
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
 
 //
 //    public void close() {
