@@ -56,7 +56,6 @@ import java.util.Scanner;
 
 //TODO: implement the rest of the menu logic
 //parts of the menu logic remaining:
-//create quiz - long series of methods allowing teacher to create quiz
 //edit quiz - displays list of questions, then allows teacher to edit any particular question
 //take quiz - long series of methods allowing student to take quiz
 //view submission - displays submissions to quiz, then allows viewing of any submission
@@ -1181,18 +1180,48 @@ public class View extends JComponent {
         mainPanel.repaint();
     }
 
-    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
-    //use that method in the actual implementation. I have described various details of the needed methods at the top of
-    //the page directly under the import statements.
+    /**
+     * Determines type of question to be edited, then calls relevant edit screen creation method
+     */
     private void createEditQuestionScreen() {
         mainPanel.removeAll();
         activeComponents.clear();
 
-        Question question = new Question();
-        client.updateQuestion(question);
+        Question question = client.getActiveQuestion();
+        if (question instanceof TrueFalse) {
+            TrueFalse trueFalse = (TrueFalse) question;
+            createEditTrueFalseScreen(trueFalse);
+        } else if (question instanceof MultipleChoice) {
+            MultipleChoice multipleChoice = (MultipleChoice) question;
+            createEditMultipleChoiceScreen(multipleChoice);
+        } else if (question instanceof FillInTheBlank) {
+            FillInTheBlank fillInTheBlank = (FillInTheBlank) question;
+            createEditFillInTheBlankScreen(fillInTheBlank);
+        }
 
         mainPanel.validate();
         mainPanel.repaint();
+    }
+
+    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
+    //use that method in the actual implementation. I have described various details of the needed methods at the top of
+    //the page directly under the import statements.
+    private void createEditTrueFalseScreen(TrueFalse trueFalse) {
+
+    }
+
+    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
+    //use that method in the actual implementation. I have described various details of the needed methods at the top of
+    //the page directly under the import statements.
+    private void createEditMultipleChoiceScreen(MultipleChoice multipleChoice) {
+
+    }
+
+    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
+    //use that method in the actual implementation. I have described various details of the needed methods at the top of
+    //the page directly under the import statements.
+    private void createEditFillInTheBlankScreen(FillInTheBlank fillInTheBlank) {
+
     }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
