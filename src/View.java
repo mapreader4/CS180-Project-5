@@ -62,7 +62,7 @@ import java.util.Scanner;
  * Listens for updates from Client, then refreshes the board as need be.
  *
  * @author Nathan Reed, lab sec L24
- * @version December 6, 2021
+ * @version December 8, 2021
  */
 public class View extends JComponent {
     private Client client;
@@ -1515,25 +1515,61 @@ public class View extends JComponent {
         mainPanel.repaint();
     }
 
-    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
-    //use that method in the actual implementation. I have described various details of the needed methods at the top of
-    //the page directly under the import statements.
+    /**
+     * Assembles a panel of a true or false question for a student taking a quiz
+     *
+     * @param trueFalse the question being assembled
+     * @param index the index of the question
+     * @return JPanel containing the question and answer options for display
+     */
     private JPanel assembleTrueFalseQuestion(TrueFalse trueFalse, int index) {
-        return new JPanel();
+        String questionName = trueFalse.getQuestion();
+        int pointValue = trueFalse.getPointValue();
+        String questionTitle = index + ". " + questionName + " (" + pointValue + " point";
+        if (pointValue != 1) questionTitle += "s";
+        questionTitle += ")";
+        JLabel questionLabel = new JLabel(questionTitle);
+
+        JRadioButton trueButton = new JRadioButton("True");
+        trueButton.setActionCommand("true");
+        JRadioButton falseButton = new JRadioButton("False");
+        falseButton.setActionCommand("false");
+        ButtonGroup trueOrFalseGroup = new ButtonGroup();
+        trueOrFalseGroup.add(trueButton);
+        trueOrFalseGroup.add(falseButton);
+        activeComponents.add(trueOrFalseGroup);
+        JPanel trueOrFalsePanel = new JPanel(new BorderLayout());
+        trueOrFalsePanel.add(trueButton, BorderLayout.NORTH);
+        trueOrFalsePanel.add(falseButton, BorderLayout.CENTER);
+
+        JPanel questionPanel = new JPanel(new BorderLayout());
+        questionPanel.add(questionLabel, BorderLayout.NORTH);
+        questionPanel.add(trueOrFalsePanel, BorderLayout.CENTER);
+        return questionPanel;
     }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
     private JPanel assembleMultipleChoiceQuestion(MultipleChoice multipleChoice, int index) {
-        return new JPanel();
+        String questionName = multipleChoice.getQuestion();
+        int pointValue = multipleChoice.getPointValue();
+        String questionTitle = index + ". " + questionName + " (" + pointValue + " point";
+        if (pointValue != 1) questionTitle += "s";
+        questionTitle += ")";
+        JLabel questionLabel = new JLabel(questionTitle);
     }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
     //use that method in the actual implementation. I have described various details of the needed methods at the top of
     //the page directly under the import statements.
     private JPanel assembleFillInTheBlankQuestion(FillInTheBlank fillInTheBlank, int index) {
-        return new JPanel();
+        String questionName = fillInTheBlank.getQuestion();
+        int pointValue = fillInTheBlank.getPointValue();
+        String questionTitle = index + ". " + questionName + " (" + pointValue + " point";
+        if (pointValue != 1) questionTitle += "s";
+        questionTitle += ")";
+        JLabel questionLabel = new JLabel(questionTitle);
     }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
