@@ -203,6 +203,11 @@ public class View extends JComponent {
                     client.submitSubmission(answers);
                     createCourseMenu();
                 }
+            } else if (actionCommand.equals("view submission")) {
+                ButtonGroup submissionsGroup = (ButtonGroup) activeComponents.get(0);
+                int submissionChosen = Integer.parseInt(submissionsGroup.getSelection().getActionCommand());
+                client.setActiveSubmission(submissionNumber);
+                createSubmissionViewer();
             } else if (actionCommand.equals("choose teacher option")) {
                 ButtonGroup optionsGroup = (ButtonGroup) activeComponents.get(0);
                 String optionChosen = optionsGroup.getSelection().getActionCommand();
@@ -1611,15 +1616,42 @@ public class View extends JComponent {
         return questionPanel;
     }
 
-    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
-    //use that method in the actual implementation. I have described various details of the needed methods at the top of
-    //the page directly under the import statements.
+    /**
+     * Displays a list of the student's submissions for later viewing
+     */
     private void createStudentSubmissionMenu() {
         mainPanel.removeAll();
         activeComponents.clear();
 
         ArrayList<Submission> submissions = client.getStudentSubmissions();
-        client.setActiveSubmission(submissionNumber);
+        JPanel submissionsPanel = new JPanel(new GridLayout(0, 1));
+        ButtonGroup submissionsGroup = new ButtonGroup();
+
+        for (int i = 0; i < submissions.size(); i++) {
+            Submission currentSubmission = submissions.get(i);
+            String submissionTime = currentSubmission.getTimestamp().toString();
+            String displaySubmission = "Submission " + (i+1) + ": " + submissionTime;
+            JRadioButton submissionButton = new JRadioButton(displaySubmission);
+            submissionButton.setActionCommand(Integer.toString(i));
+            submissionsGroup.add(submissionButton);
+            submissionsPanel.add(submissionButton);
+        }
+
+        activeComponents.add(submissionsGroup);
+
+        JButton selectButton = new JButton("Select");
+        selectButton.setActionCommand("view submission");
+        selectButton.addActionListener(actionListener);
+        JButton backButton = new JButton("Back");
+        backButton.setActionCommand("back to student quiz options menu");
+        backButton.addActionListener(actionListener);
+        JPanel selectOrBackPanel = new JPanel(new FlowLayout());
+        selectOrBackPanel.add(selectButton);
+        selectOrBackPanel.add(backButton);
+
+        JScrollPane scrollPane = new JScrollPane(submissionsPanel);
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
+        mainPanel.add(selectOrBackPanel, BorderLayout.SOUTH);
 
         mainPanel.validate();
         mainPanel.repaint();
