@@ -1657,15 +1657,43 @@ public class View extends JComponent {
         mainPanel.repaint();
     }
 
-    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
-    //use that method in the actual implementation. I have described various details of the needed methods at the top of
-    //the page directly under the import statements.
+    /**
+     * Displays a list of all submissions to a quiz for later viewing
+     */
     private void createTeacherSubmissionMenu() {
         mainPanel.removeAll();
         activeComponents.clear();
 
         ArrayList<Submission> submissions = client.getAllSubmissions();
-        client.setActiveSubmission(submissionNumber);
+        JPanel submissionsPanel = new JPanel(new GridLayout(0, 1));
+        ButtonGroup submissionsGroup = new ButtonGroup();
+
+        for (int i = 0; i < submissions.size(); i++) {
+            Submission currentSubmission = submissions.get(i);
+            String studentName = currentSubmission.getStudent().getUsername();
+            String submissionTime = currentSubmission.getTimestamp().toString();
+            String displaySubmission = "Submission " + (i+1) + ": " + studentName + " - " + submissionTime;
+            JRadioButton submissionButton = new JRadioButton(displaySubmission);
+            submissionButton.setActionCommand(Integer.toString(i));
+            submissionsGroup.add(submissionButton);
+            submissionsPanel.add(submissionButton);
+        }
+
+        activeComponents.add(submissionsGroup);
+
+        JButton selectButton = new JButton("Select");
+        selectButton.setActionCommand("view submission");
+        selectButton.addActionListener(actionListener);
+        JButton backButton = new JButton("Back");
+        backButton.setActionCommand("back to teacher quiz options menu");
+        backButton.addActionListener(actionListener);
+        JPanel selectOrBackPanel = new JPanel(new FlowLayout());
+        selectOrBackPanel.add(selectButton);
+        selectOrBackPanel.add(backButton);
+
+        JScrollPane scrollPane = new JScrollPane(submissionsPanel);
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
+        mainPanel.add(selectOrBackPanel, BorderLayout.SOUTH);
 
         mainPanel.validate();
         mainPanel.repaint();
