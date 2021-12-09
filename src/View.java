@@ -50,7 +50,6 @@ import java.util.Scanner;
 
 //TODO: implement the rest of the menu logic
 //parts of the menu logic remaining:
-//view submission - displays submissions to quiz, then allows viewing of any submission
 //TODO: make sure client gets notified when view closes! (might be better implemented in client)
 
 /**
@@ -469,6 +468,13 @@ public class View extends JComponent {
                 }
             } else if (actionCommand.equals("back to student quiz options menu")) {
                 createStudentQuizOptionsMenu();
+            } else if (actionCommand.equals("back to submission menu")) {
+                client.clearActiveSubmission();
+                if (accountType == STUDENT_OPTION) {
+                    createStudentSubmissionMenu();
+                } else if (accountType == TEACHER_OPTION) {
+                    createTeacherSubmissionMenu();
+                }
             } else if (actionCommand.equals("back to course menu")) {
                 client.clearActiveQuiz();
                 createCourseMenu();
@@ -1699,16 +1705,65 @@ public class View extends JComponent {
         mainPanel.repaint();
     }
 
-    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
-    //use that method in the actual implementation. I have described various details of the needed methods at the top of
-    //the page directly under the import statements.
+    /**
+     * Displays a selected submission
+     */
     private void createSubmissionViewer() {
         mainPanel.removeAll();
         activeComponents.clear();
 
-        Quiz quiz = client.getCurrentQuiz();
         ArrayList<Question> questions = client.getQuestions();
-        client.clearActiveSubmission();
+        ArrayList<String> studentAnswers = client.getAnswersFromSubmission();
+        JPanel submissionPanel = new JPanel(new GridLayout(0, 1));
+
+        for (int i = 0; i < questions.size(); i++) {
+            Question currentQuestion = questions.get(i);
+            String currentStudentAnswer = studentAnswers.get(i);
+            JPanel currentQuestionPanel = new JPanel(new BorderLayout());
+
+            String questionName = currentQuestion.getQuestion();
+            int pointValue = currentQuestion.getPointValue();
+            String questionTitle = (i+1) + ". " + questionName + " (" + pointValue + " point";
+            if (pointValue != 1) questionTitle += "s";
+            questionTitle += ")";
+            JLabel questionLabel = new JLabel(questionTitle);
+            currentQuestionPanel.add(questionLabel, BorderLayout.NORTH);
+
+            String studentAnswerText = "";
+            if (accountType == STUDENT_OPTION) {
+                studentAnswerText = "Your answer: " + currentStudentAnswer;
+            } else if (accountType == TEACHER_OPTION) {
+                studentAnswerText = "Their answer: " + currentStudentAnswer;
+            }
+            JLabel studentAnswerLabel = new JLabel(studentAnswerText);
+            currentQuestionPanel.add(studentAnswerLabel, BorderLayout.CENTER);
+
+            String correctAnswerText = "Correct answer: ";
+            if (currentQuestion instanceof TrueFalse) {
+                TrueFalse trueFalse = (TrueFalse) currentQuestion;
+                correctAnswerText += trueFalse.getAnswer();
+            } else if (currentQuestion instanceof MultipleChoice) {
+                MultipleChoice multipleChoice = (MultipleChoice) currentQuestion;
+                int correctAnswerIndex = multipleChoice.getCorrectAnswerIndex();
+                String correctAnswerChoice = multipleChoice.getAnswerChoices().get(correctAnswerIndex);
+                correctAnswerText += correctAnswerChoice;
+            } else if (currentQuestion instanceof FillInTheBlank) {
+                FillInTheBlank fillInTheBlank = (FillInTheBlank) currentQuestion;
+                correctAnswerText += fillInTheBlank.getAnswer();
+            }
+            JLabel correctAnswerLabel = new JLabel(correctAnswerText);
+            currentQuestionPanel.add(correctAnswerLabel, BorderLayout.SOUTH);
+
+            submissionPanel.add(currentQuestionPanel);
+        }
+
+        JButton backButton = new JButton("Back");
+        backButton.setActionCommand("back to submission menu");
+        backButton.addActionListener(actionListener);
+
+        JScrollPane scrollPane = new JScrollPane(submissionPanel);
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
+        mainPanel.add(backButton, BorderLayout.SOUTH);
 
         mainPanel.validate();
         mainPanel.repaint();
