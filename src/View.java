@@ -1548,9 +1548,13 @@ public class View extends JComponent {
         return questionPanel;
     }
 
-    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
-    //use that method in the actual implementation. I have described various details of the needed methods at the top of
-    //the page directly under the import statements.
+    /**
+     * Assembles a panel of a multiple choice question for a student taking a quiz
+     *
+     * @param multipleChoice the question being assembled
+     * @param index the index of the question
+     * @return JPanel containing the question and answer options for display
+     */
     private JPanel assembleMultipleChoiceQuestion(MultipleChoice multipleChoice, int index) {
         String questionName = multipleChoice.getQuestion();
         int pointValue = multipleChoice.getPointValue();
@@ -1558,6 +1562,26 @@ public class View extends JComponent {
         if (pointValue != 1) questionTitle += "s";
         questionTitle += ")";
         JLabel questionLabel = new JLabel(questionTitle);
+
+        ArrayList<String> answerChoices = multipleChoice.getAnswerChoices();
+        ButtonGroup choicesGroup = new ButtonGroup();
+        JPanel choicesPanel = new JPanel(new GridLayout(0, 1));
+
+        for (int i = 0; i < answerChoices.size(); i++) {
+            String answer = answerChoices.get(i);
+            JRadioButton answerButton = new JRadioButton(answer);
+            answerButton.setActionCommand(Integer.toString(i));
+            choicesGroup.add(answerButton);
+            choicesPanel.add(answerButton);
+        }
+
+        activeComponents.add(choicesGroup);
+
+        JPanel questionPanel = new JPanel(new BorderLayout());
+        questionPanel.add(questionLabel, BorderLayout.NORTH);
+        JScrollPane scrollPane = new JScrollPane(choicesPanel);
+        questionPanel.add(scrollPane, BorderLayout.CENTER);
+        return questionPanel;
     }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
