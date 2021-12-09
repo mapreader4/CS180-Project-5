@@ -72,6 +72,16 @@ public class View extends JComponent {
     private static final int STUDENT_OPTION = 0;
     private static final int TEACHER_OPTION = 1;
 
+    private int menuLocation = -1;
+    private static final int NO_UPDATE_NEEDED = -1;
+    private static final int MAIN_MENU = 0;
+    private static final int ADD_COURSE_SCREEN = 1;
+    private static final int COURSE_MENU = 2;
+    private static final int EDIT_QUIZ_MENU = 3;
+    private static final int TAKE_QUIZ_INTRO_SCREEN = 4;
+    private static final int STUDENT_SUBMISSION_MENU = 5;
+    private static final int TEACHER_SUBMISSION_MENU = 6;
+
     ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -523,6 +533,27 @@ public class View extends JComponent {
     }
 
     /**
+     * Updates view being displayed to be consistent with new server updates
+     */
+    public void update() {
+        if (menuLocation == MAIN_MENU) {
+            createMainMenu();
+        } else if (menuLocation == ADD_COURSE_SCREEN) {
+            createAddCourseScreen();
+        } else if (menuLocation == COURSE_MENU) {
+            createCourseMenu();
+        } else if (menuLocation == EDIT_QUIZ_MENU) {
+            createEditQuizMenu();
+        } else if (menuLocation == TAKE_QUIZ_INTRO_SCREEN) {
+            createTakeQuizIntroScreen();
+        } else if (menuLocation == STUDENT_SUBMISSION_MENU) {
+            createStudentSubmissionMenu();
+        } else if (menuLocation == TEACHER_SUBMISSION_MENU) {
+            createTeacherSubmissionMenu();
+        }
+    }
+
+    /**
      * Sets up initial components of GUI
      */
     private void createGUI() {
@@ -543,6 +574,8 @@ public class View extends JComponent {
      * as well as a submit button
      */
     private void createConnectionScreen() {
+        menuLocation = NO_UPDATE_NEEDED;
+
         JLabel domainNameLabel = new JLabel("Domain Name:");
         JTextField domainNameTxt = new JTextField(30);
         activeComponents.add(domainNameTxt);
@@ -572,6 +605,8 @@ public class View extends JComponent {
      * as well as a login button and a create account button
      */
     private void createLoginScreen() {
+        menuLocation = NO_UPDATE_NEEDED;
+
         mainPanel.removeAll();
         activeComponents.clear();
 
@@ -627,6 +662,8 @@ public class View extends JComponent {
      * as well as a submission button
      */
     private void createMainMenu() {
+        menuLocation = MAIN_MENU;
+
         mainPanel.removeAll();
         activeComponents.clear();
 
@@ -674,6 +711,8 @@ public class View extends JComponent {
      * Displays all available courses to student, allowing them to add any course.
      */
     private void createAddCourseScreen() {
+        menuLocation = ADD_COURSE_SCREEN;
+
         mainPanel.removeAll();
         activeComponents.clear();
 
@@ -716,6 +755,8 @@ public class View extends JComponent {
      * Displays text fields for course creation to teacher, allowing them to create a course.
      */
     private void createCreateCourseScreen() {
+        menuLocation = NO_UPDATE_NEEDED;
+
         mainPanel.removeAll();
         activeComponents.clear();
 
@@ -755,6 +796,8 @@ public class View extends JComponent {
      * create a new quiz if the user is a teacher.
      */
     private void createCourseMenu() {
+        menuLocation = COURSE_MENU;
+
         mainPanel.removeAll();
         activeComponents.clear();
 
@@ -801,6 +844,8 @@ public class View extends JComponent {
      * Displays options for a particular quiz (take quiz or view submissions) to a student
      */
     private void createStudentQuizOptionsMenu() {
+        menuLocation = NO_UPDATE_NEEDED;
+
         mainPanel.removeAll();
         activeComponents.clear();
 
@@ -838,6 +883,8 @@ public class View extends JComponent {
      * Displays options for a particular quiz (edit quiz, view submissions, or delete quiz) to teacher
      */
     private void createTeacherQuizOptionsMenu() {
+        menuLocation = NO_UPDATE_NEEDED;
+
         mainPanel.removeAll();
         activeComponents.clear();
 
@@ -879,6 +926,8 @@ public class View extends JComponent {
      * Displays choice of quiz input method to teacher
      */
     private void createCreateQuizIntroScreen() {
+        menuLocation = NO_UPDATE_NEEDED;
+
         mainPanel.removeAll();
         activeComponents.clear();
 
@@ -920,6 +969,8 @@ public class View extends JComponent {
      * Displays screen to set quiz title and randomization
      */
     private void createCreateQuizTitleScreen() {
+        menuLocation = NO_UPDATE_NEEDED;
+
         mainPanel.removeAll();
         activeComponents.clear();
 
@@ -967,6 +1018,8 @@ public class View extends JComponent {
      * true or false, multiple choice, or fill in the blank
      */
     private void createCreateQuestionScreen() {
+        menuLocation = NO_UPDATE_NEEDED;
+
         mainPanel.removeAll();
         activeComponents.clear();
 
@@ -1226,6 +1279,8 @@ public class View extends JComponent {
      * Displays a list of questions that the teacher can choose to edit
      */
     private void createEditQuizMenu() {
+        menuLocation = EDIT_QUIZ_MENU;
+
         mainPanel.removeAll();
         activeComponents.clear();
 
@@ -1274,6 +1329,8 @@ public class View extends JComponent {
      * Determines type of question to be edited, then calls relevant edit screen creation method
      */
     private void createEditQuestionScreen() {
+        menuLocation = NO_UPDATE_NEEDED;
+
         mainPanel.removeAll();
         activeComponents.clear();
 
@@ -1455,6 +1512,8 @@ public class View extends JComponent {
      * Displays a confirmation message to make sure the student is taking the right quiz
      */
     private void createTakeQuizIntroScreen() {
+        menuLocation = TAKE_QUIZ_INTRO_SCREEN;
+
         mainPanel.removeAll();
         activeComponents.clear();
 
@@ -1486,6 +1545,8 @@ public class View extends JComponent {
      * Displays quiz to student
      */
     private void createActiveQuizScreen() {
+        menuLocation = NO_UPDATE_NEEDED;
+
         mainPanel.removeAll();
         activeComponents.clear();
 
@@ -1626,6 +1687,8 @@ public class View extends JComponent {
      * Displays a list of the student's submissions for later viewing
      */
     private void createStudentSubmissionMenu() {
+        menuLocation = STUDENT_SUBMISSION_MENU;
+
         mainPanel.removeAll();
         activeComponents.clear();
 
@@ -1667,6 +1730,8 @@ public class View extends JComponent {
      * Displays a list of all submissions to a quiz for later viewing
      */
     private void createTeacherSubmissionMenu() {
+        menuLocation = TEACHER_SUBMISSION_MENU;
+
         mainPanel.removeAll();
         activeComponents.clear();
 
@@ -1709,6 +1774,8 @@ public class View extends JComponent {
      * Displays a selected submission
      */
     private void createSubmissionViewer() {
+        menuLocation = NO_UPDATE_NEEDED;
+
         mainPanel.removeAll();
         activeComponents.clear();
 
@@ -1767,16 +1834,6 @@ public class View extends JComponent {
 
         mainPanel.validate();
         mainPanel.repaint();
-    }
-
-    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
-    //use that method in the actual implementation. I have described various details of the needed methods at the top of
-    //the page directly under the import statements.
-    /**
-     * Updates view being displayed to be consistent with new server updates
-     */
-    public void update() {
-
     }
 
     //TODO: remove before submission
