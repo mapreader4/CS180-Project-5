@@ -48,10 +48,6 @@ import java.util.Scanner;
 //Again, if I haven't explained this well or have planned something that won't work, please let me know so we can
 //discuss further.
 
-//TODO: implement the rest of the menu logic
-//parts of the menu logic remaining:
-//TODO: make sure client gets notified when view closes! (might be better implemented in client)
-
 /**
  * Online Quiz Navigator v2 - View
  *
@@ -692,7 +688,7 @@ public class View extends JComponent {
         JButton selectButton = new JButton("Select");
         selectButton.setActionCommand("choose course");
         selectButton.addActionListener(actionListener);
-        JButton quitButton = new JButton("Quit");
+        JButton quitButton = new JButton("Save and Quit");
         quitButton.setActionCommand("quit");
         quitButton.addActionListener(actionListener);
         JPanel selectOrQuitPanel = new JPanel(new FlowLayout());
