@@ -50,7 +50,6 @@ import java.util.Scanner;
 
 //TODO: implement the rest of the menu logic
 //parts of the menu logic remaining:
-//take quiz - long series of methods allowing student to take quiz
 //view submission - displays submissions to quiz, then allows viewing of any submission
 //TODO: make sure client gets notified when view closes! (might be better implemented in client)
 
@@ -1584,9 +1583,13 @@ public class View extends JComponent {
         return questionPanel;
     }
 
-    //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
-    //use that method in the actual implementation. I have described various details of the needed methods at the top of
-    //the page directly under the import statements.
+    /**
+     * Assembles a panel of a multiple choice question for a student taking a quiz
+     *
+     * @param fillInTheBlank the question being assembled
+     * @param index the index of the question
+     * @return JPanel containing the question and answer field for display
+     */
     private JPanel assembleFillInTheBlankQuestion(FillInTheBlank fillInTheBlank, int index) {
         String questionName = fillInTheBlank.getQuestion();
         int pointValue = fillInTheBlank.getPointValue();
@@ -1594,6 +1597,18 @@ public class View extends JComponent {
         if (pointValue != 1) questionTitle += "s";
         questionTitle += ")";
         JLabel questionLabel = new JLabel(questionTitle);
+
+        JLabel answerLabel = new JLabel("Your Answer:");
+        JTextField answerTxt = new JTextField(30);
+        activeComponents.add(answerTxt);
+        JPanel answerPanel = new JPanel(new FlowLayout());
+        answerPanel.add(answerLabel);
+        answerPanel.add(answerTxt);
+
+        JPanel questionPanel = new JPanel(new BorderLayout());
+        questionPanel.add(questionLabel, BorderLayout.NORTH);
+        questionPanel.add(answerPanel, BorderLayout.CENTER);
+        return questionPanel;
     }
 
     //NOTE: this method has not been implemented yet. All calls to Client methods are for reference, since I expect to
