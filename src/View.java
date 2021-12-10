@@ -479,7 +479,9 @@ public class View {
             } catch (InterruptedException e) {
                 ;
             }
-            this.update();
+            if (menuLocation != NO_UPDATE_NEEDED) {
+                this.update();
+            }
         }
     }
 
