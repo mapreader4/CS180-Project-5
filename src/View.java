@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Online Quiz Navigator v2 - View
@@ -469,6 +470,14 @@ public class View {
                 createGUI();
             }
         });
+        while (true) {
+            try {
+                TimeUnit.SECONDS.sleep(10);
+            } catch (InterruptedException e) {
+                ;
+            }
+            this.update();
+        }
     }
 
     /**
