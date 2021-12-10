@@ -18,6 +18,7 @@ public class Submission implements Serializable {
     Timestamp timestamp;
     int totalScore;
     String filename;
+    ArrayList<String> answers =new ArrayList<String>();
 
     public Submission(Student student, Quiz quizz) {
         this.student = student;
@@ -48,6 +49,10 @@ public class Submission implements Serializable {
 
     public Quiz getQuiz() {
         return quizz;
+    }
+
+    public ArrayList<String> getAnswers(){
+        return answers;
     }
 
     public boolean takeQuiz(Scanner scanner) {
@@ -125,6 +130,7 @@ public class Submission implements Serializable {
     }
 
     public void submissionReport(ArrayList<String> answers, ArrayList<Question> questions) {
+        this.answers=answers;
         String filepath = createsNewFile();
         try (PrintWriter pw = new PrintWriter(new FileWriter(filepath))) {
             pw.println(student.getUsername() + ": " + quizz.getName());

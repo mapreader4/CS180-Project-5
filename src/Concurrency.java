@@ -76,6 +76,13 @@ public class Concurrency extends Thread {
                     ArrayList<String> answers=(ArrayList<String>)objects.get(3);
                     submitSubmission(courseNumber,quizNumber,answers);
                 }
+                else if(line.equalsIgnoreCase("get-answers-from-submission")){
+                    int courseNumber=(Integer)objects.get(1);
+                    int quizNumber=(Integer)objects.get(2);
+                    int submissionNumber=(Integer)objects.get(3);
+                    getAnswersFromSubmission(courseNumber,quizNumber,submissionNumber);
+
+                }
                 else if(line.equalsIgnoreCase("create-course")) {
                     String courseName=(String)objects.get(1);
                     int courseNumber=(Integer)objects.get(2);
@@ -299,8 +306,25 @@ public class Concurrency extends Thread {
             Quiz quiz = course.getQuizzes().get(quizNumber);
             Submission submission=new Submission((Student)user,quiz);
             submission.submissionReport(answers,quiz.getQuiz());
+            int submissionNumber=quiz.getSubmission().indexOf(submission);
+            outputStream.reset();
+            outputStream.writeObject(submissionNumber);
+            outputStream.flush();
         } catch (Exception e){
             throw new RuntimeException("submitSubmission not working");
+        }
+    }
+    public void getAnswersFromSubmission(int courseNumber, int quizNumber, int submissioNumber) {
+        try {
+            Course course = courseList.getCourse(courseNumber);
+            Quiz quiz = course.getQuizzes().get(quizNumber);
+            Submission submission=quiz.getSubmission().get(submissioNumber);
+            ArrayList<String> answers=submission.getAnswers();
+            outputStream.reset();
+            outputStream.writeObject(answers);
+            outputStream.flush();
+        } catch (Exception e) {
+            throw new RuntimeException("getAnswersFromSubmission");
         }
     }
     //looks good

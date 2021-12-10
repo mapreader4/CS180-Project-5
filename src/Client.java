@@ -451,7 +451,8 @@ public class Client {
             oos.reset();
             oos.writeObject(objects);
             oos.flush();
-            setActiveCourse(courseNumber);
+            int thisSubmissionNumber=(Integer) ois.readObject();
+            setActiveSubmission(thisSubmissionNumber);
         } catch (Exception e) {
             throw new RuntimeException();
         }
@@ -514,6 +515,7 @@ public class Client {
             objects.add("get-answers-from-submission");
             objects.add(courseNumber);
             objects.add(quizNumber);
+            objects.add(submissionNumber);
             oos.reset();
             oos.writeObject(objects);
             oos.flush();
