@@ -35,6 +35,8 @@ public class View {
     private static final int STUDENT_SUBMISSION_MENU = 5;
     private static final int TEACHER_SUBMISSION_MENU = 6;
 
+    private boolean running = true;
+
     ActionListener actionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -449,6 +451,7 @@ public class View {
                         "Are you sure you want to quit?", "Quit?",
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (closeConfirmation == JOptionPane.YES_OPTION) {
+                    running = false;
                     client.close();
                     frame.dispose();
                 }
@@ -470,7 +473,7 @@ public class View {
                 createGUI();
             }
         });
-        while (true) {
+        while (running) {
             try {
                 TimeUnit.SECONDS.sleep(10);
             } catch (InterruptedException e) {
