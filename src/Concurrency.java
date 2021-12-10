@@ -56,7 +56,13 @@ public class Concurrency extends Thread {
                     int courseNumber=(Integer)objects.get(1);
                     int quizNumber=(Integer)objects.get(2);
                     getQuestions(courseNumber,quizNumber);
-                } else if(line.equals("get-student-submissions")) {
+                } else if(line.equals("get-active-question")){
+                    int courseNumber=(Integer)objects.get(1);
+                    int quizNumber=(Integer)objects.get(2);
+                    int questionNumber = (Integer) objects.get(3);
+                    getActiveQuestion(courseNumber,quizNumber,questionNumber);
+                }
+                else if(line.equals("get-student-submissions")) {
                     getStudentSubmissions();
                 }
                 else if(line.equals("get-all-submissions")) {
@@ -242,6 +248,18 @@ public class Concurrency extends Thread {
             throw new RuntimeException("getQuestions not working");
         }
     }
+    public void getActiveQuestion(int courseNumber, int quizNumber, int questionNumber){
+        try {
+            Course course = courseList.getCourse(courseNumber);
+            Quiz quiz = course.getQuizzes().get(quizNumber);
+            Question question=quiz.getQuestion(questionNumber);
+            outputStream.reset();
+            outputStream.writeObject(question);
+            outputStream.flush();
+        } catch (Exception e) {
+            throw new RuntimeException("getActiveQuestion not working");
+        }
+    }
     public void getStudentSubmissions() {
         try {
             ArrayList<Submission> submissions=((Student)user).getSubmissions();
@@ -420,7 +438,6 @@ public class Concurrency extends Thread {
         Quiz q =quizzes.get(quizNumber);
         TrueFalse question = new TrueFalse(questionName,trueFalse,pointValue);
         q.addQuestion(question);
-
     }
 
     public void updateTrueFalseQuestion(int courseNumber, int quizNumber,int questionNumber,String question, int pointValue,String answer){
