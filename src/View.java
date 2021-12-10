@@ -1580,7 +1580,7 @@ public class View {
         for (int i = 0; i < answerChoices.size(); i++) {
             String answer = answerChoices.get(i);
             JRadioButton answerButton = new JRadioButton(answer);
-            answerButton.setActionCommand(answer);
+            answerButton.setActionCommand(Integer.toString(i));
             choicesGroup.add(answerButton);
             choicesPanel.add(answerButton);
         }
@@ -1724,7 +1724,12 @@ public class View {
 
         for (int i = 0; i < questions.size(); i++) {
             Question currentQuestion = questions.get(i);
-            String currentStudentAnswer = studentAnswers.get(i);
+            String currentStudentAnswer;
+            if (currentQuestion instanceof MultipleChoice) {
+                currentStudentAnswer = ((MultipleChoice) currentQuestion).getAnswerChoices().get(i);
+            } else {
+                currentStudentAnswer = studentAnswers.get(i);
+            }
             JPanel currentQuestionPanel = new JPanel(new BorderLayout());
 
             String questionName = currentQuestion.getQuestion();
