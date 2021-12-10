@@ -70,6 +70,12 @@ public class Concurrency extends Thread {
                     int quizNumber=(Integer)objects.get(2);
                     getAllSubmissions(courseNumber,quizNumber);
                 }
+                else if(line.equals("submit-submission")){
+                    int courseNumber=(Integer)objects.get(1);
+                    int quizNumber=(Integer)objects.get(2);
+                    ArrayList<String> answers=(ArrayList<String>)objects.get(3);
+                    submitSubmission(courseNumber,quizNumber,answers);
+                }
                 else if(line.equalsIgnoreCase("create-course")) {
                     String courseName=(String)objects.get(1);
                     int courseNumber=(Integer)objects.get(2);
@@ -280,6 +286,16 @@ public class Concurrency extends Thread {
             outputStream.flush();
         } catch (Exception e){
             throw new RuntimeException("getAllSubmissions not working");
+        }
+    }
+    public void submitSubmission(int courseNumber, int quizNumber, ArrayList<String> answers){
+        try {
+            Course course = courseList.getCourse(courseNumber);
+            Quiz quiz = course.getQuizzes().get(quizNumber);
+            Submission submission=new Submission((Student)user,quiz);
+            submission.submissionReport(answers,quiz.getQuiz());
+        } catch (Exception e){
+            throw new RuntimeException("submitSubmission not working");
         }
     }
     //looks good
