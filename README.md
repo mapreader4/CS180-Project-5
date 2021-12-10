@@ -1,4 +1,21 @@
 # CS180-Project-5
+Initialization and Connection Instructions:
+<br>
+<br>
+First, run the main method in the Server class on any computer networked to the computer you intend to run Client on.
+<br>
+Then, run the main method in the Client class.
+<br>
+This will open a GUI window that will allow you to enter connection details.
+<br>
+Enter the domain name of the computer you're running Server on, as well 8818 for the port number.
+<br>
+This should allow you to access Online Quiz Navigator v2.
+<br>
+<br>
+<br>
+Project Planning:
+<br>
 <br>
 Louis' role:
 <br>
