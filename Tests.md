@@ -237,4 +237,96 @@ Expected Result: User receives error message prompting them to re-enter point va
 Test Result: Passed
 <br>
 
-Test 19: 
+Test 19: Teacher views submissions for course
+<br>
+1) Teacher logs in
+2) Teacher selects created course
+3) Teacher selects created quiz
+4) Teacher selects view submissions
+<br>
+<br>
+Expected Result: User is able to view all student submissions for selected quiz
+<br>
+Test Result: Passed
+<br>
+
+Test 20: Student adds course
+<br>
+1) Student logs in
+2) Student selects add course
+3) Student selects course to add
+<br>
+<br>
+Expected Result: User adds course to the list of courses they are taking
+<br>
+Test Result: Passed
+<br>
+
+Test 21: Student takes quiz manually
+<br>
+1) Student logs in 
+2) Student selects course
+3) Student selects quiz
+4) Student chooses to take quiz manually
+5) Student enters answers to each question
+<br>
+<br>
+Expected Result: Student takes quiz and submission report is created
+<br>
+Test Result: Passed
+<br>
+
+Test 22: Student takes quiz manually and enters invalid value when answering
+<br>
+1) Student logs in 
+2) Student selects course
+3) Student selects quiz
+4) Student chooses to take quiz manually
+5) Student enters invalid value to answer question
+<br>
+<br>
+Expected Result: User receives error message prompting them to re-enter value correctly
+<br>
+Test Result: Passed
+<br>
+
+Test 23: Student submits answers to quiz through file
+<br>
+1) Student logs in
+2) Student selects course
+3) Student selects quiz
+4) Student chooses to answer quiz with file
+5) Student enters filepath
+<br>
+<br>
+Expected Result: Answers are processed and submission report is created
+<br>
+Test Result: Passed
+<br>
+
+Test 24: Student submits answers to quiz through invalid file/filepath
+<br>
+1) Student logs in
+2) Student selects course
+3) Student selects quiz
+4) Student chooses to answer quiz with file
+5) Student enters invalid filepath/file with invalid format
+<br>
+<br>
+Expected Result: User receives error message informing them that the filepath or the format of the file is incorrect
+<br>
+Test Result: Passed
+<br>
+
+Test 25: Student views submission
+<br>
+1) Student logs in
+2) Student selects course
+3) Student selects quiz
+4) Student selects view submissions
+<br>
+<br>
+Expected Result: Student is able to view all their submissions as well as grades on each attempt
+<br>
+Test result: Passed
+<br>
