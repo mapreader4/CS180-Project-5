@@ -225,7 +225,8 @@ public class Client {
             }
             oos.writeObject(objects);
             oos.flush();
-            int thisQuizNumber =(int)ois.readObject();
+            ArrayList<Object> result=(ArrayList<Object>)ois.readObject();
+            int thisQuizNumber =(int)(result.get(0));
             this.quizNumber = thisQuizNumber;
         } catch (Exception e) {
             throw new RuntimeException();
