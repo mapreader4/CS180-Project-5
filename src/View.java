@@ -211,7 +211,7 @@ public class View extends JComponent {
             } else if (actionCommand.equals("view submission")) {
                 ButtonGroup submissionsGroup = (ButtonGroup) activeComponents.get(0);
                 int submissionChosen = Integer.parseInt(submissionsGroup.getSelection().getActionCommand());
-                client.setActiveSubmission(submissionNumber);
+                client.setActiveSubmission(submissionChosen);
                 createSubmissionViewer();
             } else if (actionCommand.equals("choose teacher option")) {
                 ButtonGroup optionsGroup = (ButtonGroup) activeComponents.get(0);
