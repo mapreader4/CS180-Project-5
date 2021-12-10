@@ -74,6 +74,7 @@ public class Concurrency extends Thread {
                     if(!addImportedQuiz(courseNumber,file)){
                         ArrayList<Object> result = new ArrayList<>();
                         result.add("failure");
+                        outputStream.reset();
                         outputStream.writeObject(result);
                         outputStream.flush();
                     }
@@ -174,6 +175,7 @@ public class Concurrency extends Thread {
             if(result.get(0).equals("success")){
                 result.add(user);
             }
+            outputStream.reset();
             outputStream.writeObject(result);
             outputStream.flush();
         } catch (Exception e) {
@@ -184,9 +186,11 @@ public class Concurrency extends Thread {
     public void getAccountCourses() {
         try {
             if (typeOfAccount.equalsIgnoreCase("teacher")) {
+                outputStream.reset();
                 outputStream.writeObject(((Teacher) user).getCourses());
                 outputStream.flush();
             } else if (typeOfAccount.equalsIgnoreCase("student")) {
+                outputStream.reset();
                 outputStream.writeObject(((Student) user).getCourses());
                 outputStream.flush();
             }
@@ -197,6 +201,7 @@ public class Concurrency extends Thread {
     // looks good
     public void getAllCourses() {
         try {
+            outputStream.reset();
             outputStream.writeObject(courseList.getCourses());
             outputStream.flush();
         } catch (Exception e) {
@@ -218,6 +223,7 @@ public class Concurrency extends Thread {
         try {
             Course course=courseList.getCourse(courseNumber);
             Quiz quiz=course.getQuizzes().get(quizNumber);
+            outputStream.reset();
             outputStream.writeObject(quiz);
             outputStream.flush();
         } catch (Exception e) {
@@ -229,6 +235,7 @@ public class Concurrency extends Thread {
             Course course = courseList.getCourse(courseNumber);
             Quiz quiz = course.getQuizzes().get(quizNumber);
             ArrayList<Question> questions = quiz.getQuiz();
+            outputStream.reset();
             outputStream.writeObject(questions);
             outputStream.flush();
         } catch (Exception e){
@@ -238,6 +245,7 @@ public class Concurrency extends Thread {
     public void getStudentSubmissions() {
         try {
             ArrayList<Submission> submissions=((Student)user).getSubmissions();
+            outputStream.reset();
             outputStream.writeObject(submissions);
             outputStream.flush();
         } catch (Exception e) {
@@ -249,6 +257,7 @@ public class Concurrency extends Thread {
             Course course = courseList.getCourse(courseNumber);
             Quiz quiz = course.getQuizzes().get(quizNumber);
             ArrayList<Submission> submissions=quiz.getSubmission();
+            outputStream.reset();
             outputStream.writeObject(submissions);
             outputStream.flush();
         } catch (Exception e){
@@ -285,6 +294,7 @@ public class Concurrency extends Thread {
             if(result.get(0).equals("success")){
                 result.add(user);
             }
+            outputStream.reset();
             outputStream.writeObject(result);
             outputStream.flush();
         } catch (Exception e) {
@@ -304,6 +314,7 @@ public class Concurrency extends Thread {
             } else {
                 result.add("failure");
             }
+            outputStream.reset();
             outputStream.writeObject(result);
             outputStream.flush();
         } catch(Exception e) {
@@ -364,6 +375,7 @@ public class Concurrency extends Thread {
             int quizNumber = course.getQuizzes().indexOf(quiz);
             result.add("success");
             result.add(quizNumber);
+            outputStream.reset();
             outputStream.writeObject(result);
             outputStream.flush();
             return true;
@@ -378,6 +390,7 @@ public class Concurrency extends Thread {
         ArrayList<Object> result = new ArrayList<>();
         result.add(course.getQuizzes().indexOf(quiz));
         try {
+            outputStream.reset();
             outputStream.writeObject(result);
             outputStream.flush();
         } catch (Exception e) {
