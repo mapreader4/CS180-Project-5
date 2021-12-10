@@ -470,6 +470,21 @@ public class Client {
             throw new RuntimeException("client: getActiveQuestion not working");
         }
     }
+
+    public ArrayList<String> getAnswersFromSubmission() {
+        try {
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("get-answers-from-submission");
+            objects.add(courseNumber);
+            objects.add(quizNumber);
+            oos.writeObject(objects);
+            oos.flush();
+            ArrayList<String> studentAnswers = (ArrayList<String>) ois.readObject();
+            return studentAnswers;
+        } catch (Exception e) {
+            throw new RuntimeException("client: getAnswersFromSubmission not working");
+        }
+    }
     public void close() {
         try {
             ArrayList<Object> objects = new ArrayList<>();
