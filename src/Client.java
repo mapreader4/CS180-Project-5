@@ -46,7 +46,7 @@ public class Client {
             objects.add(username);
             objects.add(password);
             objects.add(typeOfAccount);
-
+            oos.reset();
             oos.writeObject(objects);
             oos.flush();
             ArrayList<Object> result=(ArrayList<Object>)ois.readObject();
@@ -70,6 +70,7 @@ public class Client {
             objects.add(username);
             objects.add(password);
             objects.add(typeOfAccount);
+            oos.reset();
             oos.writeObject(objects);
             oos.flush();
             ArrayList<Object> result=(ArrayList<Object>)ois.readObject();
@@ -89,6 +90,7 @@ public class Client {
         try{
             ArrayList<Object> objects=new ArrayList<>();
             objects.add("get-account-courses");
+            oos.reset();
             oos.writeObject(objects);
             oos.flush();
             ArrayList<Course> courseList=(ArrayList<Course>) ois.readObject();
@@ -101,6 +103,7 @@ public class Client {
         try {
             ArrayList<Object> objects = new ArrayList<>();
             objects.add("get-all-courses");
+            oos.reset();
             oos.writeObject(objects);
             oos.flush();
             ArrayList<Course> courseList = (ArrayList<Course>) ois.readObject();
@@ -115,6 +118,7 @@ public class Client {
             ArrayList<Object> objects = new ArrayList<>();
             objects.add("get-quizzes");
             objects.add(courseNumber);
+            oos.reset();
             oos.writeObject(objects);
             oos.flush();
             ArrayList<Quiz> quizList = (ArrayList<Quiz>) (ois.readObject());
@@ -129,6 +133,7 @@ public class Client {
             objects.add("get-current-quiz");
             objects.add(courseNumber);
             objects.add(quizNumber);
+            oos.reset();
             oos.writeObject(objects);
             oos.flush();
             Quiz currentQuiz = (Quiz) ois.readObject();
@@ -144,6 +149,7 @@ public class Client {
             objects.add("get-questions");
             objects.add(courseNumber);
             objects.add(quizNumber);
+            oos.reset();
             oos.writeObject(objects);
             oos.flush();
             ArrayList<Question> questionList = (ArrayList<Question>) ois.readObject();
@@ -157,6 +163,7 @@ public class Client {
         try {
             ArrayList<Object> objects = new ArrayList<>();
             objects.add("get-student-submissions");
+            oos.reset();
             oos.writeObject(objects);
             oos.flush();
             ArrayList<Submission> submissionList = (ArrayList<Submission>) ois.readObject();
@@ -172,6 +179,7 @@ public class Client {
             objects.add("get-all-submissions");
             objects.add(courseNumber);
             objects.add(quizNumber);
+            oos.reset();
             oos.writeObject(objects);
             oos.flush();
             ArrayList<Submission> submissionList = (ArrayList<Submission>) ois.readObject();
@@ -188,6 +196,7 @@ public class Client {
             objects.add("create-course");
             objects.add(courseName);
             objects.add(courseNumber);
+            oos.reset();
             oos.writeObject(objects);
             oos.flush();
             String checker =(String)(((ArrayList<Object>) ois.readObject()).get(0));
@@ -208,6 +217,7 @@ public class Client {
             objects.add("create-imported-quiz-file");
             objects.add(courseNumber);
             objects.add(f);
+            oos.reset();
             oos.writeObject(objects);
             oos.flush();
             ArrayList<Object> result=(ArrayList<Object>)ois.readObject();
@@ -233,6 +243,7 @@ public class Client {
             } else {
                 objects.add("false");
             }
+            oos.reset();
             oos.writeObject(objects);
             oos.flush();
             ArrayList<Object> result=(ArrayList<Object>)ois.readObject();
@@ -248,6 +259,7 @@ public class Client {
             ArrayList<Object> objects = new ArrayList<>();
             objects.add("add-student-to-course");
             objects.add(courseNumber);
+            oos.reset();
             oos.writeObject(objects);
             oos.flush();
         } catch (Exception e) {
@@ -261,6 +273,7 @@ public class Client {
             objects.add("delete-quiz");
             objects.add(courseNumber);
             objects.add(quizNumber);
+            oos.reset();
             oos.writeObject(objects);
             oos.flush();
             clearActiveQuestion();
@@ -283,6 +296,7 @@ public class Client {
             } else {
                 objects.add("false");
             }
+            oos.reset();
             oos.writeObject(objects);
             oos.flush();
         } catch (Exception e) {
@@ -302,6 +316,7 @@ public class Client {
             objects.add(numChoices);
             objects.add(answerChoices);
             objects.add(correctAnswerIndex);
+            oos.reset();
             oos.writeObject(objects);
             oos.flush();
         } catch (Exception e) {
@@ -318,6 +333,7 @@ public class Client {
             objects.add(questionName);
             objects.add(pointValue);
             objects.add(answer);
+            oos.reset();
             oos.writeObject(objects);
             oos.flush();
         } catch (Exception e) {
@@ -362,6 +378,7 @@ public class Client {
             } else {
                 objects.add("false");
             }
+            oos.reset();
             oos.writeObject(objects);
             oos.flush();
         } catch (Exception e) {
@@ -382,6 +399,7 @@ public class Client {
             objects.add(numChoices);
             objects.add(answerChoices);
             objects.add(correctAnswerIndex);
+            oos.reset();
             oos.writeObject(objects);
             oos.flush();
         } catch (Exception e) {
@@ -399,6 +417,7 @@ public class Client {
             objects.add(questionName);
             objects.add(pointValue);
             objects.add(answer);
+            oos.reset();
             oos.writeObject(objects);
             oos.flush();
         } catch (Exception e) {
@@ -411,6 +430,7 @@ public class Client {
             ArrayList<Object> objects = new ArrayList<>();
             objects.add("delete-question");
             objects.add(questionNumber);
+            oos.reset();
             oos.writeObject(objects);
             oos.flush();
         } catch (Exception e) {
@@ -425,6 +445,7 @@ public class Client {
             objects.add(courseNumber);
             objects.add(quizNumber);
             objects.add(answers);
+            oos.reset();
             oos.writeObject(objects);
             oos.flush();
         } catch (Exception e) {
@@ -474,6 +495,7 @@ public class Client {
            objects.add(courseNumber);
            objects.add(quizNumber);
            objects.add(questionNumber);
+           oos.reset();
            oos.writeObject(objects);
            oos.flush();
            Question question = (Question) ois.readObject();
@@ -488,6 +510,7 @@ public class Client {
             objects.add("get-answers-from-submission");
             objects.add(courseNumber);
             objects.add(quizNumber);
+            oos.reset();
             oos.writeObject(objects);
             oos.flush();
             ArrayList<String> studentAnswers = (ArrayList<String>) ois.readObject();
@@ -500,6 +523,7 @@ public class Client {
         try {
             ArrayList<Object> objects = new ArrayList<>();
             objects.add("close");
+            oos.reset();
             oos.writeObject(objects);
             oos.flush();
         } catch (Exception e) {
