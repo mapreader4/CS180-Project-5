@@ -1035,23 +1035,15 @@ public class View {
         }
 
         JPanel addDoneFinishPanel = (JPanel) activeComponents.get(1);
-        if (addDoneFinishPanel.getComponentCount() != 2) {
-            addDoneFinishPanel.removeAll();
-
-            JButton addButton = new JButton("Add another question");
-            addButton.setActionCommand("add true or false question");
-            addButton.addActionListener(actionListener);
-            JButton finishButton = new JButton("Finish");
-            finishButton.setActionCommand("finish with true or false question");
-            finishButton.addActionListener(actionListener);
-            addDoneFinishPanel.add(addButton);
-            addDoneFinishPanel.add(finishButton);
-        } else {
-            JButton addButton = (JButton) addDoneFinishPanel.getComponent(0);
-            addButton.setActionCommand("add true or false question");
-            JButton finishButton = (JButton) addDoneFinishPanel.getComponent(1);
-            finishButton.setActionCommand("finish with true or false question");
-        }
+        addDoneFinishPanel.removeAll();
+        JButton addButton = new JButton("Add another question");
+        addButton.setActionCommand("add true or false question");
+        addButton.addActionListener(actionListener);
+        JButton finishButton = new JButton("Finish");
+        finishButton.setActionCommand("finish with true or false question");
+        finishButton.addActionListener(actionListener);
+        addDoneFinishPanel.add(addButton);
+        addDoneFinishPanel.add(finishButton);
 
         JLabel trueOrFalseLabel = new JLabel("Is the correct answer 'true' or 'false'?");
         JRadioButton trueButton = new JRadioButton("True");
@@ -1134,18 +1126,15 @@ public class View {
         }
 
         JPanel addDoneFinishPanel = (JPanel) activeComponents.get(1);
-        if (addDoneFinishPanel.getComponentCount() != 2) {
-            addDoneFinishPanel.removeAll();
-
-            JButton addButton = new JButton("Add another question");
-            addButton.setActionCommand("add multiple choice question");
-            addButton.addActionListener(actionListener);
-            JButton finishButton = new JButton("Finish");
-            finishButton.setActionCommand("finish with multiple choice question");
-            finishButton.addActionListener(actionListener);
-            addDoneFinishPanel.add(addButton);
-            addDoneFinishPanel.add(finishButton);
-        }
+        addDoneFinishPanel.removeAll();
+        JButton addButton = new JButton("Add another question");
+        addButton.setActionCommand("add multiple choice question");
+        addButton.addActionListener(actionListener);
+        JButton finishButton = new JButton("Finish");
+        finishButton.setActionCommand("finish with multiple choice question");
+        finishButton.addActionListener(actionListener);
+        addDoneFinishPanel.add(addButton);
+        addDoneFinishPanel.add(finishButton);
 
         JPanel answerChoicesPanel = new JPanel(new GridLayout(0, 1));
         ButtonGroup answerChoicesGroup = new ButtonGroup();
@@ -1188,18 +1177,15 @@ public class View {
         }
 
         JPanel addDoneFinishPanel = (JPanel) activeComponents.get(1);
-        if (addDoneFinishPanel.getComponentCount() != 1) {
-            addDoneFinishPanel.removeAll();
-
-            JButton addButton = new JButton("Add another question");
-            addButton.setActionCommand("add fill in the blank question");
-            addButton.addActionListener(actionListener);
-            JButton finishButton = new JButton("Finish");
-            finishButton.setActionCommand("finish with fill in the blank question");
-            finishButton.addActionListener(actionListener);
-            addDoneFinishPanel.add(addButton);
-            addDoneFinishPanel.add(finishButton);
-        }
+        addDoneFinishPanel.removeAll();
+        JButton addButton = new JButton("Add another question");
+        addButton.setActionCommand("add fill in the blank question");
+        addButton.addActionListener(actionListener);
+        JButton finishButton = new JButton("Finish");
+        finishButton.setActionCommand("finish with fill in the blank question");
+        finishButton.addActionListener(actionListener);
+        addDoneFinishPanel.add(addButton);
+        addDoneFinishPanel.add(finishButton);
 
         JLabel answerLabel = new JLabel("Answer:");
         JTextField answerTxt = new JTextField(30);
