@@ -3,50 +3,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Scanner;
-
-//TODO: remove these line comments before submission
-//Explanations for Client methods:
-//I probably haven't explained this well. Please ask me if you need clarification on anything, or if something in this
-//plan needs to be edited because it won't work with the rest of the program.
-//*
-//*
-//*
-//Program Location (details for almost all methods):
-//Client should use fields to track the current program location, which includes the following:
-// - the active user
-// - the active course
-// - the active quiz
-// - the active question
-// - the active submission
-//Not all of these will be necessary at any given time (eg in the main menu, the user has not selected a course,
-//so there is no active course).
-//If a particular component is inactive, it should be set to null.
-//I have included a few clear methods that will indicate to client when one of the active objects is being exited and
-//should be set to null.
-//However, other methods (eg deleteQuiz()) will also need to clear the active object.
-//(Implementation details can be different from this; I just need the Client to know what to access at any given time.)
-//Any getter methods should take the program location into account and get only the lists from that particular location.
-//(eg if a particular quiz is active, the Client should get the questions from that particular quiz.)
-//Getter methods use numbers because I can't transfer objects from the screen creator to the action listener.
-//If absolutely necessary, I can try to determine how to do this, but it will likely take several hours of work.
-//*
-//*
-//*
-//Difference between getAccountCourses() and getAllCourses():
-//getAccountCourses() is used to access the courses an account already has - that is, that account's ArrayList of courses
-//getAllCourses() is used to let students add courses, so it should get every course that has been created and allow user selection
-//*
-//*
-//*
-//What close() does:
-//close() indicates that the user has quit the program, and that the Client should ensure any remaining data is stored,
-//then also terminate.
-//*
-//*
-//*
-//Again, if I haven't explained this well or have planned something that won't work, please let me know so we can
-//discuss further.
 
 /**
  * Online Quiz Navigator v2 - View
@@ -58,7 +14,7 @@ import java.util.Scanner;
  * @author Nathan Reed, lab sec L24
  * @version December 8, 2021
  */
-public class View extends JComponent {
+public class View {
     private Client client;
     private JFrame frame;
     private JPanel mainPanel;
@@ -498,19 +454,6 @@ public class View extends JComponent {
             }
         }
     };
-
-    //TODO: remove this method before submission
-    /**
-     * Constructor for testing without access to client
-     */
-    private View() {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                createGUI();
-            }
-        });
-    }
 
     /**
      * Sets up View object and Event Dispatch Thread when called by Client
@@ -1830,15 +1773,5 @@ public class View extends JComponent {
 
         mainPanel.validate();
         mainPanel.repaint();
-    }
-
-    //TODO: remove before submission
-    /**
-     * Main method for testing
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        View view = new View();
     }
 }
