@@ -1578,7 +1578,7 @@ public class View {
         for (int i = 0; i < answerChoices.size(); i++) {
             String answer = answerChoices.get(i);
             JRadioButton answerButton = new JRadioButton(answer);
-            answerButton.setActionCommand(Integer.toString(i));
+            answerButton.setActionCommand(answer);
             choicesGroup.add(answerButton);
             choicesPanel.add(answerButton);
         }
