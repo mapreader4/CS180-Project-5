@@ -207,6 +207,7 @@ public class Concurrency extends Thread {
     public void getQuizzes(int courseNumber) {
         try {
             Course course=courseList.getCourse(courseNumber);
+            outputStream.reset();
             outputStream.writeObject(course.getQuizzes());
             outputStream.flush();
         } catch (IOException e) {

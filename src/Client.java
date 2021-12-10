@@ -5,6 +5,8 @@ import java.util.ArrayList;
 /** So, we need to update the course anytime a quiz is added as the quiz is being taken from the active course, maybe
  just send a thread with the course object, and if the course number matches the active course, change the active course
  */
+@SuppressWarnings("unchecked")
+
 public class Client {
     Socket socket=null;
     int courseNumber;
@@ -20,6 +22,7 @@ public class Client {
 
     }
     //tested
+
     public boolean connectToServer(String domainName, String inputPortNumber) {
         try {
             int portNumber = Integer.parseInt(inputPortNumber);
@@ -35,6 +38,7 @@ public class Client {
         return false;
     }
     //looks good
+
     public boolean createAccount(String username, String password, String typeOfAccount){
         try {
             ArrayList<Object> objects=new ArrayList<>();
@@ -113,7 +117,7 @@ public class Client {
             objects.add(courseNumber);
             oos.writeObject(objects);
             oos.flush();
-            ArrayList<Quiz> quizList = (ArrayList<Quiz>) ois.readObject();
+            ArrayList<Quiz> quizList = (ArrayList<Quiz>) (ois.readObject());
             return quizList;
         } catch (Exception e) {
             throw new RuntimeException();
@@ -133,6 +137,7 @@ public class Client {
             throw new RuntimeException();
         }
     }
+
     public ArrayList<Question> getQuestions() {
         try {
             ArrayList<Object> objects = new ArrayList<>();
@@ -147,6 +152,7 @@ public class Client {
             throw new RuntimeException();
         }
     }
+
     public ArrayList<Submission> getStudentSubmissions(){
         try {
             ArrayList<Object> objects = new ArrayList<>();
@@ -159,6 +165,7 @@ public class Client {
             throw new RuntimeException();
         }
     }
+
     public ArrayList<Submission> getAllSubmissions() {
         try {
             ArrayList<Object> objects = new ArrayList<>();
@@ -174,6 +181,7 @@ public class Client {
         }
     }
     //looks good
+
     public boolean createCourse(String courseName, int courseNumber) {
         try {
             ArrayList<Object> objects = new ArrayList<>();
@@ -193,6 +201,7 @@ public class Client {
 
         return false;
     }
+
     public boolean addImportedQuiz(File f) {
         try {
             ArrayList<Object> objects = new ArrayList<>();
@@ -212,6 +221,7 @@ public class Client {
         }
         return false;
     }
+
     public void createQuiz(String quizName, boolean randomize) {
         try {
             ArrayList<Object> objects = new ArrayList<>();
@@ -472,7 +482,6 @@ public class Client {
             throw new RuntimeException("client: getActiveQuestion not working");
         }
     }
-
     public ArrayList<String> getAnswersFromSubmission() {
         try {
             ArrayList<Object> objects = new ArrayList<>();
