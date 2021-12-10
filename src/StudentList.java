@@ -48,7 +48,7 @@ public class StudentList implements Serializable {
         return false; // does not contain it
     }
 
-    public void saveToFile() {
+    public synchronized void saveToFile() {
         if (students == null || students.size() == 0) {
             return; // nothing to save
         }

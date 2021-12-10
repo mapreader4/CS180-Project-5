@@ -165,6 +165,8 @@ public class Concurrency extends Thread {
                     int quizNumber=(Integer)objects.get(2);
                     int questionNumber = (int)objects.get(3);
                     deleteQuestion(courseNumber,quizNumber,questionNumber);
+                } else if(line.equalsIgnoreCase("close")){
+                    storeLists();
                 }
             }
         } catch (Exception e) {

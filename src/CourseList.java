@@ -64,7 +64,7 @@ public class CourseList implements Serializable {
         return false;
     }
 
-    public void saveToFile() {
+    public synchronized void saveToFile() {
         if (courses == null || courses.size() == 0) {
             return; // nothing to save
         }

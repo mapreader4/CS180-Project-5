@@ -39,7 +39,7 @@ public class TeacherList implements Serializable {
         return true;
     }
 
-    public void saveToFile() {
+    public synchronized void saveToFile() {
         if (teachers == null || teachers.size() == 0) {
             return; // nothing to save
         }
