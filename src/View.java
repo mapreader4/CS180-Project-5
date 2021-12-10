@@ -904,7 +904,7 @@ public class View extends JComponent {
         selectButton.setActionCommand("choose teacher option");
         selectButton.addActionListener(actionListener);
         JButton backButton = new JButton("Back");
-        backButton.setActionCommand("back to teacher quiz options menu");
+        backButton.setActionCommand("back to course menu");
         backButton.addActionListener(actionListener);
         JPanel selectOrBackPanel = new JPanel(new FlowLayout());
         selectOrBackPanel.add(selectButton);
