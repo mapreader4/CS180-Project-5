@@ -1124,7 +1124,7 @@ public class View extends JComponent {
         trueOrFalsePanel.add(trueButton, BorderLayout.CENTER);
         trueOrFalsePanel.add(falseButton, BorderLayout.SOUTH);
 
-        mainPanel.add(trueOrFalsePanel, BorderLayout.SOUTH);
+        mainPanel.add(trueOrFalsePanel, BorderLayout.CENTER);
 
         mainPanel.validate();
         mainPanel.repaint();
