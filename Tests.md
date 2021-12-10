@@ -79,7 +79,7 @@ Test 7: Teacher creates quiz
 1) Teacher logs in 
 2) Teacher selects created course
 3) Teacher selects option to create new quiz
-4) Teacher enters quiz name and quiz number
+4) Teacher enters quiz name, quiz number, randomized or not
 5) Teacher enters questions to be in quiz as well as point values for each
 <br>
 <br>
@@ -88,4 +88,153 @@ Expected Result: Quiz is created under the specified course
 Test Result: Passed
 <br>
 
+Test 8: Teacher creates quiz with invalid quiz number
+<br>
+1) Teacher logs in
+2) Teacher selects created course
+3) Teacher selects option to create new quiz
+4) Teacher enters quiz name and invalid quiz number, randomized or not
+<br>
+<br>
+Expected Result: User receives error message that quiz number is taken or invalid
+<br>
+Test Result: Passed
+<br>
 
+Test 9: Teacher creates quiz through file import
+<br>
+1) Teacher logs in
+2) Teacher selects created course
+3) Teacher selects option to create new quiz from file import
+4) Teacher enters filepath
+<br>
+<br>
+Expected Result: Quiz is created
+<br>
+Test Result: Passed
+<br>
+
+Test 10: Teacher creates quiz with invalid filepath/invalid file format
+<br>
+1) Teacher logs in
+2) Teacher selects created course
+3) Teacher selects option to create new quiz from invalid filepath/invalid file format
+4) Teacher enters filepath
+<br>
+<br>
+Expected Result: User receives error message that the filepath or the file format is incorrect
+<br>
+Test Result: Passed
+<br>
+
+Test 11: Teacher enters invalid point value when creating questions for quiz
+<br>
+1) Teacher logs in
+2) Teacher selects created course
+3) Teacher selects option to create new quiz
+4) Teacher enters quiz name and quiz number, randomized or not
+5) Teacher creates question and enters an invalid point value
+<br>
+<br>
+Expected Result: User receives error message prompting them to re-enter the point value correctly
+<br>
+Test Result: Passed
+<br>
+
+Test 12: Teacher enters invalid value when choosing to randomize quiz or not
+<br>
+1) Teacher logs in
+2) Teacher selects created course
+3) Teacher selects option to create new quiz
+4) Teacher enters quiz name, quiz number, invalid value for randomization
+<br>
+<br>
+Expected Result: User receives error message prompting them to re-enter the value for randomization correctly
+<br>
+Test Result: Passed
+<br>
+
+Test 13: Teacher deletes quiz
+<br>
+1) Teacher logs in 
+2) Teacher selects created course
+3) Teacher selects created quiz
+4) Teacher selects option to delete quiz
+<br>
+<br>
+Expected Result: Quiz is deleted
+<br>
+Test Result: Passed
+<br>
+
+Test 14: Teacher deletes question in quiz
+<br>
+1) Teacher logs in
+2) Teacher selects created course
+3) Teacher selects created quiz
+4) Teacher selects option to edit quiz
+5) Teacher deletes question
+<br>
+<br>
+Expected Result: Question is deleted
+<br>
+Test Result: Passed
+<br>
+
+Test 15: Teacher edits question title
+<br>
+1) Teacher logs in
+2) Teacher selects created course
+3) Teacher selects created quiz
+4) Teacher selects option to edit quiz
+5) Teacher changes name of question
+<br>
+<br>
+Expected Result: Question name is changed
+<br>
+Test Result: Passed
+<br>
+
+Test 16: Teacher edits answer/answer choices to question
+<br>
+1) Teacher logs in
+2) Teacher selects created course
+3) Teacher selects created quiz
+4) Teacher selects option to edit quiz
+5) Teacher edits answer/answer choices to question
+<br>
+<br>
+Expected Result: Answer/answer choices to question are changed
+<br>
+Test Result: Passed
+<br>
+
+Test 17: Teacher edits point value of question
+<br>
+1) Teacher logs in
+2) Teacher selects created course
+3) Teacher selects created quiz
+4) Teacher selects option to edit quiz
+5) Teacher edits point value of question
+<br>
+<br>
+Expected Result: Point value of question is changed
+<br>
+Test Result: Passed
+<br>
+
+Test 18: Teacher edits point value of question with invalid value
+<br>
+1) Teacher logs in
+2) Teacher selects created course
+3) Teacher selects created quiz
+4) Teacher selects option to edit quiz
+5) Teacher edits point value of question with invalid value
+<br>
+<br>
+Expected Result: User receives error message prompting them to re-enter point value correctly
+<br>
+Test Result: Passed
+<br>
+
+Test 19: 
