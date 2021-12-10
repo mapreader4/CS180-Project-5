@@ -153,6 +153,11 @@ public class Concurrency extends Thread {
                     int courseNumber=(Integer)objects.get(1);
                     int quizNumber=(Integer)objects.get(2);
                     deleteQuiz(courseNumber,quizNumber);
+                } else if(line.equalsIgnoreCase("delete-question")){
+                    int courseNumber=(Integer)objects.get(1);
+                    int quizNumber=(Integer)objects.get(2);
+                    int questionNumber = (int)objects.get(3);
+                    deleteQuestion(courseNumber,quizNumber,questionNumber);
                 }
             }
         } catch (Exception e) {
@@ -441,6 +446,11 @@ public class Concurrency extends Thread {
         Course course=courseList.getCourse(courseNumber);
         Quiz quiz=course.getQuizzes().get(quizNumber);
         course.removeQuiz(quiz);
+    }
+    public void deleteQuestion(int courseNumber, int quizNumber, int questionNumber) {
+        Course course=courseList.getCourse(courseNumber);
+        Quiz quiz=course.getQuizzes().get(quizNumber);
+        quiz.removeQuestion(quiz.getQuestion(questionNumber));
     }
     public void storeLists(){
         teacherList.saveToFile();

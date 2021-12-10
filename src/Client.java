@@ -429,10 +429,13 @@ public class Client {
         try {
             ArrayList<Object> objects = new ArrayList<>();
             objects.add("delete-question");
+            objects.add(courseNumber);
+            objects.add(quizNumber);
             objects.add(questionNumber);
             oos.reset();
             oos.writeObject(objects);
             oos.flush();
+            clearActiveQuestion();
         } catch (Exception e) {
             throw new RuntimeException("client: deleteQuestion not working");
         }
