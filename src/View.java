@@ -830,7 +830,7 @@ public class View extends JComponent {
 
         JScrollPane scrollPane = new JScrollPane(quizPanel);
         mainPanel.add(scrollPane, BorderLayout.CENTER);
-        mainPanel.add(selectOrBackPanel);
+        mainPanel.add(selectOrBackPanel, BorderLayout.SOUTH);
 
         mainPanel.validate();
         mainPanel.repaint();
