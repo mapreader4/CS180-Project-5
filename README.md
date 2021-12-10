@@ -32,6 +32,85 @@ Classes:
 <br>
 *********
 <br>
+View
+<br>
+-------------------------------
+<br>
+Client client - stores active client object so relevant Client methods can be called
+<br>
+JFrame frame - the JFrame controlled by View
+<br>
+JPanel mainPanel - the main panel contained in the frame
+<br>
+ArrayList<Object> activeComponents - used for storing the active components on the screen so they can be accessed by the action listener
+<br>
+int accountType - indicates whether the account being used is a Student or a Teacher
+<br>
+int menuLocation - stores the location in the menu so that the correct menu can be refreshed in case of an update
+<br>
+ActionListener actionListener - the action listener for the GUI
+<br>
+public void update() - Updates view being displayed to be consistent with new server updates
+<br>
+private void createGUI() - Sets up initial components of GUI
+<br>
+private void createConnectionScreen() - Displays text fields for domain name and port number
+<br>
+private void createLoginScreen() - Displays fields allowing user to login or create account
+<br>
+private void createMainMenu() - Displays a list of courses the user currently has and an "add course" option
+<br>
+private void createAddCourseScreen() - Displays all available courses to student, allowing them to add any course.
+<br>
+private void createCreateCourseScreen() - Displays text fields for course creation to teacher, allowing them to create a course.
+<br>
+private void createCourseMenu() - Displays the menu for a particular course, allowing the user to select which quiz they want to access, as well as create a new quiz if the user is a teacher.
+<br>
+private void createStudentQuizOptionsMenu() - Displays options for a particular quiz (take quiz or view submissions) to a student
+<br>
+private void createTeacherQuizOptionsMenu() - Displays options for a particular quiz (edit quiz, view submissions, or delete quiz) to teacher
+<br>
+private void createCreateQuizIntroScreen() - Displays choice of quiz input method to teacher
+<br>
+private void createCreateQuizTitleScreen() - Displays screen to set quiz title and randomization
+<br>
+private void createCreateQuestionScreen() - Displays generic fields for question creation and allows the user to select whether the question should be true or false, multiple choice, or fill in the blank
+<br>
+private void createCreateTrueFalseQuestion() - Displays possible answer options for true or false questions, allows teacher to choose which should be correct
+<br>
+private void createSelectNumAnswerChoices() - Displays a field that allows the teacher to set the number of answer choices
+<br>
+private void createCreateMultipleChoiceQuestion(int numAnswerChoices) - Displays text fields for teacher to specify answer choices
+<br>
+private void createCreateFillInTheBlankQuestion() - Displays text field for teacher to specify answer to fill in the blank question
+<br>
+private void createEditQuizMenu() - Displays a list of questions that the teacher can choose to edit
+<br>
+private void createEditQuestionScreen() - Determines type of question to be edited, then calls relevant edit screen creation method
+<br>
+private void createEditTrueFalseScreen(TrueFalse trueFalse) - Displays fields of true or false question for editing
+<br>
+private void createEditMultipleChoiceScreen(MultipleChoice multipleChoice) - Displays fields of multiple choice question for editing
+<br>
+private void createEditFillInTheBlankScreen(FillInTheBlank fillInTheBlank) - Displays fields of fill in the blank question for editing
+<br>
+private void createTakeQuizIntroScreen() - Displays a confirmation message to make sure the student is taking the right quiz
+<br>
+private void createActiveQuizScreen() - Displays quiz to student
+<br>
+private JPanel assembleTrueFalseQuestion(TrueFalse trueFalse, int index) - Assembles a panel of a true or false question for a student taking a quiz
+<br>
+private JPanel assembleMultipleChoiceQuestion(MultipleChoice multipleChoice, int index) - Assembles a panel of a multiple choice question for a student taking a quiz
+<br>
+private JPanel assembleFillInTheBlankQuestion(FillInTheBlank fillInTheBlank, int index) - Assembles a panel of a multiple choice question for a student taking a quiz
+<br>
+private void createStudentSubmissionMenu() - Displays a list of the student's submissions for later viewing
+<br>
+private void createTeacherSubmissionMenu() - Displays a list of all submissions to a quiz for later viewing
+<br>
+private void createSubmissionViewer() - Displays a selected submission
+<br>
+<br>
 User (implements Serializable):
 <br>
 -------------------------------
