@@ -261,6 +261,7 @@ public class Client {
             oos.reset();
             oos.writeObject(objects);
             oos.flush();
+            setActiveCourse(courseNumber);
         } catch (Exception e) {
             throw new RuntimeException();
         }
@@ -447,6 +448,7 @@ public class Client {
             oos.reset();
             oos.writeObject(objects);
             oos.flush();
+            setActiveCourse(courseNumber);
         } catch (Exception e) {
             throw new RuntimeException();
         }
