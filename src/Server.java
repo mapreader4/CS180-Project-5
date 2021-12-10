@@ -10,7 +10,6 @@ public class Server {
     static StudentList studentList = StudentList.readFromFile();
     static CourseList courseList = CourseList.readFromFile();
     public static void main(String[] args) {
-        //Server server=new Server();
         int port = 8818;
         try {
             ServerSocket socket = new ServerSocket(port);

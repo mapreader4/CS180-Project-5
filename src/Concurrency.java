@@ -144,7 +144,6 @@ public class Concurrency extends Thread {
             }
         } catch (Exception e) {
             storeLists();
-            throw new RuntimeException();
         }
     }
 
@@ -407,6 +406,7 @@ public class Concurrency extends Thread {
         Quiz q =quizzes.get(quizNumber);
         TrueFalse question = new TrueFalse(questionName,trueFalse,pointValue);
         q.addQuestion(question);
+
     }
 
     public void updateTrueFalseQuestion(int courseNumber, int quizNumber,int questionNumber,String question, int pointValue,String answer){

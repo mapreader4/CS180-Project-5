@@ -16,7 +16,7 @@ public class Client {
     ObjectInputStream ois=null;
     public static void main(String[] args) {
         Client client=new Client();
-        TestView view=new TestView(client);
+        View view=new View(client);
 
     }
     //tested
@@ -252,6 +252,7 @@ public class Client {
             objects.add(quizNumber);
             oos.writeObject(objects);
             oos.flush();
+            clearActiveQuestion();
             clearActiveQuiz();
         } catch (Exception e){
             throw new RuntimeException();
