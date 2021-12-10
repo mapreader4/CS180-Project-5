@@ -461,7 +461,7 @@ public class View {
      *
      * @param client the Client object used for this session
      */
-    View(Client client) {
+    public View(Client client) {
         this.client = client;
         SwingUtilities.invokeLater(new Runnable() {
             @Override
