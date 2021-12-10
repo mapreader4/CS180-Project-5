@@ -78,7 +78,7 @@ public class Concurrency extends Thread {
                         outputStream.writeObject(result);
                         outputStream.flush();
                     }
-                }else if(line.equalsIgnoreCase("create-true-false-question")){
+                }else if(line.equalsIgnoreCase("create-true-false")){
                     int courseNumber = (int) objects.get(1);
                     int quizNumber = (int)objects.get(2);
                     String questionName = (String)objects.get(3);
