@@ -565,6 +565,45 @@ public int getPointValue() - Returns pointValue
 public void editQuestion(Scanner scanner) - Edits question
 <br>
 <br>
+Concurrency (extends Thread)
+<br>
+----------------------------------
+<br>
+Socket scoket - client socket
+<br>
+ObjectInputStream inputStream - Stream for receiving over network
+<br>
+ObjetOutputStream outputStream - Stream for sending over network
+<br>
+TeacherList teacherList - object that provides for data persistence and access to teachers
+<br>
+StudentList studentList - object that provides for data persistence and access to students
+<br>
+CourseList courseList - object that provides for data persistence and access to courses
+<br>
+String typeOfAccount - stores whether teacher or student is the client in the thread being run
+<br>
+User user - stores whether the client is teacher or student
+<br>
+public Concurrency (Socket socket, TeacherList teacherList, StudentList studentList, CourseList courseList) - Constructor that creates a thread to connect with the specific client
+<br>
+public void run() - receives info from the client and based on the info, accesses or modifies the base classes and information
+<br>
+public void login(String username, String password, String typeOfUser) - Client is logged in with details received
+<br>
+public void getAccountCourses() - if teacher asks, gets the courses made by the teacher. If student asks, gets the courses registered for by the student.
+<br>
+public void getAllCourses() - sends all the courses to client
+<br>
+public void getQuizzes(int courseNumber) - sends all the quizzes from the course that has that course number to clients
+<br>
+public void getCurrentQuiz(int courseNumber, int quizNumber) - sends the quiz that has been referenced
+<br>
+public void getQuestions(int courseNumber, int quizNumber) - returns the questions in a specific quiz
+<br>
+public void getActiveQuestion(int courseNumber, int quizNumber,int questionNumber) - sets the question being referenced as active
+
+<br>
 <br>
 Project Planning:
 <br>
@@ -579,6 +618,8 @@ Model (Jay):
 handles data when called from Server
 <br>
 need to update existing data structures for compatibility
+<br>
+helped with client and server
 <br>
 <br>
 Server (Nathan S):

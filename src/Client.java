@@ -530,6 +530,21 @@ public class Client {
             throw new RuntimeException("client: getAnswersFromSubmission not working");
         }
     }
+    public boolean isRandom(){
+        try{
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.add("check-for-random");
+            objects.add(courseNumber);
+            objects.add(quizNumber);
+            oos.reset();
+            oos.writeObject(objects);
+            oos.flush();
+            String isOrNot = (String) ois.readObject();
+            return isOrNot.equals("true");
+        } catch (Exception e) {
+            throw new RuntimeException("client: isRandom not working");
+        }
+    }
     public void close() {
         try {
             ArrayList<Object> objects = new ArrayList<>();

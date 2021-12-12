@@ -2,6 +2,8 @@ import java.io.*;
 import java.lang.reflect.Array;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 
 public class Concurrency extends Thread {
     private final Socket socket;
@@ -172,7 +174,12 @@ public class Concurrency extends Thread {
                     int quizNumber=(Integer)objects.get(2);
                     int questionNumber = (int)objects.get(3);
                     deleteQuestion(courseNumber,quizNumber,questionNumber);
-                } else if(line.equalsIgnoreCase("close")){
+                } else if(line.equalsIgnoreCase("check-for-random")) {
+                    int courseNumber=(Integer)objects.get(1);
+                    int quizNumber=(Integer)objects.get(2);
+                    isRandom(courseNumber,quizNumber);
+                }
+                else if(line.equalsIgnoreCase("close")){
                     storeLists();
                 }
             }
@@ -322,6 +329,9 @@ public class Concurrency extends Thread {
             Course course = courseList.getCourse(courseNumber);
             Quiz quiz = course.getQuizzes().get(quizNumber);
             Submission submission=new Submission((Student)user,quiz);
+            if(quiz.isRandomized()){
+                Collections.shuffle(quiz.getQuiz(), new Random(1));
+            }
             submission.submissionReport(answers,quiz.getQuiz());
 
             ArrayList<Submission> submissions2=((Student)user).getSubmissions();
@@ -597,6 +607,18 @@ public class Concurrency extends Thread {
         question1.setPointValue(pointValue);
         question1.setAnswer(answer);
 
+    }
+    public void isRandom(int courseNumber, int quizNumber){
+        try {
+            Course course = courseList.getCourse(courseNumber);
+            Quiz quiz = course.getQuizzes().get(quizNumber);
+            boolean isOrNot=quiz.isRandomized();
+            outputStream.reset();
+            outputStream.writeObject(String.valueOf(isOrNot));
+            outputStream.flush();
+        } catch (Exception e){
+            throw new RuntimeException("isRandom not working");
+        }
     }
 
 }

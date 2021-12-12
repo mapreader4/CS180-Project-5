@@ -3,6 +3,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -1502,6 +1504,9 @@ public class View {
         activeComponents.clear();
 
         ArrayList<Question> questions = client.getQuestions();
+        if(client.isRandom()){
+            Collections.shuffle(questions, new Random(1));
+        }
         JPanel questionsPanel = new JPanel(new GridLayout(0, 1));
         for (int i = 0; i < questions.size(); i++) {
             Question currentQuestion = questions.get(i);
