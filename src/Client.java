@@ -162,6 +162,8 @@ public class Client {
         try {
             ArrayList<Object> objects = new ArrayList<>();
             objects.add("get-student-submissions");
+            objects.add(courseNumber);
+            objects.add(quizNumber);
             oos.reset();
             oos.writeObject(objects);
             oos.flush();
@@ -184,7 +186,7 @@ public class Client {
             ArrayList<Submission> submissionList = (ArrayList<Submission>) ois.readObject();
             return submissionList;
         } catch (Exception e) {
-            throw new RuntimeException();
+            throw new RuntimeException("client: getAllSubmissions not working");
         }
     }
     //looks good
@@ -509,13 +511,16 @@ public class Client {
             throw new RuntimeException("client: getActiveQuestion not working");
         }
     }
-    public ArrayList<String> getAnswersFromSubmission() {
+    public ArrayList<String> getAnswersFromSubmission(String studentName) {
         try {
             ArrayList<Object> objects = new ArrayList<>();
             objects.add("get-answers-from-submission");
             objects.add(courseNumber);
             objects.add(quizNumber);
             objects.add(submissionNumber);
+            if(user.isTeacher()){
+                objects.add(studentName);
+            }
             oos.reset();
             oos.writeObject(objects);
             oos.flush();

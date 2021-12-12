@@ -70,4 +70,12 @@ public class StudentList implements Serializable {
         }
         return null;
     }
+    public synchronized Student findStudent(String username){
+        for (int i = 0; i < students.size(); i++) {
+            if (students.get(i).getUsername().equals(username)) {
+                return students.get(i);
+            }
+        }
+        return null;
+    }
 }

@@ -16,6 +16,9 @@ import java.util.concurrent.TimeUnit;
  * @version December 8, 2021
  */
 public class View {
+    int submissionChosenChange=0;
+    ArrayList<ArrayList<String>> forActiveTeacherSubmission= new ArrayList<>();
+    String studentName="";
     private Client client;
     private JFrame frame;
     private JPanel mainPanel;
@@ -171,6 +174,15 @@ public class View {
                 ButtonGroup submissionsGroup = (ButtonGroup) activeComponents.get(0);
                 int submissionChosen = Integer.parseInt(submissionsGroup.getSelection().getActionCommand());
                 client.setActiveSubmission(submissionChosen);
+                if(accountType==TEACHER_OPTION){
+                    submissionChosenChange=Integer.parseInt(forActiveTeacherSubmission.get(submissionChosen).get(1));
+                    client.setActiveSubmission(submissionChosenChange);
+                }
+                try {
+                    studentName=forActiveTeacherSubmission.get(submissionChosen).get(0);
+                } catch (Exception ignored) {
+
+                }
                 createSubmissionViewer();
             } else if (actionCommand.equals("choose teacher option")) {
                 ButtonGroup optionsGroup = (ButtonGroup) activeComponents.get(0);
@@ -518,7 +530,7 @@ public class View {
 
         frame.setSize(600, 400);
         frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
 
@@ -1680,13 +1692,23 @@ public class View {
 
         for (int i = 0; i < submissions.size(); i++) {
             Submission currentSubmission = submissions.get(i);
-            String studentName = currentSubmission.getStudent().getUsername();
+            String  studentName = currentSubmission.getStudent().getUsername();
             String submissionTime = currentSubmission.getTimestamp().toString();
             String displaySubmission = "Submission " + (i+1) + ": " + studentName + " - " + submissionTime;
             JRadioButton submissionButton = new JRadioButton(displaySubmission);
             submissionButton.setActionCommand(Integer.toString(i));
             submissionsGroup.add(submissionButton);
             submissionsPanel.add(submissionButton);
+            ArrayList<String> tempArray=new ArrayList<>();
+            tempArray.add(studentName);
+            int sum=0;
+            for(ArrayList<String> temp2 : forActiveTeacherSubmission){
+                if(temp2.get(0).equals(studentName)){
+                    sum=sum+1;
+                }
+            }
+            tempArray.add(String.valueOf(sum));
+            forActiveTeacherSubmission.add(tempArray);
         }
 
         activeComponents.add(submissionsGroup);
@@ -1719,7 +1741,8 @@ public class View {
         activeComponents.clear();
 
         ArrayList<Question> questions = client.getQuestions();
-        ArrayList<String> studentAnswers = client.getAnswersFromSubmission();
+
+        ArrayList<String> studentAnswers = client.getAnswersFromSubmission(studentName);
         JPanel submissionPanel = new JPanel(new GridLayout(0, 1));
 
         for (int i = 0; i < questions.size(); i++) {

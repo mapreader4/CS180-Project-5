@@ -231,5 +231,8 @@ public class Submission implements Serializable {
             }
         }
     }
+    public String toString(){
+        return String.format("This submission %s belonging to %s",quizz.getName(),student.getUsername());
+    }
 
 }

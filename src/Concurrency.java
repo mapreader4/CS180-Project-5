@@ -63,7 +63,9 @@ public class Concurrency extends Thread {
                     getActiveQuestion(courseNumber,quizNumber,questionNumber);
                 }
                 else if(line.equals("get-student-submissions")) {
-                    getStudentSubmissions();
+                    int courseNumber=(Integer)objects.get(1);
+                    int quizNumber=(Integer)objects.get(2);
+                    getStudentSubmissions(courseNumber,quizNumber);
                 }
                 else if(line.equals("get-all-submissions")) {
                     int courseNumber=(Integer)objects.get(1);
@@ -80,7 +82,12 @@ public class Concurrency extends Thread {
                     int courseNumber=(Integer)objects.get(1);
                     int quizNumber=(Integer)objects.get(2);
                     int submissionNumber=(Integer)objects.get(3);
-                    getAnswersFromSubmission(courseNumber,quizNumber,submissionNumber);
+                    if (typeOfAccount.equalsIgnoreCase("Teacher")) {
+                        String studentName=(String)objects.get(4);
+                        getAnswersFromSubmission(courseNumber, quizNumber, submissionNumber,studentName);
+                    } else {
+                        getAnswersFromSubmission(courseNumber,quizNumber,submissionNumber);
+                    }
 
                 }
                 else if(line.equalsIgnoreCase("create-course")) {
@@ -280,14 +287,22 @@ public class Concurrency extends Thread {
             throw new RuntimeException("getActiveQuestion not working");
         }
     }
-    public void getStudentSubmissions() {
+    public void getStudentSubmissions(int courseNumber, int quizNumber) {
         try {
-            ArrayList<Submission> submissions=((Student)user).getSubmissions();
+            Course course = courseList.getCourse(courseNumber);
+            Quiz quiz = course.getQuizzes().get(quizNumber);
+            ArrayList<Submission> submissions2=((Student)user).getSubmissions();
+            ArrayList<Submission> submissionsNeeded=new ArrayList<>();
+            for(Submission s:submissions2){
+                if(s.quizz==quiz){
+                    submissionsNeeded.add(s);
+                }
+            }
             outputStream.reset();
-            outputStream.writeObject(submissions);
+            outputStream.writeObject(submissionsNeeded);
             outputStream.flush();
         } catch (Exception e) {
-            throw new RuntimeException("getStudentSubmission not working");
+            throw new RuntimeException("getStudentSubmissions not working");
         }
     }
     public void getAllSubmissions(int courseNumber, int quizNumber) {
@@ -308,7 +323,20 @@ public class Concurrency extends Thread {
             Quiz quiz = course.getQuizzes().get(quizNumber);
             Submission submission=new Submission((Student)user,quiz);
             submission.submissionReport(answers,quiz.getQuiz());
-            int submissionNumber=quiz.getSubmission().indexOf(submission);
+
+            ArrayList<Submission> submissions2=((Student)user).getSubmissions();
+            ArrayList<Submission> submissionsNeeded=new ArrayList<>();
+            for(Submission s:submissions2){
+                if(s.quizz==quiz){
+                    submissionsNeeded.add(s);
+                }
+            }
+            int submissionNumber=0;
+            for(Submission s : submissionsNeeded){
+                if(submission.equals(s)){
+                    submissionNumber=submissionsNeeded.indexOf(s);
+                }
+            }
             outputStream.reset();
             outputStream.writeObject(submissionNumber);
             outputStream.flush();
@@ -316,11 +344,41 @@ public class Concurrency extends Thread {
             throw new RuntimeException("submitSubmission not working");
         }
     }
-    public void getAnswersFromSubmission(int courseNumber, int quizNumber, int submissioNumber) {
+    public void getAnswersFromSubmission(int courseNumber, int quizNumber, int submissionNumber,String studentName){
+        try{
+            Course course = courseList.getCourse(courseNumber);
+            Quiz quiz = course.getQuizzes().get(quizNumber);
+            Student student=studentList.findStudent(studentName);
+            ArrayList<Submission> submissions2=student.getSubmissions();
+            ArrayList<Submission> submissionsNeeded=new ArrayList<>();
+            for(Submission s:submissions2){
+                if(s.quizz==quiz){
+                    submissionsNeeded.add(s);
+                }
+            }
+            ArrayList<String> answers=submissionsNeeded.get(submissionNumber).getAnswers();
+
+            outputStream.reset();
+            outputStream.writeObject(answers);
+            outputStream.flush();
+        } catch (Exception e){
+            throw new RuntimeException("getAnswersFromSubmission");
+        }
+    }
+    public void getAnswersFromSubmission(int courseNumber, int quizNumber, int submissionNumber) {
         try {
             Course course = courseList.getCourse(courseNumber);
             Quiz quiz = course.getQuizzes().get(quizNumber);
-            Submission submission=quiz.getSubmission().get(submissioNumber);
+
+            ArrayList<Submission> submissions2=((Student)user).getSubmissions();
+            ArrayList<Submission> submissionsNeeded=new ArrayList<>();
+            for(Submission s:submissions2){
+                if(s.quizz==quiz){
+                    submissionsNeeded.add(s);
+                }
+            }
+
+            Submission submission=submissionsNeeded.get(submissionNumber);
             ArrayList<String> answers=submission.getAnswers();
             outputStream.reset();
             outputStream.writeObject(answers);
