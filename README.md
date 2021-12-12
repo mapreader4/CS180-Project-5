@@ -111,6 +111,97 @@ private void createTeacherSubmissionMenu() - Displays a list of all submissions 
 private void createSubmissionViewer() - Displays a selected submission
 <br>
 <br>
+Client
+<br>
+------------------------
+<br>
+Socket socket - Socket used for connection to Server
+<br>
+int courseNumber - Active course
+<br>
+int quizNumber - Active quiz
+<br>
+User user - Active user
+<br>
+int questionNumber - Active question
+<br>
+int submissionNumber - Active submission
+<br>
+ObjectOutputStream oos - Writes objects to server
+<br>
+ObjectInputStream ois - Reads objects from server
+<br>
+public boolean connectToServer(String domainName, String inputPortNumber) - Used to establish connection with Server
+<br>
+public boolean createAccount(String username, String password, String typeOfAccount) - Used to create account for Students and Teachers respectively
+<br>
+public boolean login(String username, String password, String typeOfAccount) - Used to login for Students and Teachers respectively
+<br>
+public ArrayList<Course> getAccountCourses() - Used to access courses associated with active user
+<br>
+public ArrayList<Course> getAllCourses() - Used to access all created courses
+<br>
+public ArrayList<Quiz> getQuizzes() - Used to access all quizzes under a specific course
+<br>
+public Quiz getCurrentQuiz() - Used to access active quiz
+<br>
+public ArrayList<Question> getQuestions() - Used to access questions under active quiz
+<br>
+public ArrayList<Submission> getStudentSubmissions() - Used to get a students submissions for a quiz
+<br>
+public ArrayList<Submission> getAllSubmissions() - Used to get all submissions for a quiz
+<br>
+public boolean createCourse(String courseName, int courseNumber) - Used to create a course
+<br>
+public boolean addImportedQuiz(File f) - Used to add a quiz to a course with a file
+<br>
+public void createQuiz(String quizName, boolean randomize) - Used to create a quiz under the active course
+<br>
+public void addStudentToCourse(int courseNumber) - Used to add a student to a course
+<br>
+public void deleteQuiz() - Used to delete the active quiz
+<br>
+public void createTrueFalseQuestion(String questionName, int pointValue, boolean trueOrFalse) - Used to create a true or false question
+<br>
+public void createMultipleChoiceQuestion(String questionName, int pointValue, int numChoices, ArrayList<String> answerChoices, int correctAnswerIndex) - Used to create a multiple choice question
+<br>
+public void createFillInTheBlankQuestion(String questionName, int pointValue, String answer) - Used to create fill in the blank question
+<br>
+public void updateTrueFalseQuestion(String questionName, int pointValue, boolean trueOrFalse) - Used to update true or false question
+<br>
+public void updateMultipleChoiceQuestion(String questionName, int pointValue, int numChoices, ArrayList<String> answerChoices, int correctAnswerIndex) - Used to update a multiple choice question
+<br>
+public void updateFillInTheBlankQuestion(String questionName, int pointValue, String answer) - Used to update fill in the blank question
+<br>
+public void deleteQuestion(int questionNumber) - Used to delete question
+<br>
+public void submitSubmission(ArrayList<String> answers) - Used to submit answers and create an answer report for a taken quiz
+<br>
+public void lastQuestionAdded() - Used to reset active quiz and active question values
+<br>
+public void setActiveQuestion(int questionNumber) - Used to set active question
+<br>
+public void setActiveSubmission(int submissionNumber) - Used to set active submission
+<br>
+public void setActiveCourse(int courseNumber) - Used to set active course
+<br>
+public void setActiveQuiz(int quizNumber) - Used to set active quiz
+<br>
+public void clearActiveCourse() - Used to clear the active course
+<br>
+public void clearActiveSubmission() - Used to clear the active submission
+<br>
+public void clearActiveQuestion() - Used to clear the active question
+<br>
+public void clearActiveQuiz() - Used to clear the active quiz
+<br>
+public Question getActiveQuestion() - Used to access active question
+<br>
+public ArrayList<String> getAnswersFromSubmission() - Used to get answers from the active submission
+<br>
+public void close() - Used to inform server that client is closing
+<br>
+<br>
 User (implements Serializable):
 <br>
 -------------------------------
