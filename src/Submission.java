@@ -23,9 +23,6 @@ public class Submission implements Serializable {
     public Submission(Student student, Quiz quizz) {
         this.student = student;
         this.quizz = quizz;
-//        if (quizz.isRandomized()) {
-//            quizz.randomizeQuestions();
-//        }
         Date date = new Date();
         Timestamp ts = new Timestamp(date.getTime());
         this.timestamp = ts;
@@ -131,11 +128,13 @@ public class Submission implements Serializable {
 
     public void submissionReport(ArrayList<String> answers, ArrayList<Question> questions) {
         this.answers=answers;
+        ArrayList<String> tempAnswers=new ArrayList<>();
         String filepath = createsNewFile();
         try (PrintWriter pw = new PrintWriter(new FileWriter(filepath))) {
             pw.println(student.getUsername() + ": " + quizz.getName());
             for (int i = 0; i < answers.size(); i++) {
                 if (questions.get(i).getClass() == FillInTheBlank.class) {
+                    tempAnswers.add(answers.get(i));
                     FillInTheBlank temp = (FillInTheBlank) questions.get(i);
                     pw.print("Question " + (i + 1) + ". ");
                     pw.println(temp.getQuestion());
@@ -149,6 +148,7 @@ public class Submission implements Serializable {
                         pw.println("Points got: " + 0);
                     }
                 } else if (questions.get(i).getClass() == TrueFalse.class) {
+                    tempAnswers.add(answers.get(i));
                     TrueFalse temp = (TrueFalse) questions.get(i);
                     pw.print("Question " + (i + 1) + ". ");
                     pw.println(temp.getQuestion());
@@ -163,11 +163,12 @@ public class Submission implements Serializable {
                     }
                 } else if (questions.get(i).getClass() == MultipleChoice.class) {
                     MultipleChoice temp = (MultipleChoice) questions.get(i);
+                    tempAnswers.add(temp.getAnswerChoices().get(Integer.parseInt(answers.get(i))));
                     pw.print("Question " + (i + 1) + ". ");
                     pw.println(temp.getQuestion());
                     pw.print("Answer " + (i + 1) + ". ");
                     pw.println(temp.getCorrectAnswerIndex());
-                    pw.println("Your answer: " + ((answers.get(i))));
+                    pw.println("Your answer: " + (temp.getAnswerChoices().get(Integer.parseInt(answers.get(i)))));
                     if (temp.getCorrectAnswerIndex() == Integer.parseInt((String) (answers.get(i)))) {
                         pw.println("Points got: " + temp.getPointValue());
                         totalScore += temp.getPointValue();
@@ -181,6 +182,7 @@ public class Submission implements Serializable {
             e.printStackTrace();
             return;
         }
+        this.answers=tempAnswers;
         student.addSubmission(this);
         quizz.addSubmission(this);
     }

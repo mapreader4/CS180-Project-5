@@ -367,7 +367,6 @@ public class Concurrency extends Thread {
                 }
             }
             ArrayList<String> answers=submissionsNeeded.get(submissionNumber).getAnswers();
-
             outputStream.reset();
             outputStream.writeObject(answers);
             outputStream.flush();

@@ -1752,12 +1752,9 @@ public class View {
 
         for (int i = 0; i < questions.size(); i++) {
             Question currentQuestion = questions.get(i);
-            String currentStudentAnswer;
-            if (currentQuestion instanceof MultipleChoice) {
-                currentStudentAnswer = ((MultipleChoice) currentQuestion).getAnswerChoices().get(i);
-            } else {
-                currentStudentAnswer = studentAnswers.get(i);
-            }
+            String currentStudentAnswer="";
+            currentStudentAnswer = studentAnswers.get(i);
+
             JPanel currentQuestionPanel = new JPanel(new BorderLayout());
 
             String questionName = currentQuestion.getQuestion();
