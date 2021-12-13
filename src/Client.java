@@ -11,17 +11,17 @@ import java.util.ArrayList;
  */
 
 public class Client {
-    Socket socket=null;
+    Socket socket = null;
     int courseNumber;
     int quizNumber;
     User user;
     int questionNumber;
     int submissionNumber;
-    ObjectOutputStream oos=null;
-    ObjectInputStream ois=null;
+    ObjectOutputStream oos = null;
+    ObjectInputStream ois = null;
     public static void main(String[] args) {
-        Client client=new Client();
-        View view=new View(client);
+        Client client = new Client();
+        View view = new View(client);
 
     }
     //tested
@@ -30,9 +30,9 @@ public class Client {
         try {
             int portNumber = Integer.parseInt(inputPortNumber);
             socket = new Socket(domainName, portNumber);
-            if(socket.isConnected()){
-                oos=new ObjectOutputStream(socket.getOutputStream());
-                ois=new ObjectInputStream(socket.getInputStream());
+            if (socket.isConnected()){
+                oos = new ObjectOutputStream(socket.getOutputStream());
+                ois = new ObjectInputStream(socket.getInputStream());
                 return true;
             }
         } catch (Exception e) {
@@ -44,7 +44,7 @@ public class Client {
 
     public boolean createAccount(String username, String password, String typeOfAccount){
         try {
-            ArrayList<Object> objects=new ArrayList<>();
+            ArrayList<Object> objects = new ArrayList<>();
             objects.add("create-account");
             objects.add(username);
             objects.add(password);
@@ -52,10 +52,10 @@ public class Client {
             oos.reset();
             oos.writeObject(objects);
             oos.flush();
-            ArrayList<Object> result=(ArrayList<Object>)ois.readObject();
-            String checker =(String)(result.get(0));
+            ArrayList<Object> result = (ArrayList<Object>)ois.readObject();
+            String checker = (String)(result.get(0));
             if(checker.equals("success")){
-                user=(User)(result.get(1));
+                user = (User)(result.get(1));
                 return true;
             }
         } catch (Exception e){
@@ -67,7 +67,7 @@ public class Client {
     public boolean login(String username, String password, String typeOfAccount){
 
         try {
-            ArrayList<Object> objects=new ArrayList<>();
+            ArrayList<Object> objects = new ArrayList<>();
 
             objects.add("login");
             objects.add(username);
@@ -76,10 +76,10 @@ public class Client {
             oos.reset();
             oos.writeObject(objects);
             oos.flush();
-            ArrayList<Object> result=(ArrayList<Object>)ois.readObject();
-            String checker =(String)(result.get(0));
+            ArrayList<Object> result = (ArrayList<Object>)ois.readObject();
+            String checker = (String)(result.get(0));
             if(checker.equals("success")){
-                user=(User)(result.get(1));
+                user = (User)(result.get(1));
                 return true;
             }
         } catch (Exception e){
@@ -91,12 +91,12 @@ public class Client {
     //looks good
     public ArrayList<Course> getAccountCourses(){
         try{
-            ArrayList<Object> objects=new ArrayList<>();
+            ArrayList<Object> objects = new ArrayList<>();
             objects.add("get-account-courses");
             oos.reset();
             oos.writeObject(objects);
             oos.flush();
-            ArrayList<Course> courseList=(ArrayList<Course>) ois.readObject();
+            ArrayList<Course> courseList = (ArrayList<Course>) ois.readObject();
             return courseList;
         } catch(Exception e){
             throw new RuntimeException();
@@ -204,7 +204,7 @@ public class Client {
             oos.reset();
             oos.writeObject(objects);
             oos.flush();
-            String checker =(String)(((ArrayList<Object>) ois.readObject()).get(0));
+            String checker = (String)(((ArrayList<Object>) ois.readObject()).get(0));
             if(checker.equals("success")){
                 this.courseNumber=courseNumber;
                 return true;
@@ -225,10 +225,10 @@ public class Client {
             oos.reset();
             oos.writeObject(objects);
             oos.flush();
-            ArrayList<Object> result=(ArrayList<Object>)ois.readObject();
+            ArrayList<Object> result = (ArrayList<Object>)ois.readObject();
             String checker = (String) (result.get(0));
             if(checker.equals("success")){
-                this.quizNumber=(Integer)(result.get(1));
+                this.quizNumber = (Integer)(result.get(1));
                 return true;
             }
         } catch (Exception e) {
@@ -251,8 +251,8 @@ public class Client {
             oos.reset();
             oos.writeObject(objects);
             oos.flush();
-            ArrayList<Object> result=(ArrayList<Object>)ois.readObject();
-            int thisQuizNumber =(int)(result.get(0));
+            ArrayList<Object> result = (ArrayList<Object>)ois.readObject();
+            int thisQuizNumber = (int)(result.get(0));
             this.quizNumber = thisQuizNumber;
         } catch (Exception e) {
             throw new RuntimeException();
@@ -476,25 +476,25 @@ public class Client {
 //
 
     public void setActiveQuestion(int questionNumber){
-        this.questionNumber=questionNumber;
+        this.questionNumber = questionNumber;
     }
     public void setActiveSubmission(int submissionNumber){
-        this.submissionNumber=submissionNumber;
+        this.submissionNumber = submissionNumber;
     }
     public void setActiveCourse(int courseNumber) {
-        this.courseNumber=courseNumber;
+        this.courseNumber = courseNumber;
     }
     public void setActiveQuiz(int quizNumber){
-        this.quizNumber=quizNumber;
+        this.quizNumber = quizNumber;
     }
     public void clearActiveCourse() {
-        this.courseNumber=-1;
+        this.courseNumber = -1;
     }
     public void clearActiveSubmission() {
-        this.submissionNumber=-1;
+        this.submissionNumber = -1;
     }
     public void clearActiveQuiz(){
-        this.quizNumber=-1;
+        this.quizNumber = -1;
     }
     public void clearActiveQuestion() {
         this.questionNumber = -1;
