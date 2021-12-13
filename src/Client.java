@@ -2,8 +2,12 @@ import java.io.*;
 import java.lang.reflect.Array;
 import java.net.Socket;
 import java.util.ArrayList;
-/** So, we need to update the course anytime a quiz is added as the quiz is being taken from the active course, maybe
- just send a thread with the course object, and if the course number matches the active course, change the active course
+
+/**
+ * Client Class: Handles data between users and the server
+ *
+ * @author Aditya Menon
+ * @version Dec 13, 2021
  */
 
 public class Client {
