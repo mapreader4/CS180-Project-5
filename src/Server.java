@@ -4,6 +4,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+/**
+ * Server Class: Handles storage of data as well as connection with client
+ *
+ * @authors Jay Mehta, Nathan Reed, Anh V Nguyen
+ * @version Dec 13, 2021
+ */
+
 public class Server {
 
     static TeacherList teacherList = TeacherList.readFromFile();

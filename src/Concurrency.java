@@ -5,6 +5,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+/**
+ * Concurrency Class: Deals with client requests concurrently, communicating with the server as well
+ *
+ * @authors Jay Mehta, Nathan Reed, Anh V Nguyen
+ * @version Dec 13, 2021
+ */
+
 public class Concurrency extends Thread {
     private final Socket socket;
     ObjectInputStream inputStream=null;
