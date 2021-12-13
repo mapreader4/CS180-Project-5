@@ -16,15 +16,18 @@ This should allow you to access Online Quiz Navigator v2.
 IMPORTANT INFO FOR PRESENTATION: All audio/video files are included on each slide of the presentation.
 <br>
 <br>
+Nathan Reed submitted the Report and the Project. Aditya Menon submitted the Presentation.
+<br>
+<br>
 Tasks Completed:
 <br>
 Nathan R - built View class
 <br>
-Nathan S -
+Nathan S - Worked on Server and Concurrency class
 <br>
-Aditya - 
+Aditya - Worked on client class
 <br>
-Jay -
+Jay - Worked on Server and Concurrency Class
 <br>
 Louis - Wrote the part 1 report, support the concurrency + server class.
 <br>
