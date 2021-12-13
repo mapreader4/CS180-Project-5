@@ -13,6 +13,8 @@ Enter the domain name of the computer you're running Server on, as well 8818 for
 This should allow you to access Online Quiz Navigator v2.
 <br>
 <br>
+IMPORTANT INFO FOR PRESENTATION: All audio/video files are included on each slide of the presentation.
+<br>
 <br>
 Tasks Completed:
 <br>
