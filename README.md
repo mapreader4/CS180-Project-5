@@ -604,6 +604,36 @@ public void getCurrentQuiz(int courseNumber, int quizNumber) - sends the quiz th
 public void getQuestions(int courseNumber, int quizNumber) - returns the questions in a specific quiz
 <br>
 public void getActiveQuestion(int courseNumber, int quizNumber,int questionNumber) - sets the question being referenced as active
+<br>
+public void getStudentSubmissions() - get specified student's submission.
+<br> 
+public void getAllSubmissions(int courseNumber, int quizNumber) - get all submissions.
+<br>
+public void createAccount(String username, String password, String typeOfUser) - create an account with specified parameters.
+<br>
+public void createCourse(String courseName, int courseNumber) - create a course.
+<br>
+public boolean addImportedQuiz(int courseNumber, File file) - import a quiz from a specified file.
+<br>
+public void createQuiz(int courseNumber,String quizName, String randomize) - creat a quiz from specified parameters.
+<br>
+public void addStudentToCourse(int courseNumber) - add a student to a specific course.
+<br>
+public void deleteQuiz(int courseNumber,int quizNumber) - delete a quiz.
+<br>
+public void storeLists() - store courseList, teacherList, studentList to .ser files.
+<br>
+public void createTrueFalseQuestion(int courseNumber,int quizNumber, String questionName, int pointValue, String trueFalse) - create True/False question.
+<br>
+public void updateTrueFalseQuestion(int courseNumber, int quizNumber,int questionNumber,String question, int pointValue,String answer) - update True/False question.
+<br>
+public void createMultipleChoiceQuestion(int courseNumber, int quizNumber, String questionName,int pointValue,int numChoices,ArrayList<String>answerChoices,int correctAnswerIndex) - create Multiple Choice Question.
+<br>
+private void updateMultipleChoiceQuestion(int courseNumber, int quizNumber, int questionNumber, String questionName, int pointValue, int numChoices, ArrayList<String> answerChoices, int correctAnswerIndex) - update multiple choice questions.
+<br>
+private void createFillInTheBlankQuestion(int courseNumber, int quizNumber, String questionName, int pointValue, String answer) - create Fill In The Blank questions.
+<br>
+private void updateFillInTheBlank(int courseNumber,int quizNumber,int questionNumber, String questionName,int pointValue, String answer) - update Fill In The Blank Questions.
 
 <br>
 <br>
