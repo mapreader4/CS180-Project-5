@@ -34,7 +34,8 @@ public class MultipleChoice extends Question {
     private int correctAnswerIndex;
 
 
-    public MultipleChoice(String question, int numChoices,ArrayList<String> answerChoices, int answerIndex, int pointValue) {
+    public MultipleChoice(String question, int numChoices, ArrayList<String> answerChoices,
+                          int answerIndex, int pointValue) {
         super(question, pointValue);
         this.numChoices = numChoices;
         this.answerChoices = answerChoices;
@@ -83,7 +84,7 @@ public class MultipleChoice extends Question {
                 this.answerChoices = new ArrayList<String>();
                 for (int i = 0; i < nextInt; i++) {
                     System.out.println("Enter you answer choice number #" + (i + 1));
-                    answerChoices.set(i,scanner.nextLine());
+                    answerChoices.set(i, scanner.nextLine());
                 }
                 System.out.println("What answer choice is correct? (Please insert a Integer)");
                 this.correctAnswerIndex = scanner.nextInt();
